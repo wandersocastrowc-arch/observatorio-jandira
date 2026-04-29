@@ -360,7 +360,7 @@ footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-to
       <button class="modal-close" onclick="closeDrillBtn()">&#10005;</button>
     </div>
     <div class="modal-body">
-      <button class="modal-back" id="modalBackBtn" onclick="drillBack()">&#8592; Voltar para divisões de C</button>
+      <button class="modal-back" id="modalBackBtn" onclick="drillBack()">&#8592; Voltar para divisões</button>
       <div class="modal-ch"><canvas id="modalChart"></canvas></div>
       <div style="overflow-x:auto"><table class="tbl"><thead id="modalThead"></thead><tbody id="modalTbody"></tbody></table></div>
       <div class="src" id="modalSrc" style="margin-top:10px"></div>
@@ -381,14 +381,50 @@ const DEMO={
   by_section:[
     {secao:"C",label:"Indústria de Transformação",admissoes:612,desligamentos:498,saldo:114,salario_medio:2340,pct_superior:12,
      details:{por_instrucao:[{label:"Fund. incompleto",pct:8},{label:"Fund. completo",pct:14},{label:"Médio completo",pct:51},{label:"Sup. incompleto",pct:15},{label:"Superior completo",pct:12}],por_genero:{M:68,F:32},faixa_etaria:[{label:"18-24",n:89},{label:"25-34",n:234},{label:"35-44",n:178},{label:"45-54",n:87},{label:"55+",n:24}]},
-     divisions:[{div:"C10",label:"Alimentos e Bebidas",admissoes:89,desligamentos:76,saldo:13},{div:"C13",label:"Têxtil",admissoes:34,desligamentos:31,saldo:3},{div:"C14",label:"Confecções",admissoes:28,desligamentos:25,saldo:3},{div:"C22",label:"Borracha e Plástico",admissoes:67,desligamentos:54,saldo:13},{div:"C23",label:"Minerais Não-Metálicos",admissoes:187,desligamentos:143,saldo:44},{div:"C25",label:"Produtos de Metal",admissoes:78,desligamentos:65,saldo:13},{div:"C28",label:"Máquinas e Equipamentos",admissoes:45,desligamentos:38,saldo:7},{div:"C33",label:"Manutenção e Instalação",admissoes:84,desligamentos:66,saldo:18}],
-     subclasses_c23:[{sub:"2310500",label:"Cimento",admissoes:54,desligamentos:38,saldo:16,salario_medio:2780},{sub:"2320600",label:"Artefatos de Cimento",admissoes:21,desligamentos:17,saldo:4,salario_medio:2210},{sub:"2330301",label:"Cerâmica e Azulejos",admissoes:45,desligamentos:36,saldo:9,salario_medio:2140},{sub:"2330302",label:"Concreto / Fibrocimento",admissoes:38,desligamentos:29,saldo:9,salario_medio:2390},{sub:"2341900",label:"Artigos de Cerâmica",admissoes:14,desligamentos:11,saldo:3,salario_medio:2050},{sub:"2349401",label:"Revestimentos de Cerâmica",admissoes:9,desligamentos:8,saldo:1,salario_medio:2180},{sub:"2392300",label:"Cal e Gesso",admissoes:6,desligamentos:4,saldo:2,salario_medio:2310}]
-    },
-    {secao:"G",label:"Comércio e Reparação",admissoes:534,desligamentos:489,saldo:45,salario_medio:1780,pct_superior:7,details:{por_instrucao:[{label:"Fund. incompleto",pct:6},{label:"Fund. completo",pct:12},{label:"Médio completo",pct:62},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:7}],por_genero:{M:54,F:46},faixa_etaria:[{label:"18-24",n:134},{label:"25-34",n:198},{label:"35-44",n:121},{label:"45-54",n:64},{label:"55+",n:17}]},divisions:[]},
-    {secao:"H",label:"Transporte e Logística",admissoes:312,desligamentos:267,saldo:45,salario_medio:2450,pct_superior:5,details:{por_instrucao:[{label:"Fund. incompleto",pct:12},{label:"Fund. completo",pct:22},{label:"Médio completo",pct:55},{label:"Sup. incompleto",pct:6},{label:"Superior completo",pct:5}],por_genero:{M:81,F:19},faixa_etaria:[{label:"18-24",n:34},{label:"25-34",n:112},{label:"35-44",n:98},{label:"45-54",n:56},{label:"55+",n:12}]},divisions:[]},
-    {secao:"F",label:"Construção Civil",admissoes:198,desligamentos:187,saldo:11,salario_medio:2120,pct_superior:4,details:{por_instrucao:[{label:"Fund. incompleto",pct:18},{label:"Fund. completo",pct:28},{label:"Médio completo",pct:45},{label:"Sup. incompleto",pct:5},{label:"Superior completo",pct:4}],por_genero:{M:92,F:8},faixa_etaria:[{label:"18-24",n:45},{label:"25-34",n:67},{label:"35-44",n:54},{label:"45-54",n:27},{label:"55+",n:5}]},divisions:[]},
-    {secao:"N",label:"Serviços Administrativos",admissoes:143,desligamentos:121,saldo:22,salario_medio:1920,pct_superior:14,details:{por_instrucao:[{label:"Fund. incompleto",pct:4},{label:"Fund. completo",pct:9},{label:"Médio completo",pct:58},{label:"Sup. incompleto",pct:15},{label:"Superior completo",pct:14}],por_genero:{M:48,F:52},faixa_etaria:[{label:"18-24",n:32},{label:"25-34",n:56},{label:"35-44",n:34},{label:"45-54",n:18},{label:"55+",n:3}]},divisions:[]},
-    {secao:"Q",label:"Saúde e Serviços Sociais",admissoes:68,desligamentos:53,saldo:15,salario_medio:2890,pct_superior:48,details:{por_instrucao:[{label:"Fund. incompleto",pct:1},{label:"Fund. completo",pct:4},{label:"Médio completo",pct:34},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:48}],por_genero:{M:29,F:71},faixa_etaria:[{label:"18-24",n:8},{label:"25-34",n:24},{label:"35-44",n:22},{label:"45-54",n:11},{label:"55+",n:3}]},divisions:[]}
+     divisions:[
+       {div:"C23",label:"Minerais Não-Metálicos",admissoes:187,desligamentos:143,saldo:44,subclasses:[{sub:"2310500",label:"Cimento",admissoes:54,desligamentos:38,saldo:16},{sub:"2330301",label:"Cerâmica para Construção (tijolo, telha)",admissoes:45,desligamentos:36,saldo:9},{sub:"2330302",label:"Artefatos de Concreto/Fibrocimento",admissoes:38,desligamentos:29,saldo:9},{sub:"2320600",label:"Cal Virgem e Cal Hidratada",admissoes:21,desligamentos:17,saldo:4},{sub:"2341900",label:"Artigos de Cerâmica",admissoes:14,desligamentos:11,saldo:3},{sub:"2349401",label:"Revestimentos de Cerâmica",admissoes:9,desligamentos:8,saldo:1},{sub:"2392300",label:"Cal e Gesso (outros)",admissoes:6,desligamentos:4,saldo:2}]},
+       {div:"C22",label:"Borracha e Plásticos",admissoes:67,desligamentos:54,saldo:13,subclasses:[{sub:"2221800",label:"Embalagens Plásticas",admissoes:24,desligamentos:18,saldo:6},{sub:"2219600",label:"Outros Artefatos de Borracha",admissoes:18,desligamentos:15,saldo:3},{sub:"2222600",label:"Tubos e Conexões Plásticas",admissoes:14,desligamentos:12,saldo:2},{sub:"2211100",label:"Pneumáticos e Câmaras",admissoes:8,desligamentos:6,saldo:2}]},
+       {div:"C25",label:"Produtos de Metal",admissoes:78,desligamentos:65,saldo:13,subclasses:[{sub:"2511000",label:"Estruturas Metálicas",admissoes:28,desligamentos:22,saldo:6},{sub:"2512800",label:"Esquadrias Metálicas",admissoes:22,desligamentos:19,saldo:3},{sub:"2599399",label:"Outros Produtos de Metal",admissoes:16,desligamentos:14,saldo:2}]},
+       {div:"C33",label:"Manutenção e Instalação",admissoes:84,desligamentos:66,saldo:18},
+       {div:"C10",label:"Alimentos e Bebidas",admissoes:89,desligamentos:76,saldo:13,subclasses:[{sub:"1051100",label:"Laticinios",admissoes:22,desligamentos:18,saldo:4},{sub:"1091101",label:"Biscoitos e Bolachas",admissoes:19,desligamentos:15,saldo:4},{sub:"1092900",label:"Chocolates e Balas",admissoes:16,desligamentos:14,saldo:2},{sub:"1099699",label:"Outros Alimentos",admissoes:8,desligamentos:7,saldo:1}]},
+       {div:"C28",label:"Máquinas e Equipamentos",admissoes:45,desligamentos:38,saldo:7},
+       {div:"C13",label:"Têxteis",admissoes:34,desligamentos:31,saldo:3},
+       {div:"C14",label:"Vestuário",admissoes:28,desligamentos:25,saldo:3}
+     ]},
+    {secao:"G",label:"Comércio e Reparação",admissoes:534,desligamentos:489,saldo:45,salario_medio:1780,pct_superior:7,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:6},{label:"Fund. completo",pct:12},{label:"Médio completo",pct:62},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:7}],por_genero:{M:54,F:46},faixa_etaria:[{label:"18-24",n:134},{label:"25-34",n:198},{label:"35-44",n:121},{label:"45-54",n:64},{label:"55+",n:17}]},
+     divisions:[
+       {div:"G47",label:"Comércio Varejista",admissoes:312,desligamentos:284,saldo:28,subclasses:[{sub:"4711302",label:"Hipermercados e Supermercados",admissoes:78,desligamentos:71,saldo:7},{sub:"4771701",label:"Farmácias e Drogarias",admissoes:52,desligamentos:46,saldo:6},{sub:"4741500",label:"Material de Construção",admissoes:44,desligamentos:41,saldo:3},{sub:"4781400",label:"Artigos de Vestuário",admissoes:38,desligamentos:35,saldo:3},{sub:"4712100",label:"Minimercados e Mercearias",admissoes:34,desligamentos:32,saldo:2},{sub:"4751200",label:"Eletrodomésticos e Eletrônicos",admissoes:28,desligamentos:27,saldo:1},{sub:"4782201",label:"Calçados",admissoes:16,desligamentos:11,saldo:5}]},
+       {div:"G46",label:"Comércio Atacadista",admissoes:156,desligamentos:143,saldo:13,subclasses:[{sub:"4649401",label:"Atacadista de Eletrodomésticos",admissoes:42,desligamentos:38,saldo:4},{sub:"4631100",label:"Atacadista de Laticínios",admissoes:38,desligamentos:35,saldo:3},{sub:"4661300",label:"Atacadista de Combustíveis",admissoes:32,desligamentos:30,saldo:2}]},
+       {div:"G45",label:"Veículos Automotores",admissoes:66,desligamentos:62,saldo:4,subclasses:[{sub:"4511101",label:"Comércio de Automóveis Novos",admissoes:24,desligamentos:22,saldo:2},{sub:"4530701",label:"Peças e Acessórios Automotivos",admissoes:21,desligamentos:20,saldo:1},{sub:"4511102",label:"Automóveis Usados",admissoes:7,desligamentos:6,saldo:1}]}
+     ]},
+    {secao:"H",label:"Transporte e Logística",admissoes:312,desligamentos:267,saldo:45,salario_medio:2450,pct_superior:5,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:12},{label:"Fund. completo",pct:22},{label:"Médio completo",pct:55},{label:"Sup. incompleto",pct:6},{label:"Superior completo",pct:5}],por_genero:{M:81,F:19},faixa_etaria:[{label:"18-24",n:34},{label:"25-34",n:112},{label:"35-44",n:98},{label:"45-54",n:56},{label:"55+",n:12}]},
+     divisions:[
+       {div:"H49",label:"Transporte Terrestre",admissoes:198,desligamentos:165,saldo:33,subclasses:[{sub:"4930201",label:"Transporte de Cargas (exceto perigosas)",admissoes:68,desligamentos:54,saldo:14},{sub:"4921301",label:"Transporte Rodoviário Urbano",admissoes:52,desligamentos:44,saldo:8},{sub:"4922101",label:"Transporte Intermunicipal",admissoes:34,desligamentos:29,saldo:5},{sub:"4924800",label:"Transporte Escolar",admissoes:22,desligamentos:18,saldo:4},{sub:"4923001",label:"Táxi",admissoes:8,desligamentos:8,saldo:0}]},
+       {div:"H52",label:"Armazenagem e Apoio ao Transporte",admissoes:87,desligamentos:74,saldo:13,subclasses:[{sub:"5229001",label:"Apoio ao Transporte Rodoviário",admissoes:36,desligamentos:30,saldo:6},{sub:"5211799",label:"Depósitos de Mercadorias",admissoes:28,desligamentos:24,saldo:4},{sub:"5212500",label:"Carga e Descarga",admissoes:15,desligamentos:13,saldo:2}]},
+       {div:"H53",label:"Correios e Entrega",admissoes:27,desligamentos:28,saldo:-1}
+     ]},
+    {secao:"F",label:"Construção Civil",admissoes:198,desligamentos:187,saldo:11,salario_medio:2120,pct_superior:4,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:18},{label:"Fund. completo",pct:28},{label:"Médio completo",pct:45},{label:"Sup. incompleto",pct:5},{label:"Superior completo",pct:4}],por_genero:{M:92,F:8},faixa_etaria:[{label:"18-24",n:45},{label:"25-34",n:67},{label:"35-44",n:54},{label:"45-54",n:27},{label:"55+",n:5}]},
+     divisions:[
+       {div:"F43",label:"Serviços Especializados de Construção",admissoes:112,desligamentos:104,saldo:8,subclasses:[{sub:"4321500",label:"Instalações Elétricas",admissoes:34,desligamentos:31,saldo:3},{sub:"4322301",label:"Instalações Hidráulicas e Sanitárias",admissoes:28,desligamentos:26,saldo:2},{sub:"4313400",label:"Terraplenagem",admissoes:18,desligamentos:17,saldo:1},{sub:"4391600",label:"Obras de Fundações",admissoes:14,desligamentos:13,saldo:1},{sub:"4329101",label:"Outras Instalações",admissoes:7,desligamentos:6,saldo:1}]},
+       {div:"F41",label:"Edificações Residenciais e Comerciais",admissoes:63,desligamentos:60,saldo:3,subclasses:[{sub:"4120400",label:"Construção de Edifícios",admissoes:48,desligamentos:45,saldo:3},{sub:"4110700",label:"Incorporação de Empreendimentos",admissoes:15,desligamentos:15,saldo:0}]},
+       {div:"F42",label:"Obras de Infraestrutura",admissoes:23,desligamentos:23,saldo:0}
+     ]},
+    {secao:"N",label:"Serviços Administrativos",admissoes:143,desligamentos:121,saldo:22,salario_medio:1920,pct_superior:14,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:4},{label:"Fund. completo",pct:9},{label:"Médio completo",pct:58},{label:"Sup. incompleto",pct:15},{label:"Superior completo",pct:14}],por_genero:{M:48,F:52},faixa_etaria:[{label:"18-24",n:32},{label:"25-34",n:56},{label:"35-44",n:34},{label:"45-54",n:18},{label:"55+",n:3}]},
+     divisions:[
+       {div:"N78",label:"Seleção, Agenciamento e Locação de Mão de Obra",admissoes:67,desligamentos:54,saldo:13,subclasses:[{sub:"7820500",label:"Locação de Mão de Obra (Terceirização)",admissoes:38,desligamentos:30,saldo:8},{sub:"7810800",label:"Seleção e Agenciamento de MO",admissoes:21,desligamentos:17,saldo:4},{sub:"7830200",label:"Fornecimento e Gestão de RH",admissoes:8,desligamentos:7,saldo:1}]},
+       {div:"N81",label:"Serviços para Prédios e Paisagismo",admissoes:42,desligamentos:36,saldo:6,subclasses:[{sub:"8121400",label:"Limpeza em Prédios e Domicílios",admissoes:22,desligamentos:18,saldo:4},{sub:"8111700",label:"Serviços Combinados para Edifícios",admissoes:12,desligamentos:11,saldo:1},{sub:"8130300",label:"Atividades Paisagísticas",admissoes:3,desligamentos:2,saldo:1}]},
+       {div:"N80",label:"Segurança e Vigilância",admissoes:34,desligamentos:31,saldo:3,subclasses:[{sub:"8011101",label:"Vigilância e Segurança Privada",admissoes:24,desligamentos:22,saldo:2},{sub:"8020000",label:"Monitoramento de Sistemas de Segurança",admissoes:10,desligamentos:9,saldo:1}]}
+     ]},
+    {secao:"Q",label:"Saúde e Serviços Sociais",admissoes:68,desligamentos:53,saldo:15,salario_medio:2890,pct_superior:48,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:1},{label:"Fund. completo",pct:4},{label:"Médio completo",pct:34},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:48}],por_genero:{M:29,F:71},faixa_etaria:[{label:"18-24",n:8},{label:"25-34",n:24},{label:"35-44",n:22},{label:"45-54",n:11},{label:"55+",n:3}]},
+     divisions:[
+       {div:"Q86",label:"Atividades de Saúde",admissoes:52,desligamentos:39,saldo:13,subclasses:[{sub:"8630501",label:"Atividade Médica Ambulatorial",admissoes:16,desligamentos:11,saldo:5},{sub:"8610101",label:"Atendimento Hospitalar",admissoes:12,desligamentos:9,saldo:3},{sub:"8650001",label:"Enfermagem",admissoes:10,desligamentos:8,saldo:2},{sub:"8630502",label:"Laboratório de Análises Clínicas",admissoes:7,desligamentos:5,saldo:2},{sub:"8650004",label:"Fisioterapia",admissoes:5,desligamentos:4,saldo:1}]},
+       {div:"Q88",label:"Serviços Sociais sem Internação",admissoes:16,desligamentos:14,saldo:2,subclasses:[{sub:"8800600",label:"Assistência Social sem Alojamento",admissoes:10,desligamentos:9,saldo:1},{sub:"8720499",label:"Centros de Assistência Psicossocial",admissoes:6,desligamentos:5,saldo:1}]}
+     ]}
   ]
 };
 
@@ -526,7 +562,7 @@ function openS(section){
   document.getElementById('modalBackBtn').style.display='none';
   document.getElementById('modalTitle').textContent=section.label+' (Seção '+section.secao+')';
   document.getElementById('modalSubtitle').textContent='Divisões CNAE · Adm: '+N(section.admissoes)+' · Saldo: '+(section.saldo>=0?'+':'')+N(section.saldo);
-  document.getElementById('modalSrc').textContent='CAGED · Jandira (3525003) · '+((gData&&gData.reference_month_label)||'')+'. Clique em C23 para ver subclasses de Minerais Não-Metálicos.';
+  document.getElementById('modalSrc').textContent='CAGED · Jandira (3525003) · '+((gData&&gData.reference_month_label)||'')+'. Clique em qualquer divisão destacada para ver subclasses.';
   if(MCH){MCH.destroy();MCH=null;}
   const divs=section.divisions;
   MCH=new Chart(document.getElementById('modalChart'),{type:'bar',data:{
@@ -534,38 +570,42 @@ function openS(section){
     datasets:[
       {label:'Admissões',data:divs.map(d=>d.admissoes),backgroundColor:'rgba(21,101,192,.7)',borderRadius:3},
       {label:'Desligamentos',data:divs.map(d=>d.desligamentos),backgroundColor:'rgba(198,40,40,.6)',borderRadius:3},
-      {label:'Saldo',data:divs.map(d=>d.saldo),backgroundColor:divs.map(d=>d.div==='C23'?'rgba(230,81,0,.85)':'rgba(46,125,50,.75)'),borderRadius:3}
+      {label:'Saldo',data:divs.map(d=>d.saldo),backgroundColor:divs.map(d=>(d.subclasses&&d.subclasses.length)?'rgba(230,81,0,.85)':'rgba(46,125,50,.75)'),borderRadius:3}
     ]},
     options:{...BO,indexAxis:'y',
       plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${N(c.raw)}`}}},
       scales:{x:{ticks:{font:{size:9}}},y:{ticks:{font:{size:9}}}},
-      onClick:(e)=>{const p=MCH.getElementsAtEventForMode(e,'nearest',{intersect:true},false);if(p.length&&divs[p[0].index].div==='C23')openC23(section);}
+      onClick:(e)=>{const p=MCH.getElementsAtEventForMode(e,'nearest',{intersect:true},false);if(p.length){const dv=divs[p[0].index];if(dv.subclasses&&dv.subclasses.length)openDivSubs(dv,section);}}
     }});
   document.getElementById('modalThead').innerHTML='<tr><th>Divisão</th><th>Admissões</th><th>Desligamentos</th><th>Saldo</th></tr>';
-  document.getElementById('modalTbody').innerHTML=divs.map(d=>`<tr class="${d.div==='C23'?'c23r':''}" ${d.div==='C23'?'onclick="openC23(gData.by_section.find(s=>s.secao===\'C\'))"':''}>
-    <td>${d.div} · ${d.label}${d.div==='C23'?' &#128269; <em style="font-size:.7rem;color:var(--am)">(clique para subclasses)</em>':''}</td>
+  document.getElementById('modalTbody').innerHTML=divs.map(d=>{const hasSubs=d.subclasses&&d.subclasses.length;return`<tr style="${hasSubs?'cursor:pointer':''}" ${hasSubs?`onclick="openDivSubs(gData.by_section.find(s=>s.secao==='${section.secao}').divisions.find(dv=>dv.div==='${d.div}'),gData.by_section.find(s=>s.secao==='${section.secao}'))"`:''}>
+    <td>${d.div} · ${d.label}${hasSubs?' &#128269; <em style="font-size:.7rem;color:var(--am)">(subclasses)</em>':''}</td>
     <td>${N(d.admissoes)}</td><td>${N(d.desligamentos)}</td>
     <td style="color:${d.saldo>=0?'#2E7D32':'#C62828'};font-weight:700">${d.saldo>=0?'+':''}${N(d.saldo)}</td>
-  </tr>`).join('');
+  </tr>`}).join('');
   document.getElementById('drillModal').classList.add('open');
 }
 
-function openC23(section){
-  DS={mode:'subclasses',section};
-  const subs=section.subclasses_c23;
+function openDivSubs(div, section){
+  DS={mode:'subclasses',section,division:div};
+  const subs=div.subclasses;
   if(!subs||!subs.length)return;
   document.getElementById('modalBackBtn').style.display='inline-block';
-  document.getElementById('modalTitle').textContent='C23 — Minerais Não-Metálicos';
-  document.getElementById('modalSubtitle').textContent='Subclasses CNAE · Polo industrial de Jandira · '+((gData&&gData.reference_month_label)||'');
-  document.getElementById('modalSrc').textContent='CAGED · Subclasses CNAE 2.0 · Jandira (3525003) · cimento, cerâmica, concreto, fibrocimento, cal e gesso.';
+  document.getElementById('modalTitle').textContent=div.div+' — '+div.label;
+  document.getElementById('modalSubtitle').textContent='Subclasses CNAE · '+section.label+' · '+((gData&&gData.reference_month_label)||'');
+  document.getElementById('modalSrc').textContent='CAGED · Subclasses CNAE 2.0 · Jandira (3525003). Adm: '+N(div.admissoes)+' · Des: '+N(div.desligamentos)+' · Saldo: '+(div.saldo>=0?'+':'')+N(div.saldo);
   if(MCH){MCH.destroy();MCH=null;}
   const pal=['rgba(230,81,0,.85)','rgba(21,101,192,.75)','rgba(46,125,50,.75)','rgba(106,27,154,.75)','rgba(0,131,143,.75)','rgba(173,20,87,.75)','rgba(255,160,0,.85)'];
   MCH=new Chart(document.getElementById('modalChart'),{type:'bar',data:{
     labels:subs.map(s=>s.label),
-    datasets:[{label:'Admissões',data:subs.map(s=>s.admissoes),backgroundColor:'rgba(21,101,192,.7)',borderRadius:3},{label:'Saldo',data:subs.map(s=>s.saldo),backgroundColor:pal,borderRadius:3}]},
+    datasets:[
+      {label:'Admissões',data:subs.map(s=>s.admissoes),backgroundColor:'rgba(21,101,192,.7)',borderRadius:3},
+      {label:'Desligamentos',data:subs.map(s=>s.desligamentos),backgroundColor:'rgba(198,40,40,.6)',borderRadius:3},
+      {label:'Saldo',data:subs.map(s=>s.saldo),backgroundColor:subs.map((_,i)=>pal[i%pal.length]),borderRadius:3}
+    ]},
     options:{...BO,indexAxis:'y',plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${N(c.raw)}`}}},scales:{x:{ticks:{font:{size:9}}},y:{ticks:{font:{size:9}}}}}});
-  document.getElementById('modalThead').innerHTML='<tr><th>Subclasse CNAE</th><th>Admissões</th><th>Desligamentos</th><th>Saldo</th><th>Salário Médio</th></tr>';
-  document.getElementById('modalTbody').innerHTML=subs.map(s=>`<tr><td><code>${s.sub}</code> · ${s.label}</td><td>${N(s.admissoes)}</td><td>${N(s.desligamentos)}</td><td style="color:${s.saldo>=0?'#2E7D32':'#C62828'};font-weight:700">${s.saldo>=0?'+':''}${N(s.saldo)}</td><td>${Rr(s.salario_medio)}</td></tr>`).join('');
+  document.getElementById('modalThead').innerHTML='<tr><th>Subclasse CNAE</th><th>Admissões</th><th>Desligamentos</th><th>Saldo</th></tr>';
+  document.getElementById('modalTbody').innerHTML=subs.map(s=>`<tr><td><code>${s.sub}</code> · ${s.label}</td><td>${N(s.admissoes)}</td><td>${N(s.desligamentos)}</td><td style="color:${s.saldo>=0?'#2E7D32':'#C62828'};font-weight:700">${s.saldo>=0?'+':''}${N(s.saldo)}</td></tr>`).join('');
 }
 
 function openProfile(section){
@@ -582,7 +622,7 @@ function openProfile(section){
   document.getElementById('drillModal').classList.add('open');
 }
 
-function drillBack(){if(DS&&DS.mode==='subclasses')openS(DS.section);}
+function drillBack(){if(DS&&DS.mode==='subclasses')openS(DS.section);else if(DS&&DS.mode==='profile'&&DS.section.divisions&&DS.section.divisions.length)openS(DS.section);}
 function closeDrillOvl(e){if(e.target===document.getElementById('drillModal'))closeDrillBtn();}
 function closeDrillBtn(){document.getElementById('drillModal').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrillBtn();});
