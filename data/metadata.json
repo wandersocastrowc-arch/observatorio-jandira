@@ -3,13 +3,13 @@
   "sources": {
     "caged": {
       "label": "Novo CAGED / MTE",
-      "downloaded_at": "2026-04-29T17:15:44.365875Z",
+      "downloaded_at": "2026-04-29T18:07:26.405669Z",
       "status": "falha - mantendo dados anteriores"
     },
     "sidra_pop": {
       "label": "IBGE SIDRA - Projecao Populacional",
       "reference_year": 2024,
-      "downloaded_at": "2026-04-29T17:15:44.365875Z",
+      "downloaded_at": "2026-04-29T18:07:26.405669Z",
       "status": "ok"
     }
   },
