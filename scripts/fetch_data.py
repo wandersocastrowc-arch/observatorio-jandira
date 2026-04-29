@@ -335,28 +335,78 @@ def latest_candidates():
         yield d.year, d.month
 
 
-def build_urls(year, month):
-    ym   = f"{year}{month:02d}"
-    y    = str(year)
-    m2   = f"{month:02d}"
+def try_ftp(year, month, timeout=90):
+    """
+    Acessa ftp.mtps.gov.br via protocolo FTP real (porta 21).
+    Esse servidor eh FTP nativo -- HTTP/HTTPS nao funcionam nele.
+    """
+    import ftplib
+    ym = f"{year}{month:02d}"
+    host = "ftp.mtps.gov.br"
+    remote_dir = f"/pdet/microdados/NOVO CAGED/{year}/{ym}"
+    filename = f"CAGEDMOV{ym}.7z"
+    log.info(f"Tentando FTP: ftp://{host}{remote_dir}/{filename}")
+    try:
+        ftp = ftplib.FTP(host, timeout=timeout)
+        ftp.login()
+        ftp.cwd(remote_dir)
+        buf = bytearray()
+        ftp.retrbinary(f"RETR {filename}", buf.extend)
+        ftp.quit()
+        size_mb = len(buf) / 1e6
+        log.info(f"FTP Download OK: {size_mb:.1f} MB")
+        return bytes(buf)
+    except Exception as exc:
+        log.warning(f"Erro FTP {host}: {exc}")
+    return None
+
+
+def try_ftp_zip(year, month, timeout=90):
+    """
+    Tenta o arquivo .zip alternativo no mesmo servidor FTP.
+    Alguns meses tem .zip em vez de .7z.
+    """
+    import ftplib
+    ym = f"{year}{month:02d}"
+    host = "ftp.mtps.gov.br"
+    remote_dir = f"/pdet/microdados/NOVO CAGED/{year}/{ym}"
+    filename = f"CAGEDMOV{ym}.zip"
+    log.info(f"Tentando FTP (zip): ftp://{host}{remote_dir}/{filename}")
+    try:
+        ftp = ftplib.FTP(host, timeout=timeout)
+        ftp.login()
+        ftp.cwd(remote_dir)
+        buf = bytearray()
+        ftp.retrbinary(f"RETR {filename}", buf.extend)
+        ftp.quit()
+        size_mb = len(buf) / 1e6
+        log.info(f"FTP (zip) Download OK: {size_mb:.1f} MB")
+        return bytes(buf)
+    except Exception as exc:
+        log.warning(f"Erro FTP zip {host}: {exc}")
+    return None
+
+
+def build_http_urls(year, month):
+    ym = f"{year}{month:02d}"
+    y  = str(year)
+    m2 = f"{month:02d}"
     return [
-        # Padrao 1 - portal BI MTE (HTTPS)
+        # Portal BI MTE (HTTPS)
         f"https://bi.mte.gov.br/bgcaged/caged_ftp/public/md_caged_mov_{ym}.7z",
-        # Padrao 2 - PDET MTE (HTTP, zip)
-        f"http://pdet.mte.gov.br/assets/novo-caged/{y}-{m2}/1-CAGEDMOV{ym}.zip",
-        # Padrao 3 - FTP via HTTPS
-        f"https://ftp.mtps.gov.br/pdet/microdados/NOVO%20CAGED/{y}/{ym}/CAGEDMOV{ym}.7z",
-        # Padrao 4 - portal BI alternativo
         f"https://bi.mte.gov.br/bgcaged/caged_ftp/public/CAGEDMOV{ym}.7z",
-        # Padrao 5 - acesso direto FTP via HTTP
+        # PDET MTE (HTTP, zip)
+        f"http://pdet.mte.gov.br/assets/novo-caged/{y}-{m2}/1-CAGEDMOV{ym}.zip",
+        # FTP via HTTPS (fallback improvavel mas vale tentar)
+        f"https://ftp.mtps.gov.br/pdet/microdados/NOVO%20CAGED/{y}/{ym}/CAGEDMOV{ym}.7z",
         f"http://ftp.mtps.gov.br/pdet/microdados/NOVO%20CAGED/{y}/{ym}/CAGEDMOV{ym}.7z",
     ]
 
 
-def try_download(url, timeout=120):
-    """Baixa a URL com SSL desabilitado; retorna bytes ou None."""
+def try_http(url, timeout=60):
+    """Baixa via HTTP/HTTPS com SSL desabilitado; retorna bytes ou None."""
     try:
-        log.info(f"Tentando: {url}")
+        log.info(f"Tentando HTTP: {url}")
         r = requests.get(
             url, timeout=timeout, stream=True, verify=False,
             headers={"User-Agent": "ObservatorioJandira/1.1"}
@@ -365,11 +415,36 @@ def try_download(url, timeout=120):
             buf = bytearray()
             for chunk in r.iter_content(65536):
                 buf.extend(chunk)
-            log.info(f"Download OK: {len(buf)/1e6:.1f} MB")
+            log.info(f"HTTP Download OK: {len(buf)/1e6:.1f} MB")
             return bytes(buf)
         log.warning(f"HTTP {r.status_code}: {url}")
     except Exception as exc:
-        log.warning(f"Erro ao baixar {url}: {exc}")
+        log.warning(f"Erro HTTP {url}: {exc}")
+    return None
+
+
+def download_caged(year, month):
+    """
+    Tenta baixar o arquivo CAGED para o mes indicado.
+    Ordem: FTP nativo (.7z) -> FTP nativo (.zip) -> HTTP/HTTPS.
+    Retorna bytes ou None.
+    """
+    # 1. FTP nativo -- mais confiavel, eh o protocolo correto desse servidor
+    raw = try_ftp(year, month)
+    if raw:
+        return raw
+
+    # 2. FTP nativo versao zip
+    raw = try_ftp_zip(year, month)
+    if raw:
+        return raw
+
+    # 3. HTTP/HTTPS como fallback
+    for url in build_http_urls(year, month):
+        raw = try_http(url, timeout=60)
+        if raw:
+            return raw
+
     return None
 
 
@@ -679,21 +754,19 @@ def main():
         candidates = list(latest_candidates())
 
     for year, month in candidates:
-        for url in build_urls(year, month):
-            raw = try_download(url)
-            if not raw:
-                continue
-            csv_text = extract_csv(raw, year, month)
-            if not csv_text:
-                log.warning("Arquivo baixado mas nao foi possivel extrair CSV.")
-                continue
-            result = parse_caged_csv(csv_text)
-            if result:
-                caged_result = result
-                caged_year = year
-                caged_month = month
-                break
-        if caged_result:
+        raw = download_caged(year, month)
+        if not raw:
+            log.warning(f"Todos os metodos falharam para {year}-{month:02d}. Tentando mes anterior...")
+            continue
+        csv_text = extract_csv(raw, year, month)
+        if not csv_text:
+            log.warning("Arquivo baixado mas nao foi possivel extrair CSV.")
+            continue
+        result = parse_caged_csv(csv_text)
+        if result:
+            caged_result = result
+            caged_year = year
+            caged_month = month
             break
 
     if caged_result:
