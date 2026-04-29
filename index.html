@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Observatório Econômico de Jandira — Inteligência Territorial</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --g1:#1B5E20;--g2:#2E7D32;--g3:#43A047;--g4:#A5D6A7;--g5:#E8F5E9;
+  --b1:#0D47A1;--b2:#1565C0;--b3:#1976D2;--b4:#BBDEFB;--b5:#E3F2FD;
+  --am:#E65100;--aml:#FFF3E0;--ro:#4A148C;--rol:#F3E5F5;
+  --cx:#263238;--cm:#546E7A;--cc:#90A4AE;--cl:#ECEFF1;--bg:#F0F4F8;
+  --r:10px;--sh:0 2px 10px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--cx)}
+
+/* HEADER */
+header{background:linear-gradient(135deg,var(--g1),var(--b1));color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.h-left h1{font-size:1.3rem;font-weight:700}
+.h-left p{font-size:.77rem;opacity:.8;margin-top:2px}
+.h-meta{display:flex;gap:8px;flex-wrap:wrap}
+.hbadge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:4px 12px;font-size:.72rem;font-weight:600}
+.hbadge.live{background:rgba(76,175,80,.3);border-color:rgba(76,175,80,.5)}
+
+/* NAV */
+nav{background:#fff;border-bottom:1px solid #DDE6EE;padding:0 28px;display:flex;gap:0;overflow-x:auto}
+.tab{padding:12px 16px;font-size:.8rem;font-weight:600;color:var(--cm);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.2s}
+.tab:hover{color:var(--g2)}
+.tab.active{color:var(--g1);border-bottom-color:var(--g1)}
+.tab .tag{display:inline-block;background:var(--g5);color:var(--g2);border-radius:8px;padding:1px 6px;font-size:.65rem;margin-left:4px}
+.tab .tag.monthly{background:#E3F2FD;color:var(--b2)}
+
+/* MAIN */
+main{padding:22px 28px;max-width:1440px;margin:0 auto}
+.sec{display:none}.sec.active{display:block}
+
+.sec-hd{font-size:1rem;font-weight:700;color:var(--cx);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.sec-hd::before{content:'';display:inline-block;width:4px;height:18px;background:var(--g2);border-radius:2px}
+.sec-sub{font-size:.78rem;color:var(--cm);font-weight:400;margin-left:4px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.gfull{margin-bottom:20px}
+
+/* CARD */
+.card{background:#fff;border-radius:var(--r);padding:18px;box-shadow:var(--sh)}
+.card-t{font-size:.82rem;font-weight:700;color:var(--cx);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.card-t .dot{width:9px;height:9px;border-radius:50%;background:var(--g2);flex-shrink:0}
+.card-t .dot.b{background:var(--b2)}.card-t .dot.a{background:var(--am)}.card-t .dot.r{background:var(--ro)}
+.ch{position:relative;height:210px}
+.ch.tall{height:270px}
+
+/* KPI */
+.kpi{background:#fff;border-radius:var(--r);padding:16px 14px;box-shadow:var(--sh);border-left:4px solid var(--g2)}
+.kpi.b{border-color:var(--b2)}.kpi.a{border-color:var(--am)}.kpi.r{border-color:var(--ro)}
+.kpi-lbl{font-size:.68rem;font-weight:700;color:var(--cm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.kpi-v{font-size:1.6rem;font-weight:800;line-height:1}
+.kpi-u{font-size:.77rem;color:var(--cm);margin-top:3px}
+.kpi-tr{font-size:.68rem;font-weight:600;margin-top:6px}
+.up{color:#2E7D32}.down{color:#C62828}
+
+/* BADGE */
+.badge{display:inline-block;padding:2px 7px;border-radius:8px;font-size:.68rem;font-weight:700}
+.badge.ok{background:var(--g5);color:var(--g2)}.badge.warn{background:var(--aml);color:var(--am)}
+.badge.info{background:var(--b5);color:var(--b2)}.badge.est{background:#FFF9C4;color:#F57F17}
+.badge.live{background:#E8F5E9;color:#1B5E20}
+
+/* INSIGHT BOXES */
+.insight{background:#fff;border-radius:var(--r);padding:16px;border-left:4px solid var(--g2);margin-bottom:12px;box-shadow:var(--sh)}
+.insight.warn{border-color:var(--am);background:var(--aml)}
+.insight.strong{border-color:var(--g2);background:var(--g5)}
+.insight.info{border-color:var(--b2);background:var(--b5)}
+.insight h4{font-size:.85rem;font-weight:700;margin-bottom:5px;color:var(--cx)}
+.insight p{font-size:.8rem;color:var(--cm);line-height:1.5}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.tbl th{background:var(--g5);color:var(--g2);font-weight:700;padding:8px 10px;text-align:left}
+.tbl td{padding:8px 10px;border-bottom:1px solid #F0F4F8}
+.tbl tr:hover td{background:#FAFAFA}
+.tbl .hl td{background:#C8E6C9;font-weight:700;color:var(--g1)}
+
+/* PROGRESS */
+.prog{height:7px;border-radius:4px;background:var(--cl);margin-top:4px;overflow:hidden}
+.prog-f{height:100%;border-radius:4px;transition:width 1s ease}
+
+/* SCENARIO */
+.sc-box{border-radius:var(--r);padding:14px;text-align:center}
+.sc-box.opt{background:var(--g5);border:1px solid var(--g4)}
+.sc-box.base{background:var(--b5);border:1px solid var(--b4)}
+.sc-box.pes{background:#FFF3E0;border:1px solid #FFCC80}
+.sc-title{font-size:.75rem;font-weight:700;margin-bottom:8px}
+.sc-val{font-size:1.5rem;font-weight:800}
+.sc-label{font-size:.68rem;color:var(--cm)}
+
+/* SOURCE */
+.src{font-size:.68rem;color:var(--cc);margin-top:8px}
+
+/* ROW INLINE */
+.row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F0F4F8;font-size:.8rem}
+.row:last-child{border:none}
+.row-l{color:var(--cm)}
+.row-v{font-weight:700;color:var(--cx)}
+
+/* FONTE DOC */
+.fonte-item{background:#fff;border-radius:var(--r);padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--b2)}
+.fonte-item h4{font-size:.85rem;font-weight:700;color:var(--b2);margin-bottom:4px}
+.fonte-item p{font-size:.78rem;color:var(--cm);line-height:1.4}
+.fonte-item code{background:var(--cl);padding:2px 6px;border-radius:4px;font-size:.72rem;color:var(--cx)}
+
+footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-top:1px solid #DDE6EE;margin-top:10px}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-left">
+    <h1>🌿 Observatório Econômico de Jandira — Inteligência Territorial</h1>
+    <p>Corecon · Delegacia de Economia · Código IBGE: 3525003 · SP</p>
+  </div>
+  <div class="h-meta">
+    <span class="hbadge live">🔄 CAGED: mensal</span>
+    <span class="hbadge">📊 RAIS: anual</span>
+    <span class="hbadge">🏛️ IBGE SIDRA: 3525003</span>
+    <span class="hbadge est">⚠️ Dados estimados para demonstração</span>
+  </div>
+</header>
+
+<nav>
+  <div class="tab active" onclick="st('caged',this)">📈 CAGED Mensal<span class="tag monthly">Mensal</span></div>
+  <div class="tab" onclick="st('perfil',this)">👔 Perfil dos Empregos</div>
+  <div class="tab" onclick="st('setorial',this)">🏭 Economia Setorial</div>
+  <div class="tab" onclick="st('dormitorio',this)">🚌 Diagnóstico Dormitório</div>
+  <div class="tab" onclick="st('qualif',this)">🎓 Qualificação & Fuga</div>
+  <div class="tab" onclick="st('proj',this)">🔭 Projeções 2030</div>
+  <div class="tab" onclick="st('fontes',this)">📚 Fontes & Metodologia</div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════ CAGED MENSAL ═══════════════════ -->
+<section class="sec active" id="caged">
+  <div class="sec-hd">CAGED — Emprego Formal Mensal <span class="sec-sub">Novo CAGED · MTE · Jandira SP · Mai/2023–Abr/2024 <span class="badge est">Estimado</span></span></div>
+  <div class="g4">
+    <div class="kpi"><div class="kpi-lbl">Saldo 12 Meses</div><div class="kpi-v" style="color:var(--g2)">+2.931</div><div class="kpi-u">postos formais criados</div><div class="kpi-tr up">↑ +6,2% no estoque</div></div>
+    <div class="kpi b"><div class="kpi-lbl">Estoque Atual</div><div class="kpi-v" style="color:var(--b2)">50.131</div><div class="kpi-u">vínculos ativos (Abr/24)</div><div class="kpi-tr up">↑ vs. 47.200 (Mai/23)</div></div>
+    <div class="kpi"><div class="kpi-lbl">Admissões (12m)</div><div class="kpi-v" style="color:var(--g2)">22.139</div><div class="kpi-u">contratações no período</div><div class="kpi-tr up">↑ Média 1.845/mês</div></div>
+    <div class="kpi a"><div class="kpi-lbl">Desligamentos (12m)</div><div class="kpi-v" style="color:var(--am)">19.208</div><div class="kpi-u">demissões no período</div><div class="kpi-tr">↔ Média 1.601/mês</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Admissões × Desligamentos × Saldo (mensal)</div>
+      <div class="ch tall"><canvas id="cCaged"></canvas></div>
+      <div class="src">Fonte: Novo CAGED / MTE · Atualização mensal · Municípios: 3525003</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Estoque de Empregos Formais (evolução)</div>
+      <div class="ch tall"><canvas id="cEstoque"></canvas></div>
+      <div class="src">Fonte: Novo CAGED acumulado · Estoque = saldo cumulativo sobre base RAIS</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Saldo CAGED por Grande Setor (12 meses)</div>
+      <div class="ch"><canvas id="cCnae"></canvas></div>
+      <div class="src">Fonte: CAGED por CNAE 2.0 · H=Transporte, G=Comércio, C=Indústria, F=Construção, Q=Saúde</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Sazonalidade do Emprego (admissões vs. mês)</div>
+      <div class="ch"><canvas id="cSazonal"></canvas></div>
+      <div class="src">Fonte: CAGED histórico 2021–2024 · padrão sazonal de Jandira</div>
+    </div>
+  </div>
+  <div class="gfull">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>CAGED por Setor CNAE — Detalhe dos últimos 12 meses</div>
+      <table class="tbl">
+        <thead><tr><th>Setor (CNAE 2.0)</th><th>Admissões</th><th>Desligamentos</th><th>Saldo</th><th>% do Estoque</th><th>Tendência</th></tr></thead>
+        <tbody>
+          <tr><td>H – Transporte e Armazenagem</td><td>4.876</td><td>4.231</td><td><strong>+645</strong></td><td>22%</td><td><span class="badge ok">↑ Forte</span></td></tr>
+          <tr><td>G – Comércio Varejista e Atacadista</td><td>4.432</td><td>3.876</td><td><strong>+556</strong></td><td>20%</td><td><span class="badge ok">↑ Estável</span></td></tr>
+          <tr><td>C – Indústria de Transformação</td><td>3.765</td><td>3.295</td><td><strong>+470</strong></td><td>18%</td><td><span class="badge ok">↑ Estável</span></td></tr>
+          <tr><td>F – Construção Civil</td><td>2.187</td><td>1.923</td><td><strong>+264</strong></td><td>9%</td><td><span class="badge warn">↔ Variável</span></td></tr>
+          <tr><td>Q – Saúde e Assistência Social</td><td>1.932</td><td>1.697</td><td><strong>+235</strong></td><td>8%</td><td><span class="badge ok">↑ Crescente</span></td></tr>
+          <tr><td>I – Alojamento e Alimentação</td><td>1.645</td><td>1.469</td><td><strong>+176</strong></td><td>6%</td><td><span class="badge warn">↔ Sazonal</span></td></tr>
+          <tr><td>M – Atividades Profissionais/Técnicas</td><td>1.423</td><td>1.277</td><td><strong>+146</strong></td><td>5%</td><td><span class="badge ok">↑ Crescente</span></td></tr>
+          <tr><td>O – Administração Pública</td><td>876</td><td>759</td><td><strong>+117</strong></td><td>6%</td><td><span class="badge info">→ Estável</span></td></tr>
+          <tr><td>Demais setores</td><td>1.003</td><td>681</td><td><strong>+322</strong></td><td>6%</td><td><span class="badge info">→ Diversificado</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PERFIL DOS EMPREGOS ═══════════════════ -->
+<section class="sec" id="perfil">
+  <div class="sec-hd">Perfil dos Empregos Formais <span class="sec-sub">RAIS / Novo CAGED · CNAE, CBO, Escolaridade, Salário, Gênero, Faixa Etária <span class="badge est">Estimado</span></span></div>
+  <div class="g4">
+    <div class="kpi"><div class="kpi-lbl">Estoque Total</div><div class="kpi-v" style="color:var(--g2)">50.131</div><div class="kpi-u">vínculos formais</div></div>
+    <div class="kpi b"><div class="kpi-lbl">Remuneração Média</div><div class="kpi-v" style="color:var(--b2)">R$2.840</div><div class="kpi-u">~2,01 SM (R$1.412)</div><div class="kpi-tr down">↓ Abaixo da média RMSP</div></div>
+    <div class="kpi"><div class="kpi-lbl">% Superior Completo</div><div class="kpi-v" style="color:var(--g2)">18%</div><div class="kpi-u">trabalhadores formais</div><div class="kpi-tr up">↑ +3pp vs. 2018</div></div>
+    <div class="kpi a"><div class="kpi-lbl">% Mulheres</div><div class="kpi-v" style="color:var(--am)">42%</div><div class="kpi-u">do emprego formal</div><div class="kpi-tr up">↑ +2pp vs. 2020</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Escolaridade dos Trabalhadores Formais</div>
+      <div class="ch"><canvas id="cEscol"></canvas></div>
+      <div class="src">Fonte: RAIS · % sobre total de vínculos ativos</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Distribuição Salarial (múltiplos do SM)</div>
+      <div class="ch"><canvas id="cSalario"></canvas></div>
+      <div class="src">Fonte: CAGED microdata · SM = R$1.412 (2024)</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Faixa Etária dos Trabalhadores</div>
+      <div class="ch"><canvas id="cIdade"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot r"></span>Ocupações CBO — Top Grupos</div>
+      <div class="ch"><canvas id="cCbo"></canvas></div>
+      <div class="src">Fonte: RAIS · CBO 2002 · Grandes Grupos Ocupacionais</div>
+    </div>
+  </div>
+  <div class="gfull">
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Perfil por Setor × Escolaridade (%) — Cruzamento CNAE × Instrução</div>
+      <table class="tbl">
+        <thead><tr><th>Setor</th><th>Fundamental</th><th>Médio Completo</th><th>Superior</th><th>Rem. Média</th><th>Perfil</th></tr></thead>
+        <tbody>
+          <tr><td>Transporte / Logística</td><td>18%</td><td>60%</td><td>22%</td><td>R$3.120</td><td><span class="badge warn">⚠ Overqualif.</span></td></tr>
+          <tr><td>Comércio Varejista</td><td>12%</td><td>69%</td><td>19%</td><td>R$2.180</td><td><span class="badge warn">⚠ Leve overqualif.</span></td></tr>
+          <tr><td>Indústria Transformação</td><td>15%</td><td>71%</td><td>14%</td><td>R$2.950</td><td><span class="badge ok">✓ Adequado</span></td></tr>
+          <tr><td>Construção Civil</td><td>28%</td><td>64%</td><td>8%</td><td>R$2.340</td><td><span class="badge ok">✓ Adequado</span></td></tr>
+          <tr><td>Serviços Profissionais</td><td>3%</td><td>35%</td><td>62%</td><td>R$4.890</td><td><span class="badge ok">✓ Qualificado</span></td></tr>
+          <tr><td>Saúde e Assistência</td><td>5%</td><td>42%</td><td>53%</td><td>R$3.650</td><td><span class="badge ok">✓ Adequado</span></td></tr>
+          <tr><td>Admin. Pública</td><td>8%</td><td>51%</td><td>41%</td><td>R$4.120</td><td><span class="badge info">→ Misto</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ECONOMIA SETORIAL ═══════════════════ -->
+<section class="sec" id="setorial">
+  <div class="sec-hd">Economia Setorial — Produtos, Serviços e Indústria <span class="sec-sub">NF-e / ISS / CNAE · Participação no PIB Municipal <span class="badge est">Estimado</span></span></div>
+  <div class="g4">
+    <div class="kpi"><div class="kpi-lbl">PIB Municipal Est.</div><div class="kpi-v" style="color:var(--g2)">R$5,7 bi</div><div class="kpi-u">2023 estimado</div></div>
+    <div class="kpi b"><div class="kpi-lbl">PIB per Capita</div><div class="kpi-v" style="color:var(--b2)">R$46.991</div><div class="kpi-u">2023 · IBGE Cidades</div></div>
+    <div class="kpi"><div class="kpi-lbl">Empresas Ativas</div><div class="kpi-v" style="color:var(--g2)">~8.200</div><div class="kpi-u">CNPJ ativos estimados</div></div>
+    <div class="kpi a"><div class="kpi-lbl">ISS Arrecadado</div><div class="kpi-v" style="color:var(--am)">~R$85 mi</div><div class="kpi-u">estimativa anual</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Composição do PIB Municipal (Valor Adicionado)</div>
+      <div class="ch"><canvas id="cPib"></canvas></div>
+      <div class="src">Fonte: IBGE Contas Municipais · Estrutura do Valor Adicionado Bruto</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Produtos Mais Transacionados (% NF-e estimado)</div>
+      <div class="ch"><canvas id="cProd"></canvas></div>
+      <div class="src">Fonte: SEFAZ SP / NF-e · Estimativa por CFOP e NCM · Atualização: mensal via SEFAZ</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Principais Serviços (% ISS arrecadado)</div>
+      <div class="ch"><canvas id="cServ"></canvas></div>
+      <div class="src">Fonte: ISS municipal · Nota Fiscal de Serviços Eletrônica (NFS-e) · ABRASF</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot r"></span>Atividades Industriais — Participação (CNAE C)</div>
+      <div class="ch"><canvas id="cInd"></canvas></div>
+      <div class="src">Fonte: RAIS + CAGED por subclasse CNAE · Subgrupos da divisão C</div>
+    </div>
+  </div>
+  <div class="gfull">
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Contribuição por Setor ao PIB Municipal — Análise Detalhada</div>
+      <table class="tbl">
+        <thead><tr><th>Atividade</th><th>% PIB</th><th>Empregos</th><th>Rem. Média</th><th>Tendência</th><th>Potencial</th></tr></thead>
+        <tbody>
+          <tr><td>Transporte e Logística</td><td>18,2%</td><td>11.030</td><td>R$3.120</td><td><span class="badge ok">↑</span></td><td><span class="badge ok">Alto</span></td></tr>
+          <tr><td>Comércio Varejista</td><td>16,8%</td><td>10.026</td><td>R$2.180</td><td><span class="badge warn">↔</span></td><td><span class="badge warn">Médio</span></td></tr>
+          <tr><td>Indústria Transformação</td><td>15,4%</td><td>9.024</td><td>R$2.950</td><td><span class="badge ok">↑</span></td><td><span class="badge ok">Alto</span></td></tr>
+          <tr><td>Construção Civil</td><td>9,1%</td><td>4.512</td><td>R$2.340</td><td><span class="badge warn">↔</span></td><td><span class="badge warn">Médio</span></td></tr>
+          <tr><td>Saúde e Assistência</td><td>7,3%</td><td>4.010</td><td>R$3.650</td><td><span class="badge ok">↑</span></td><td><span class="badge ok">Alto</span></td></tr>
+          <tr><td>Alimentação e Hosp.</td><td>5,8%</td><td>3.008</td><td>R$1.980</td><td><span class="badge ok">↑</span></td><td><span class="badge warn">Médio</span></td></tr>
+          <tr><td>Serviços Profissionais</td><td>4,6%</td><td>2.507</td><td>R$4.890</td><td><span class="badge ok">↑↑</span></td><td><span class="badge ok">Muito alto</span></td></tr>
+          <tr><td>Administração Pública</td><td>13,7%</td><td>3.008</td><td>R$4.120</td><td><span class="badge info">→</span></td><td><span class="badge info">Estrutural</span></td></tr>
+          <tr><td>Demais</td><td>9,1%</td><td>3.006</td><td>R$2.800</td><td><span class="badge info">→</span></td><td><span class="badge info">Diversificado</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ DIAGNÓSTICO DORMITÓRIO ═══════════════════ -->
+<section class="sec" id="dormitorio">
+  <div class="sec-hd">Diagnóstico do Município Dormitório <span class="sec-sub">Pendularidade, fluxo de renda e emprego · Censo IBGE 2010/2022 <span class="badge est">Estimado</span></span></div>
+  <div class="g4">
+    <div class="kpi down"><div class="kpi-lbl">Trabalha em Jandira</div><div class="kpi-v" style="color:var(--am)">37%</div><div class="kpi-u">dos residentes ocupados</div><div class="kpi-tr down">↓ Confirma perfil dormitório</div></div>
+    <div class="kpi"><div class="kpi-lbl">Trabalha em SP/Osasco</div><div class="kpi-v" style="color:var(--g2)">47%</div><div class="kpi-u">principais destinos</div><div class="kpi-tr down">↓ Evasão de renda</div></div>
+    <div class="kpi b"><div class="kpi-lbl">Renda "Exportada"</div><div class="kpi-v" style="color:var(--b2)">~63%</div><div class="kpi-u">gerada fora de Jandira</div><div class="kpi-tr down">↓ Não circula localmente</div></div>
+    <div class="kpi a"><div class="kpi-lbl">Índice Dormitório</div><div class="kpi-v" style="color:var(--am)">0,63</div><div class="kpi-u">0=vivo, 1=puro dormitório</div><div class="kpi-tr down">↓ Atenção: alto</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Onde os Moradores de Jandira Trabalham?</div>
+      <div class="ch"><canvas id="cPendular"></canvas></div>
+      <div class="src">Fonte: Censo IBGE 2010 (local de trabalho × residência) · Atualizar com Censo 2022</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Pendularidade por Nível de Escolaridade</div>
+      <div class="ch"><canvas id="cPendEscol"></canvas></div>
+      <div class="src">Fonte: Censo IBGE · % que trabalha FORA de Jandira por nível de instrução</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Renda Gerada × Renda Gasta em Jandira</div>
+      <div class="ch"><canvas id="cRenda"></canvas></div>
+      <div class="src">Fonte: Estimativa com base em RAIS + Censo + PIB municipal</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot r"></span>Evolução do Índice Dormitório (2000–2024e)</div>
+      <div class="ch"><canvas id="cDorm"></canvas></div>
+      <div class="src">Fonte: Censos 2000/2010/2022 + projeção Corecon · Índice: 0=polo empregador, 1=puro dormitório</div>
+    </div>
+  </div>
+  <div class="gfull">
+    <div class="insight warn">
+      <h4>⚠️ Alerta Estrutural: Evasão de Renda</h4>
+      <p>Estimamos que aproximadamente <strong>R$1,2 bilhão/ano</strong> em renda salarial gerada pelos moradores de Jandira é gasta em outros municípios (São Paulo, Osasco, Barueri). Isso equivale a ~21% do PIB municipal e explica a fragilidade do comércio e serviços locais. Cada ponto percentual de retenção de renda equivale a <strong>R$12 milhões</strong> adicionais circulando na economia local.</p>
+    </div>
+    <div class="insight strong">
+      <h4>💡 Oportunidade: Retenção Progressiva</h4>
+      <p>Se Jandira elevar o percentual de moradores que trabalham localmente de 37% para 45% até 2030 — cenário factível com a atração de 4.000 novos postos qualificados — o efeito multiplicador estimado sobre o PIB local é de <strong>+12 a +18%</strong>. A estratégia setorial (logística, tech, saúde) é o caminho para isso.</p>
+    </div>
+    <div class="insight info">
+      <h4>📌 O que o Corecon pode fazer aqui?</h4>
+      <p>Mapear o fluxo pendular com precisão usando microdados do Censo 2022 (disponíveis em 2024), cruzar com CAGED por município de trabalho vs. residência, e produzir anualmente o <strong>Índice de Autonomia Econômica de Jandira</strong> — indicador exclusivo que posiciona o município e mede a evolução do perfil dormitório ao longo do tempo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ QUALIFICAÇÃO & FUGA ═══════════════════ -->
+<section class="sec" id="qualif">
+  <div class="sec-hd">Qualificação, Overqualificação e Fuga de Cérebros <span class="sec-sub">RAIS × CBO × Pendularidade por escolaridade <span class="badge est">Estimado</span></span></div>
+  <div class="g4">
+    <div class="kpi down"><div class="kpi-lbl">Com Superior Fora</div><div class="kpi-v" style="color:var(--am)">71%</div><div class="kpi-u">dos graduados trabalham fora</div><div class="kpi-tr down">↓ Fuga de cérebros alta</div></div>
+    <div class="kpi"><div class="kpi-lbl">Overqualificação</div><div class="kpi-v" style="color:var(--g2)">31%</div><div class="kpi-u">postos abaixo da formação</div><div class="kpi-tr down">↓ Subutilização de capital</div></div>
+    <div class="kpi b"><div class="kpi-lbl">Gap Salarial</div><div class="kpi-v" style="color:var(--b2)">-18%</div><div class="kpi-u">vs. remuneração na RMSP</div><div class="kpi-tr down">↓ Incentivo à saída</div></div>
+    <div class="kpi a"><div class="kpi-lbl">Postos Qualificados Locais</div><div class="kpi-v" style="color:var(--am)">~9.000</div><div class="kpi-u">empregos exigem sup./técnico</div><div class="kpi-tr">→ 18% do estoque</div></div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Fuga de Cérebros — % que trabalha fora por escolaridade</div>
+      <div class="ch"><canvas id="cFuga"></canvas></div>
+      <div class="src">Fonte: Censo IBGE 2010 × RAIS · Estimativa 2024</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot r"></span>Mismatch de Qualificação — Oferta × Demanda Local</div>
+      <div class="ch"><canvas id="cMismatch"></canvas></div>
+      <div class="src">Fonte: RAIS (instrução dos empregados) × CBO (nível exigido pela função) · Cálculo Corecon</div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Diferencial Salarial: Jandira × Destinos dos Pendulares</div>
+      <div class="ch"><canvas id="cSalComp"></canvas></div>
+      <div class="src">Fonte: CAGED microdata · Remuneração média por município de estabelecimento</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Perfil do Overqualificado em Jandira</div>
+      <div style="margin-top:8px">
+        <div class="row"><span class="row-l">Faixa etária predominante</span><span class="row-v">25–34 anos</span></div>
+        <div class="row"><span class="row-l">Formação mais comum</span><span class="row-v">Superior em Adm./Gestão</span></div>
+        <div class="row"><span class="row-l">Setor com mais overqualif.</span><span class="row-v">Transporte (22% c/ superior)</span></div>
+        <div class="row"><span class="row-l">Salário médio recebido</span><span class="row-v">R$2.840 (vs. R$4.200 esperado)</span></div>
+        <div class="row"><span class="row-l">Tempo médio no emprego atual</span><span class="row-v">14 meses (alta rotatividade)</span></div>
+        <div class="row"><span class="row-l">% que busca emprego fora</span><span class="row-v">~65% (pesquisa informal)</span></div>
+        <div class="row"><span class="row-l">Motivo de ficar em Jandira</span><span class="row-v">Custo de vida + família</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="gfull">
+    <div class="insight warn">
+      <h4>🧠 Insight: Jandira tem capital humano represado</h4>
+      <p>A cidade possui ~9.000 residentes com ensino superior completo que trabalham localmente em funções abaixo da sua qualificação — e ~17.000 graduados que saem todo dia para trabalhar em outros municípios. Isso representa um <strong>estoque de capital humano não aproveitado</strong>, que pode ser ativado com a criação de postos qualificados em setores como tech, serviços profissionais e saúde especializada.</p>
+    </div>
+    <div class="insight strong">
+      <h4>🎯 Intervenção prioritária: Atrair empregos de qualidade</h4>
+      <p>Cada 1.000 postos qualificados criados localmente (acima de 3 SM) que absorvam graduados residentes reduz o índice dormitório em ~0,008 pontos e retém ~R$18 milhões/ano de renda. O Polo Logístico Jandira II, reformulado com empresas de alto valor agregado, é o canal mais imediato para isso.</p>
+    </div>
+    <div class="insight info">
+      <h4>📌 Papel do Corecon: Índice de Aproveitamento de Capital Humano (IACH)</h4>
+      <p>O Corecon pode desenvolver e publicar anualmente o <strong>IACH-Jandira</strong>: índice que mede a proporção do capital humano local (por nível de instrução e área de formação) efetivamente utilizado em postos compatíveis dentro do município. O indicador, único no país, posicionaria Jandira como referência em diagnóstico econômico territorial.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PROJEÇÕES 2030 ═══════════════════ -->
+<section class="sec" id="proj">
+  <div class="sec-hd">Projeções Econômicas 2025–2030 <span class="sec-sub">3 cenários: Otimista, Base e Pessimista · Corecon / Modelo de tendência linear + setorial</span></div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Estoque de Empregos Formais — Projeção 2030 (3 cenários)</div>
+      <div class="ch tall"><canvas id="cProjEmp"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>PIB Municipal Estimado — Projeção 2030 (R$ bilhões)</div>
+      <div class="ch tall"><canvas id="cProjPib"></canvas></div>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Índice Dormitório Projetado (redução gradual)</div>
+      <div class="ch"><canvas id="cProjDorm"></canvas></div>
+      <div class="src">Cenário base: atração de 4.000 empregos qualificados. Otimista: 8.000. Pessimista: manutenção atual.</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot r"></span>PIB per capita Projetado × Municípios Vizinhos</div>
+      <div class="ch"><canvas id="cProjComp"></canvas></div>
+      <div class="src">Projeção de convergência com Cotia (R$55k) no cenário otimista até 2028.</div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="sc-box opt">
+      <div class="sc-title" style="color:var(--g2)">🚀 CENÁRIO OTIMISTA 2030</div>
+      <div class="sc-val" style="color:var(--g2)">65.700</div>
+      <div class="sc-label">empregos formais</div>
+      <div style="margin-top:8px;font-size:.78rem;color:var(--cx)">PIB p/c: R$68.000<br>Índice Dormitório: 0,48<br>+8.000 postos qualif.</div>
+    </div>
+    <div class="sc-box base">
+      <div class="sc-title" style="color:var(--b2)">📊 CENÁRIO BASE 2030</div>
+      <div class="sc-val" style="color:var(--b2)">59.500</div>
+      <div class="sc-label">empregos formais</div>
+      <div style="margin-top:8px;font-size:.78rem;color:var(--cx)">PIB p/c: R$58.000<br>Índice Dormitório: 0,55<br>+4.000 postos qualif.</div>
+    </div>
+    <div class="sc-box pes">
+      <div class="sc-title" style="color:var(--am)">⚠️ CENÁRIO PESSIMISTA 2030</div>
+      <div class="sc-val" style="color:var(--am)">54.300</div>
+      <div class="sc-label">empregos formais</div>
+      <div style="margin-top:8px;font-size:.78rem;color:var(--cx)">PIB p/c: R$52.000<br>Índice Dormitório: 0,60<br>Perfil dormitório mantido</div>
+    </div>
+  </div>
+  <div class="gfull">
+    <div class="insight strong">
+      <h4>🔑 Hipótese-chave do cenário otimista</h4>
+      <p>A atração de 8.000 postos qualificados (média salarial &gt; 3 SM) até 2030, distribuídos entre logística de alto valor, tech/serviços profissionais e saúde especializada, é factível se combinada com: (1) isenções fiscais progressivas, (2) expansão do Polo Industrial Jandira II, (3) programa de requalificação profissional em parceria com SENAI/Fatec e (4) marketing territorial baseado nos indicadores do Observatório.</p>
+    </div>
+    <div class="insight info">
+      <h4>📌 Papel do Corecon: Modelo de Previsão e Revisão Anual</h4>
+      <p>O Corecon propõe manter e atualizar anualmente o <strong>Modelo de Projeção Econômica de Jandira</strong>, incorporando os dados do CAGED de cada mês, revisando os cenários e publicando o <em>Relatório Anual do Observatório</em> — documento de referência para gestores, investidores e academia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FONTES & METODOLOGIA ═══════════════════ -->
+<section class="sec" id="fontes">
+  <div class="sec-hd">Fontes de Dados, APIs e Metodologia de Atualização</div>
+
+  <div class="g2">
+    <div>
+      <div class="fonte-item">
+        <h4>📊 Novo CAGED — Emprego Formal Mensal</h4>
+        <p><strong>Periodicidade:</strong> Mensal (publicado ~45 dias após competência)<br>
+        <strong>Acesso:</strong> <code>pdet.mte.gov.br/novo-caged</code> · <code>basedosdados.org</code><br>
+        <strong>Código Jandira:</strong> <code>id_municipio = '3525003'</code><br>
+        <strong>Variáveis-chave:</strong> admissões, desligamentos, saldo, estoque, CNAE 2.0, CBO, escolaridade, faixa salarial, sexo, raça, idade<br>
+        <strong>API BigQuery:</strong> <code>basedosdados.br_me_caged.microdados_movimentacao</code></p>
+      </div>
+      <div class="fonte-item">
+        <h4>📋 RAIS — Estoque Anual de Vínculos</h4>
+        <p><strong>Periodicidade:</strong> Anual (publicado com ~1 ano de defasagem)<br>
+        <strong>Acesso:</strong> <code>gov.br/trabalho-e-emprego/pt-br/assuntos/estatisticas-trabalho/microdados-rais-e-caged</code><br>
+        <strong>Uso:</strong> Perfil detalhado dos empregados, remuneração por função, tempo de vínculo, escolaridade por CNAE</p>
+      </div>
+      <div class="fonte-item">
+        <h4>🏛️ IBGE SIDRA — Indicadores Municipais</h4>
+        <p><strong>Periodicidade:</strong> Varia (anual, decenal)<br>
+        <strong>Código Jandira:</strong> <code>N6[3525003]</code><br>
+        <strong>API REST:</strong> <code>servicodados.ibge.gov.br/api/v3/agregados/{id}/periodos/{periodo}/variaveis/{variavel}?localidades=N6[3525003]</code><br>
+        <strong>Tabelas relevantes:</strong> 202 (população), 5938 (PIB), 9888 (IDHM)</p>
+      </div>
+      <div class="fonte-item">
+        <h4>🧾 NF-e / NFS-e — Produtos e Serviços Transacionados</h4>
+        <p><strong>Periodicidade:</strong> Mensal<br>
+        <strong>Acesso:</strong> SEFAZ SP via convênio ou portal de transparência fiscal<br>
+        <strong>Uso:</strong> Identificar os NCM (produtos) e serviços (LC 116) mais transacionados no município<br>
+        <strong>Estratégia Corecon:</strong> Solicitar convênio com SEFAZ SP para acesso aos dados agregados por município</p>
+      </div>
+    </div>
+    <div>
+      <div class="fonte-item">
+        <h4>🚌 Censo IBGE — Pendularidade e Perfil Demográfico</h4>
+        <p><strong>Periodicidade:</strong> Decenal (Censo 2022 com dados de pendularidade previstos para 2024/2025)<br>
+        <strong>Variável-chave:</strong> V0636 (município de trabalho) × V0002 (município de residência)<br>
+        <strong>Uso:</strong> Calcular o Índice Dormitório, fluxo pendular por escolaridade e faixa de renda</p>
+      </div>
+      <div class="fonte-item">
+        <h4>📈 Atlas Brasil / IPEA — IDH e Vulnerabilidade Social</h4>
+        <p><strong>Periodicidade:</strong> Decenal<br>
+        <strong>Acesso:</strong> <code>atlasbrasil.org.br</code><br>
+        <strong>Indicadores:</strong> 330+ indicadores de saúde, educação, renda, habitação e vulnerabilidade por município</p>
+      </div>
+      <div class="fonte-item">
+        <h4>🌱 Indicadores ESG Municipais — Metodologia Própria</h4>
+        <p><strong>Periodicidade:</strong> Semestral (calculado pelo Corecon)<br>
+        <strong>Fontes-base:</strong> SNIS (saneamento), Inep (educação), DataSUS (saúde), IBGE (ambiental), IEGM (governança)<br>
+        <strong>Diferencial:</strong> O Corecon propõe calcular e publicar um <strong>Índice ESG-Jandira</strong> próprio, com metodologia documentada e comparável entre municípios</p>
+      </div>
+      <div class="fonte-item">
+        <h4>🔁 Cadência de Atualização Proposta</h4>
+        <p>
+        <strong>Mensal:</strong> CAGED (saldo, estoque, por setor)<br>
+        <strong>Trimestral:</strong> NF-e agregado (produtos/serviços), ISS por atividade<br>
+        <strong>Semestral:</strong> Relatório do Observatório + ESG-Jandira<br>
+        <strong>Anual:</strong> RAIS, Relatório de Desenvolvimento, revisão de cenários<br>
+        <strong>Decenal:</strong> Censo, atualização do Índice Dormitório completo
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gfull">
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Papel do Corecon em Cada Análise — Matriz de Contribuição</div>
+      <table class="tbl">
+        <thead><tr><th>Análise / Indicador</th><th>Fonte dos dados</th><th>O que o Corecon faz</th><th>Entrega</th><th>Cadência</th></tr></thead>
+        <tbody>
+          <tr><td>CAGED mensal por setor</td><td>MTE/PDET</td><td>Processa, interpreta e publica</td><td>Boletim CAGED-Jandira</td><td><span class="badge live">Mensal</span></td></tr>
+          <tr><td>Índice de Autonomia Econômica</td><td>CAGED + Censo</td><td>Metodologia própria, calcula e publica</td><td>Índice IAEA-Jandira</td><td><span class="badge ok">Anual</span></td></tr>
+          <tr><td>Overqualificação (IACH)</td><td>RAIS + CBO + CAGED</td><td>Cruzamento e análise</td><td>Relatório qualificação</td><td><span class="badge ok">Anual</span></td></tr>
+          <tr><td>ESG Municipal</td><td>SNIS/Inep/DataSUS/IBGE</td><td>Cálculo e benchmark regional</td><td>Índice ESG-Jandira</td><td><span class="badge warn">Semestral</span></td></tr>
+          <tr><td>Projeções econômicas</td><td>CAGED + PIB + Censo</td><td>Modelagem econométrica</td><td>Relatório de Cenários</td><td><span class="badge ok">Anual</span></td></tr>
+          <tr><td>Produtos/serviços transacionados</td><td>SEFAZ SP / NF-e</td><td>Solicita convênio, processa e publica</td><td>Monitor Setorial</td><td><span class="badge warn">Trimestral</span></td></tr>
+          <tr><td>Pendularidade e fuga</td><td>Censo 2022</td><td>Extrai microdados, produz análise</td><td>Diagnóstico Dormitório</td><td><span class="badge info">Decenal/Estimativa anual</span></td></tr>
+          <tr><td>Benchmarking regional</td><td>Todas as fontes</td><td>Comparativo com 5 municípios</td><td>Painel Comparativo</td><td><span class="badge ok">Anual</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>Observatório Econômico de Jandira · Corecon — Delegacia de Economia · 2025 &nbsp;|&nbsp; Dados de demonstração baseados em fontes públicas e estimativas metodológicas · Código IBGE: 3525003 &nbsp;|&nbsp; Para produção: conectar às APIs do PDET/MTE, IBGE SIDRA e SEFAZ SP</footer>
+
+<script>
+function st(id,el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+
+const G1='1B5E20',G2='2E7D32',G3='43A047',GL='A5D6A7',GXL='E8F5E9';
+const B1='0D47A1',B2='1565C0',B3='1976D2',BL='BBDEFB',BXL='E3F2FD';
+const AM='E65100',AML='FFF3E0',RO='6A1B9A',ROL='F3E5F5';
+const CX='263238',CM='546E7A',CC='90A4AE',CL='ECEFF1';
+
+const grid='#E8EEF2',lbl='#607D8B';
+
+// MESES
+const meses=['Mai/23','Jun/23','Jul/23','Ago/23','Set/23','Out/23','Nov/23','Dez/23','Jan/24','Fev/24','Mar/24','Abr/24'];
+const admiss=[1845,1712,1932,1878,1756,1898,1923,1342,2156,1987,1876,1834];
+const deslig=[1560,1570,1612,1613,1558,1586,1678,1527,1736,1631,1578,1559];
+const saldo=[285,142,320,265,198,312,245,-185,420,356,298,275];
+const estoque=[47485,47627,47947,48212,48410,48722,48967,48782,49202,49558,49856,50131];
+
+// ── CAGED ──────────────────────────────────────────────────────────────
+new Chart(document.getElementById('cCaged'),{
+  type:'bar',
+  data:{
+    labels:meses,
+    datasets:[
+      {label:'Admissões',data:admiss,backgroundColor:'#43A04788',borderColor:'#2E7D32',borderWidth:1,borderRadius:4},
+      {label:'Desligamentos',data:deslig,backgroundColor:'#E6510088',borderColor:'#BF360C',borderWidth:1,borderRadius:4},
+      {type:'line',label:'Saldo',data:saldo,borderColor:'#0D47A1',backgroundColor:'transparent',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#0D47A1',yAxisID:'y2'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{
+      y:{grid:{color:grid},ticks:{color:lbl,font:{size:10}},title:{display:true,text:'Admissões / Desligamentos',color:lbl,font:{size:10}}},
+      y2:{position:'right',grid:{display:false},ticks:{color:'#0D47A1',font:{size:10}},title:{display:true,text:'Saldo Líquido',color:'#0D47A1',font:{size:10}}},
+      x:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}
+    },
+    plugins:{legend:{labels:{font:{size:10},color:lbl}}}
+  }
+});
+
+new Chart(document.getElementById('cEstoque'),{
+  type:'line',
+  data:{labels:meses,datasets:[{
+    label:'Estoque Vínculos Ativos',data:estoque,
+    borderColor:'#'+G2,backgroundColor:'rgba(46,125,50,0.1)',fill:true,
+    borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#'+G2,tension:0.3
+  }]},
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v.toLocaleString('pt-BR')},min:46000},x:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'Estoque: '+ctx.parsed.y.toLocaleString('pt-BR')}}}
+  }
+});
+
+new Chart(document.getElementById('cCnae'),{
+  type:'bar',
+  data:{
+    labels:['H-Transporte','G-Comércio','C-Indústria','F-Construção','Q-Saúde','I-Alimentação','M-Serv.Prof','O-Admin.Pub','Demais'],
+    datasets:[{data:[645,556,470,264,235,176,146,117,322],
+      backgroundColor:['#'+B2,'#'+G2,'#'+RO,'#'+AM,'#388E3C','#F57F17','#7B1FA2','#546E7A','#90A4AE'],
+      borderRadius:5}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    scales:{x:{grid:{color:grid},ticks:{color:lbl,font:{size:10}}},y:{grid:{display:false},ticks:{color:lbl,font:{size:10}}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'Saldo: +'+ctx.parsed.x+' postos'}}}
+  }
+});
+
+new Chart(document.getElementById('cSazonal'),{
+  type:'radar',
+  data:{
+    labels:['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+    datasets:[
+      {label:'Admissões 2024',data:[2156,1987,1876,1834,1845,1712,1932,1878,1756,1898,1923,1342],borderColor:'#'+G2,backgroundColor:'rgba(46,125,50,0.1)',borderWidth:2},
+      {label:'Média 2021-23',data:[1820,1680,1710,1650,1720,1590,1780,1710,1640,1720,1850,1380],borderColor:'#'+B2,backgroundColor:'rgba(21,101,192,0.08)',borderWidth:2,borderDash:[5,3]}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{r:{grid:{color:grid},ticks:{font:{size:8},color:lbl},pointLabels:{font:{size:9},color:CX}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},color:lbl}}}
+  }
+});
+
+// ── PERFIL EMPREGOS ────────────────────────────────────────────────────
+new Chart(document.getElementById('cEscol'),{
+  type:'bar',
+  data:{
+    labels:['Fund. Incomp.','Fund. Comp.','Médio Incomp.','Médio Comp.','Sup. Incomp.','Sup. Completo','Pós-grad.'],
+    datasets:[{
+      data:[5,10,8,47,10,18,2],
+      backgroundColor:['#EF9A9A','#FFCC02','#FF7043','#'+G3,'#'+B3,'#'+B2,'#'+G2],
+      borderRadius:6
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'},max:55},x:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.y+'% dos vínculos'}}}
+  }
+});
+
+new Chart(document.getElementById('cSalario'),{
+  type:'doughnut',
+  data:{
+    labels:['Até 1 SM','1–2 SM','2–3 SM','3–5 SM','5–10 SM','Acima 10 SM'],
+    datasets:[{data:[10,38,27,15,7,3],backgroundColor:['#EF5350','#FF7043','#FFA726','#66BB6A','#'+G2,'#'+B2],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'right',labels:{font:{size:10},color:CX}}}
+  }
+});
+
+new Chart(document.getElementById('cIdade'),{
+  type:'bar',
+  data:{
+    labels:['18–24','25–34','35–44','45–54','55–64','65+'],
+    datasets:[
+      {label:'Masculino',data:[10,19,16,9,3,1],backgroundColor:'#'+B3+'CC',borderRadius:4},
+      {label:'Feminino',data:[8,13,11,7,3,0],backgroundColor:'#43A047CC',borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'},stacked:false},x:{grid:{display:false},ticks:{color:lbl,font:{size:10}}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},color:lbl}}}
+  }
+});
+
+new Chart(document.getElementById('cCbo'),{
+  type:'bar',
+  data:{
+    labels:['Serv. Gerais/Comer.','Produção Industrial','Técnicos Nível Médio','Profis. Sup. Saúde','Profis. Adm/Gestão','Profis. TI','Forças Armadas/Seg.'],
+    datasets:[{data:[28,22,18,10,12,6,4],backgroundColor:['#'+G3,'#'+AM,'#'+B2,'#388E3C','#7B1FA2','#00838F','#78909C'],borderRadius:5}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    scales:{x:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false}}
+  }
+});
+
+// ── SETORIAL ────────────────────────────────────────────────────────────
+new Chart(document.getElementById('cPib'),{
+  type:'doughnut',
+  data:{
+    labels:['Serviços privados','Indústria','Admin. Pública','Transporte/Log.','Construção','Saúde/Educ.'],
+    datasets:[{data:[34.5,15.4,13.7,18.2,9.1,9.1],backgroundColor:['#'+B2,'#'+G2,'#'+AM,'#'+B3,'#'+RO,'#43A047'],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'right',labels:{font:{size:10},color:CX}}}
+  }
+});
+
+new Chart(document.getElementById('cProd'),{
+  type:'bar',
+  data:{
+    labels:['Alimentos/Bebidas','Combustíveis','Peças/Veículos','Mat. Construção','Mat. Industriais','Vestuário','Farmacêuticos','Eletrodomésticos'],
+    datasets:[{data:[19,13,11,10,9,8,7,6],
+      backgroundColor:['#'+G2,'#'+AM,'#'+B2,'#7B1FA2','#00838F','#F57F17','#388E3C','#546E7A'],borderRadius:5}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    scales:{x:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false}}
+  }
+});
+
+new Chart(document.getElementById('cServ'),{
+  type:'bar',
+  data:{
+    labels:['Transp. Cargas','Construção Civil','Saúde','Alimentação','Limpeza/Conserv.','Fin./Seguros','TI/Software','Educação','Outros'],
+    datasets:[{data:[27,14,11,8,6,5,4,4,21],
+      backgroundColor:['#'+B2,'#'+AM,'#388E3C','#'+G3,'#'+RO,'#00838F','#0288D1','#F57F17','#90A4AE'],borderRadius:5}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'}},x:{grid:{display:false},ticks:{color:lbl,font:{size:9},maxRotation:35}}},
+    plugins:{legend:{display:false}}
+  }
+});
+
+new Chart(document.getElementById('cInd'),{
+  type:'bar',
+  data:{
+    labels:['Prod. Min. não-metálicos','Fabricação plásticos','Metalurgia/Caldeiraria','Móveis/Madeira','Bebidas','Químicos','Têxtil/Confecção','Gráfica/Embalagens'],
+    datasets:[{data:[28,22,18,10,8,7,4,3],
+      backgroundColor:['#'+G2,'#'+B2,'#'+AM,'#7B1FA2','#00838F','#F57F17','#388E3C','#546E7A'],borderRadius:5}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    scales:{x:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'}},y:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false}}
+  }
+});
+
+// ── DORMITÓRIO ─────────────────────────────────────────────────────────
+new Chart(document.getElementById('cPendular'),{
+  type:'doughnut',
+  data:{
+    labels:['Em Jandira','São Paulo','Osasco','Barueri','Cotia','Outros'],
+    datasets:[{data:[37,33,14,9,4,3],
+      backgroundColor:['#'+G2,'#'+B1,'#'+B3,'#'+RO,'#F57F17','#90A4AE'],borderWidth:2,borderColor:'#fff'}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:'right',labels:{font:{size:11},color:CX}},
+      tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.parsed+'% dos moradores'}}}
+  }
+});
+
+new Chart(document.getElementById('cPendEscol'),{
+  type:'bar',
+  data:{
+    labels:['Pós-grad.','Superior Comp.','Superior Incomp.','Médio Comp.','Fundamental'],
+    datasets:[
+      {label:'Trabalha FORA de Jandira',data:[78,71,65,52,38],backgroundColor:'#'+AM+'CC',borderRadius:5},
+      {label:'Trabalha EM Jandira',data:[22,29,35,48,62],backgroundColor:'#'+G2+'CC',borderRadius:5}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{
+      x:{stacked:true,grid:{display:false},ticks:{color:lbl,font:{size:10}}},
+      y:{stacked:true,grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'},max:100}
+    },
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},color:lbl}}}
+  }
+});
+
+new Chart(document.getElementById('cRenda'),{
+  type:'bar',
+  data:{
+    labels:['Renda Gerada\n(trabalham fora)','Renda Gerada\n(trabalham local)','Renda Gasta\n(em Jandira)','Renda Gasta\n(outros mun.)'],
+    datasets:[{
+      data:[1200,700,740,1160],
+      backgroundColor:['#'+AM+'BB','#'+G2+'BB','#'+G3+'BB','#EF5350BB'],
+      borderRadius:6
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>'R$'+v+'M'},title:{display:true,text:'R$ Milhões / ano (estimado)',color:lbl,font:{size:9}}},x:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'R$ '+ctx.parsed.y+' mi/ano (est.)'}}}
+  }
+});
+
+new Chart(document.getElementById('cDorm'),{
+  type:'line',
+  data:{
+    labels:['2000','2005','2010','2015','2020','2024e'],
+    datasets:[{
+      label:'Índice Dormitório',data:[0.72,0.70,0.67,0.66,0.64,0.63],
+      borderColor:'#'+AM,backgroundColor:'rgba(230,81,0,0.1)',fill:true,borderWidth:2.5,
+      pointRadius:5,pointBackgroundColor:'#'+AM,tension:0.3
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{min:0.5,max:0.85,grid:{color:grid},ticks:{color:lbl,font:{size:10}}},x:{grid:{display:false},ticks:{color:lbl,font:{size:10}}}},
+    plugins:{legend:{display:false},annotation:{annotations:{line1:{type:'line',yMin:0.63,yMax:0.63,borderColor:'#EF5350',borderWidth:1.5,borderDash:[6,3]}}}}
+  }
+});
+
+// ── QUALIFICAÇÃO ───────────────────────────────────────────────────────
+new Chart(document.getElementById('cFuga'),{
+  type:'bar',
+  data:{
+    labels:['Pós-graduação','Superior Comp.','Superior Incomp.','Médio Comp.','Médio Incomp.','Fundamental'],
+    datasets:[{
+      label:'% trabalha FORA de Jandira',
+      data:[78,71,65,52,42,38],
+      backgroundColor:['#B71C1C','#C62828','#'+AM,'#F57F17','#FFA726','#FFCA28'],
+      borderRadius:6
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},max:100,ticks:{color:lbl,font:{size:10},callback:v=>v+'%'}},x:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.parsed.y+'% trabalha fora de Jandira'}}}
+  }
+});
+
+new Chart(document.getElementById('cMismatch'),{
+  type:'bar',
+  data:{
+    labels:['Transporte','Comércio','Construção','Ind. Transf.','Alim./Hosp.','Serv. Prof.'],
+    datasets:[
+      {label:'Qualificação esperada p/ função (% superior)',data:[8,12,4,8,5,55],backgroundColor:'#'+G2+'AA',borderRadius:4},
+      {label:'Qualificação real dos ocupados (% superior)',data:[22,19,8,14,9,62],backgroundColor:'#'+AM+'AA',borderRadius:4}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v+'%'},max:70},x:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},color:lbl}},
+      tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y+'%'}}}
+  }
+});
+
+new Chart(document.getElementById('cSalComp'),{
+  type:'bar',
+  data:{
+    labels:['Jandira','Barueri','São Paulo\n(Geral)','Osasco','Cotia'],
+    datasets:[
+      {label:'Remuneração Média Geral (R$)',data:[2840,4280,4950,3760,3420],backgroundColor:['#'+AM,'#'+G2,'#'+B2,'#'+G3,'#'+RO+'AA'],borderRadius:6}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>'R$'+v.toLocaleString()}},x:{grid:{display:false},ticks:{color:lbl,font:{size:9}}}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'R$ '+ctx.parsed.y.toLocaleString('pt-BR')+'/mês'}}}
+  }
+});
+
+// ── PROJEÇÕES ────────────────────────────────────────────────────────────
+const anos=['2024','2025','2026','2027','2028','2029','2030'];
+new Chart(document.getElementById('cProjEmp'),{
+  type:'line',
+  data:{
+    labels:anos,
+    datasets:[
+      {label:'Otimista',data:[50131,52000,54200,56700,59400,62400,65700],borderColor:'#'+G2,backgroundColor:'rgba(46,125,50,0.08)',fill:true,borderWidth:2.5,pointRadius:4,tension:0.3},
+      {label:'Base',data:[50131,51500,52900,54400,56000,57700,59500],borderColor:'#'+B2,borderDash:[6,3],borderWidth:2,pointRadius:3,tension:0.3,fill:false},
+      {label:'Pessimista',data:[50131,50800,51500,52200,52900,53600,54300],borderColor:'#'+AM,borderDash:[3,3],borderWidth:2,pointRadius:3,tension:0.3,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>v.toLocaleString()}},x:{grid:{display:false},ticks:{color:lbl,font:{size:10}}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},color:lbl}}}
+  }
+});
+
+new Chart(document.getElementById('cProjPib'),{
+  type:'line',
+  data:{
+    labels:anos,
+    datasets:[
+      {label:'Otimista',data:[5.7,6.2,6.85,7.6,8.45,9.35,10.3],borderColor:'#'+G2,backgroundColor:'rgba(46,125,50,0.08)',fill:true,borderWidth:2.5,pointRadius:4,tension:0.3},
+      {label:'Base',data:[5.7,6.0,6.35,6.75,7.15,7.6,8.1],borderColor:'#'+B2,borderDash:[6,3],borderWidth:2,pointRadius:3,tension:0.3,fill:false},
+      {label:'Pessimista',data:[5.7,5.9,6.1,6.3,6.5,6.7,6.9],borderColor:'#'+AM,borderDash:[3,3],borderWidth:2,pointRadius:3,tension:0.3,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>'R$'+v+'bi'}},x:{grid:{display:false},ticks:{color:lbl,font:{size:10}}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},color:lbl}}}
+  }
+});
+
+new Chart(document.getElementById('cProjDorm'),{
+  type:'line',
+  data:{
+    labels:anos,
+    datasets:[
+      {label:'Otimista (c/ 8k novos empregos qualif.)',data:[0.63,0.60,0.57,0.54,0.51,0.49,0.48],borderColor:'#'+G2,borderWidth:2.5,pointRadius:4,tension:0.3},
+      {label:'Base (c/ 4k)',data:[0.63,0.62,0.61,0.59,0.57,0.56,0.55],borderColor:'#'+B2,borderDash:[6,3],borderWidth:2,pointRadius:3,tension:0.3},
+      {label:'Pessimista (sem ação)',data:[0.63,0.63,0.62,0.62,0.61,0.61,0.60],borderColor:'#'+AM,borderDash:[3,3],borderWidth:2,pointRadius:3,tension:0.3}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{reverse:false,min:0.4,max:0.7,grid:{color:grid},ticks:{color:lbl,font:{size:10}}},x:{grid:{display:false},ticks:{color:lbl,font:{size:10}}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:10},color:lbl}},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toFixed(2)}}}
+  }
+});
+
+new Chart(document.getElementById('cProjComp'),{
+  type:'line',
+  data:{
+    labels:anos,
+    datasets:[
+      {label:'Jandira (Otimista)',data:[46.9,49.5,53.0,57.0,61.5,64.8,68.0],borderColor:'#'+G2,borderWidth:2.5,pointRadius:4,tension:0.3},
+      {label:'Jandira (Base)',data:[46.9,48.5,50.2,52.1,54.0,56.0,58.0],borderColor:'#'+G2,borderDash:[5,3],borderWidth:2,pointRadius:3,tension:0.3},
+      {label:'Cotia (referência)',data:[55,56.5,58,59.6,61.3,63,64.7],borderColor:'#'+AM,borderDash:[6,3],borderWidth:1.5,pointRadius:2,tension:0.3},
+      {label:'Carapicuíba',data:[22,23,23.8,24.6,25.4,26.3,27.2],borderColor:'#90A4AE',borderDash:[3,3],borderWidth:1.5,pointRadius:2,tension:0.3}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{grid:{color:grid},ticks:{color:lbl,font:{size:10},callback:v=>'R$'+v+'k'}},x:{grid:{display:false},ticks:{color:lbl,font:{size:10}}}},
+    plugins:{legend:{position:'bottom',labels:{font:{size:9},color:lbl}}}
+  }
+});
+</script>
+</body>
+</html>
