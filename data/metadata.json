@@ -2,20 +2,25 @@
   "last_updated": "2025-03-25",
   "sources": {
     "caged": {
-      "label": "Novo CAGED / MTE",
-      "reference_month": "2025-02",
-      "reference_month_label": "Fev/2025",
-      "downloaded_at": "2025-03-25T09:12:00Z",
-      "records_jandira": 3842,
-      "status": "ok"
+      "label": "Novo CAGED (MTE)",
+      "fetched_at": "2026-04-29T16:35:03.222946Z",
+      "status": "falha — mantendo dados anteriores",
+      "description": "Download falhou nesta execução"
     },
     "sidra_pop": {
       "label": "IBGE SIDRA – Projeção Populacional",
       "reference_year": 2024,
       "downloaded_at": "2025-03-25T09:14:00Z",
       "status": "ok"
+    },
+    "ibge_sidra": {
+      "label": "IBGE SIDRA",
+      "fetched_at": "2026-04-29T16:35:03.222946Z",
+      "status": "ok",
+      "description": "População estimada e PIB per capita"
     }
   },
   "pipeline_version": "1.0",
-  "notes": "Dados atualizados automaticamente via GitHub Actions todo dia 25."
+  "notes": "Dados atualizados automaticamente via GitHub Actions todo dia 25.",
+  "last_run": "2026-04-29T16:35:03.222946Z"
 }
