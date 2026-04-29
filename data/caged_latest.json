@@ -5,17 +5,17 @@
   "municipio_nome": "Jandira",
 
   "series_12m": {
-    "meses": ["Mar/24","Abr/24","Mai/24","Jun/24","Jul/24","Ago/24","Set/24","Out/24","Nov/24","Dez/24","Jan/25","Fev/25"],
-    "admissoes":  [1902, 1743, 1834, 1956, 2010, 1989, 1876, 2102, 2245, 1654, 1923, 1867],
+    "meses":         ["Mar/24","Abr/24","Mai/24","Jun/24","Jul/24","Ago/24","Set/24","Out/24","Nov/24","Dez/24","Jan/25","Fev/25"],
+    "admissoes":     [1902, 1743, 1834, 1956, 2010, 1989, 1876, 2102, 2245, 1654, 1923, 1867],
     "desligamentos": [1598, 1612, 1701, 1743, 1820, 1765, 1698, 1890, 1934, 1812, 1734, 1654],
-    "saldo":    [304, 131, 133, 213, 190, 224, 178, 212, 311, -158, 189, 213],
-    "estoque":  [49234, 49365, 49498, 49711, 49901, 50125, 50303, 50515, 50826, 50668, 50857, 51070]
+    "saldo":         [304,  131,  133,  213,  190,  224,  178,  212,  311, -158,  189,  213],
+    "estoque":       [49234,49365,49498,49711,49901,50125,50303,50515,50826,50668,50857,51070]
   },
 
   "by_section": [
     {
       "secao": "C",
-      "label": "Indústria de Transformação",
+      "label": "Industria de Transformacao",
       "admissoes": 612,
       "desligamentos": 498,
       "saldo": 114,
@@ -23,11 +23,13 @@
       "pct_superior": 12,
       "details": {
         "por_instrucao": [
-          {"label": "Fundamental incompleto", "pct": 8},
-          {"label": "Fundamental completo",   "pct": 14},
-          {"label": "Médio completo",          "pct": 51},
-          {"label": "Superior incompleto",     "pct": 15},
-          {"label": "Superior completo",       "pct": 12}
+          {"label": "Analfabeto",          "pct": 1},
+          {"label": "Fund. Incompleto",    "pct": 7},
+          {"label": "Fund. Completo",      "pct": 14},
+          {"label": "Medio Incompleto",    "pct": 15},
+          {"label": "Medio Completo",      "pct": 51},
+          {"label": "Sup. Incompleto",     "pct": 10},
+          {"label": "Sup. Completo",       "pct": 12}
         ],
         "por_genero": {"M": 68, "F": 32},
         "faixa_etaria": [
@@ -39,28 +41,98 @@
         ]
       },
       "divisions": [
-        {"div": "C10", "label": "Alimentos e Bebidas",       "admissoes": 89,  "desligamentos": 76,  "saldo": 13},
-        {"div": "C13", "label": "Têxtil",                    "admissoes": 34,  "desligamentos": 31,  "saldo": 3},
-        {"div": "C14", "label": "Confecções",                "admissoes": 28,  "desligamentos": 25,  "saldo": 3},
-        {"div": "C22", "label": "Borracha e Plástico",       "admissoes": 67,  "desligamentos": 54,  "saldo": 13},
-        {"div": "C23", "label": "Minerais Não-Metálicos",    "admissoes": 187, "desligamentos": 143, "saldo": 44},
-        {"div": "C25", "label": "Produtos de Metal",         "admissoes": 78,  "desligamentos": 65,  "saldo": 13},
-        {"div": "C28", "label": "Máquinas e Equipamentos",   "admissoes": 45,  "desligamentos": 38,  "saldo": 7},
-        {"div": "C33", "label": "Manutenção e Instalação",   "admissoes": 84,  "desligamentos": 66,  "saldo": 18}
-      ],
-      "subclasses_c23": [
-        {"sub": "2310500", "label": "Cimento",                        "admissoes": 54, "desligamentos": 38, "saldo": 16, "salario_medio": 2780},
-        {"sub": "2320600", "label": "Artefatos de Cimento",           "admissoes": 21, "desligamentos": 17, "saldo": 4,  "salario_medio": 2210},
-        {"sub": "2330301", "label": "Cerâmica e Azulejos",            "admissoes": 45, "desligamentos": 36, "saldo": 9,  "salario_medio": 2140},
-        {"sub": "2330302", "label": "Concreto / Fibrocimento",        "admissoes": 38, "desligamentos": 29, "saldo": 9,  "salario_medio": 2390},
-        {"sub": "2341900", "label": "Artigos de Cerâmica",            "admissoes": 14, "desligamentos": 11, "saldo": 3,  "salario_medio": 2050},
-        {"sub": "2349401", "label": "Revestimentos de Cerâmica",      "admissoes": 9,  "desligamentos": 8,  "saldo": 1,  "salario_medio": 2180},
-        {"sub": "2392300", "label": "Cal e Gesso",                    "admissoes": 6,  "desligamentos": 4,  "saldo": 2,  "salario_medio": 2310}
+        {
+          "div": "C23",
+          "label": "Minerais Nao-Metalicos",
+          "admissoes": 187,
+          "desligamentos": 143,
+          "saldo": 44,
+          "subclasses": [
+            {"sub": "2310500", "label": "Cimento",                              "admissoes": 54, "desligamentos": 38, "saldo": 16},
+            {"sub": "2330301", "label": "Ceramica para Construcao (tijolo)",    "admissoes": 45, "desligamentos": 36, "saldo": 9},
+            {"sub": "2330302", "label": "Artefatos de Concreto/Fibrocimento",   "admissoes": 38, "desligamentos": 29, "saldo": 9},
+            {"sub": "2320600", "label": "Cal Virgem e Cal Hidratada",           "admissoes": 21, "desligamentos": 17, "saldo": 4},
+            {"sub": "2341900", "label": "Artigos de Ceramica",                  "admissoes": 14, "desligamentos": 11, "saldo": 3},
+            {"sub": "2349401", "label": "Revestimentos de Ceramica",            "admissoes": 9,  "desligamentos": 8,  "saldo": 1},
+            {"sub": "2392300", "label": "Cal e Gesso (outros)",                 "admissoes": 6,  "desligamentos": 4,  "saldo": 2}
+          ]
+        },
+        {
+          "div": "C22",
+          "label": "Borracha e Plasticos",
+          "admissoes": 67,
+          "desligamentos": 54,
+          "saldo": 13,
+          "subclasses": [
+            {"sub": "2221800", "label": "Embalagens Plasticas",         "admissoes": 24, "desligamentos": 18, "saldo": 6},
+            {"sub": "2219600", "label": "Outros Artefatos de Borracha", "admissoes": 18, "desligamentos": 15, "saldo": 3},
+            {"sub": "2222600", "label": "Tubos e Conexoes Plasticas",   "admissoes": 14, "desligamentos": 12, "saldo": 2},
+            {"sub": "2211100", "label": "Pneumaticos e Camaras",        "admissoes": 8,  "desligamentos": 6,  "saldo": 2},
+            {"sub": "2229300", "label": "Outros Artefatos de Plastico", "admissoes": 3,  "desligamentos": 3,  "saldo": 0}
+          ]
+        },
+        {
+          "div": "C25",
+          "label": "Produtos de Metal",
+          "admissoes": 78,
+          "desligamentos": 65,
+          "saldo": 13,
+          "subclasses": [
+            {"sub": "2511000", "label": "Estruturas Metalicas",      "admissoes": 28, "desligamentos": 22, "saldo": 6},
+            {"sub": "2512800", "label": "Esquadrias Metalicas",      "admissoes": 22, "desligamentos": 19, "saldo": 3},
+            {"sub": "2599399", "label": "Outros Produtos de Metal",  "admissoes": 16, "desligamentos": 14, "saldo": 2},
+            {"sub": "2513600", "label": "Caldeiraria Pesada",        "admissoes": 8,  "desligamentos": 7,  "saldo": 1},
+            {"sub": "2543800", "label": "Cutelaria",                 "admissoes": 4,  "desligamentos": 3,  "saldo": 1}
+          ]
+        },
+        {
+          "div": "C33",
+          "label": "Manutencao e Instalacao",
+          "admissoes": 84,
+          "desligamentos": 66,
+          "saldo": 18
+        },
+        {
+          "div": "C28",
+          "label": "Maquinas e Equipamentos",
+          "admissoes": 45,
+          "desligamentos": 38,
+          "saldo": 7
+        },
+        {
+          "div": "C10",
+          "label": "Alimentos e Bebidas",
+          "admissoes": 89,
+          "desligamentos": 76,
+          "saldo": 13,
+          "subclasses": [
+            {"sub": "1051100", "label": "Laticinios",                          "admissoes": 22, "desligamentos": 18, "saldo": 4},
+            {"sub": "1091101", "label": "Biscoitos e Bolachas",                "admissoes": 19, "desligamentos": 15, "saldo": 4},
+            {"sub": "1092900", "label": "Chocolates e Balas",                  "admissoes": 16, "desligamentos": 14, "saldo": 2},
+            {"sub": "1066000", "label": "Moagem de Trigo",                     "admissoes": 14, "desligamentos": 13, "saldo": 1},
+            {"sub": "1061901", "label": "Beneficiamento de Arroz",             "admissoes": 10, "desligamentos": 9,  "saldo": 1},
+            {"sub": "1099699", "label": "Outros Alimentos",                    "admissoes": 8,  "desligamentos": 7,  "saldo": 1}
+          ]
+        },
+        {
+          "div": "C13",
+          "label": "Texteis",
+          "admissoes": 34,
+          "desligamentos": 31,
+          "saldo": 3
+        },
+        {
+          "div": "C14",
+          "label": "Vestuario",
+          "admissoes": 28,
+          "desligamentos": 25,
+          "saldo": 3
+        }
       ]
     },
     {
       "secao": "G",
-      "label": "Comércio e Reparação",
+      "label": "Comercio e Reparacao",
       "admissoes": 534,
       "desligamentos": 489,
       "saldo": 45,
@@ -68,11 +140,13 @@
       "pct_superior": 7,
       "details": {
         "por_instrucao": [
-          {"label": "Fundamental incompleto", "pct": 6},
-          {"label": "Fundamental completo",   "pct": 12},
-          {"label": "Médio completo",          "pct": 62},
-          {"label": "Superior incompleto",     "pct": 13},
-          {"label": "Superior completo",       "pct": 7}
+          {"label": "Analfabeto",          "pct": 1},
+          {"label": "Fund. Incompleto",    "pct": 5},
+          {"label": "Fund. Completo",      "pct": 12},
+          {"label": "Medio Incompleto",    "pct": 13},
+          {"label": "Medio Completo",      "pct": 62},
+          {"label": "Sup. Incompleto",     "pct": 13},
+          {"label": "Sup. Completo",       "pct": 7}
         ],
         "por_genero": {"M": 54, "F": 46},
         "faixa_etaria": [
@@ -83,11 +157,56 @@
           {"label": "55+",   "n": 17}
         ]
       },
-      "divisions": []
+      "divisions": [
+        {
+          "div": "G47",
+          "label": "Comercio Varejista",
+          "admissoes": 312,
+          "desligamentos": 284,
+          "saldo": 28,
+          "subclasses": [
+            {"sub": "4711302", "label": "Hipermercados e Supermercados",       "admissoes": 78, "desligamentos": 71, "saldo": 7},
+            {"sub": "4771701", "label": "Farmacias e Drogarias",               "admissoes": 52, "desligamentos": 46, "saldo": 6},
+            {"sub": "4741500", "label": "Material de Construcao",              "admissoes": 44, "desligamentos": 41, "saldo": 3},
+            {"sub": "4781400", "label": "Artigos de Vestuario",                "admissoes": 38, "desligamentos": 35, "saldo": 3},
+            {"sub": "4712100", "label": "Minimercados e Mercearias",           "admissoes": 34, "desligamentos": 32, "saldo": 2},
+            {"sub": "4751200", "label": "Eletrodomesticos e Eletronicos",      "admissoes": 28, "desligamentos": 27, "saldo": 1},
+            {"sub": "4721102", "label": "Padarias e Confeitarias",             "admissoes": 22, "desligamentos": 21, "saldo": 1},
+            {"sub": "4782201", "label": "Calcados",                            "admissoes": 16, "desligamentos": 11, "saldo": 5}
+          ]
+        },
+        {
+          "div": "G46",
+          "label": "Comercio Atacadista",
+          "admissoes": 156,
+          "desligamentos": 143,
+          "saldo": 13,
+          "subclasses": [
+            {"sub": "4649401", "label": "Atacadista de Eletrodomesticos",      "admissoes": 42, "desligamentos": 38, "saldo": 4},
+            {"sub": "4631100", "label": "Atacadista de Laticinios",            "admissoes": 38, "desligamentos": 35, "saldo": 3},
+            {"sub": "4661300", "label": "Atacadista de Combustiveis",          "admissoes": 32, "desligamentos": 30, "saldo": 2},
+            {"sub": "4621400", "label": "Atacadista de Cereais",               "admissoes": 28, "desligamentos": 26, "saldo": 2},
+            {"sub": "4679699", "label": "Outros Atacadistas",                  "admissoes": 16, "desligamentos": 14, "saldo": 2}
+          ]
+        },
+        {
+          "div": "G45",
+          "label": "Veiculos Automotores",
+          "admissoes": 66,
+          "desligamentos": 62,
+          "saldo": 4,
+          "subclasses": [
+            {"sub": "4511101", "label": "Comercio de Automoveis Novos",        "admissoes": 24, "desligamentos": 22, "saldo": 2},
+            {"sub": "4530701", "label": "Pecas e Acessorios Automotivos",      "admissoes": 21, "desligamentos": 20, "saldo": 1},
+            {"sub": "4520001", "label": "Servicos de Manutencao de Veiculos",  "admissoes": 14, "desligamentos": 14, "saldo": 0},
+            {"sub": "4511102", "label": "Comercio de Automoveis Usados",       "admissoes": 7,  "desligamentos": 6,  "saldo": 1}
+          ]
+        }
+      ]
     },
     {
       "secao": "H",
-      "label": "Transporte e Logística",
+      "label": "Transporte e Logistica",
       "admissoes": 312,
       "desligamentos": 267,
       "saldo": 45,
@@ -95,11 +214,13 @@
       "pct_superior": 5,
       "details": {
         "por_instrucao": [
-          {"label": "Fundamental incompleto", "pct": 12},
-          {"label": "Fundamental completo",   "pct": 22},
-          {"label": "Médio completo",          "pct": 55},
-          {"label": "Superior incompleto",     "pct": 6},
-          {"label": "Superior completo",       "pct": 5}
+          {"label": "Analfabeto",          "pct": 3},
+          {"label": "Fund. Incompleto",    "pct": 9},
+          {"label": "Fund. Completo",      "pct": 22},
+          {"label": "Medio Incompleto",    "pct": 11},
+          {"label": "Medio Completo",      "pct": 55},
+          {"label": "Sup. Incompleto",     "pct": 6},
+          {"label": "Sup. Completo",       "pct": 5}
         ],
         "por_genero": {"M": 81, "F": 19},
         "faixa_etaria": [
@@ -110,11 +231,47 @@
           {"label": "55+",   "n": 12}
         ]
       },
-      "divisions": []
+      "divisions": [
+        {
+          "div": "H49",
+          "label": "Transporte Terrestre",
+          "admissoes": 198,
+          "desligamentos": 165,
+          "saldo": 33,
+          "subclasses": [
+            {"sub": "4930201", "label": "Transporte de Cargas (exceto perigosas)", "admissoes": 68, "desligamentos": 54, "saldo": 14},
+            {"sub": "4921301", "label": "Transporte Rodoviario Urbano",            "admissoes": 52, "desligamentos": 44, "saldo": 8},
+            {"sub": "4922101", "label": "Transporte Intermunicipal",               "admissoes": 34, "desligamentos": 29, "saldo": 5},
+            {"sub": "4924800", "label": "Transporte Escolar",                      "admissoes": 22, "desligamentos": 18, "saldo": 4},
+            {"sub": "4929901", "label": "Outros Transportes Rodoviarios",          "admissoes": 14, "desligamentos": 12, "saldo": 2},
+            {"sub": "4923001", "label": "Taxi",                                    "admissoes": 8,  "desligamentos": 8,  "saldo": 0}
+          ]
+        },
+        {
+          "div": "H52",
+          "label": "Armazenagem e Apoio ao Transporte",
+          "admissoes": 87,
+          "desligamentos": 74,
+          "saldo": 13,
+          "subclasses": [
+            {"sub": "5229001", "label": "Apoio ao Transporte Rodoviario",      "admissoes": 36, "desligamentos": 30, "saldo": 6},
+            {"sub": "5211799", "label": "Depositos de Mercadorias",            "admissoes": 28, "desligamentos": 24, "saldo": 4},
+            {"sub": "5212500", "label": "Carga e Descarga",                    "admissoes": 15, "desligamentos": 13, "saldo": 2},
+            {"sub": "5229099", "label": "Outros Apoios ao Transporte",         "admissoes": 8,  "desligamentos": 7,  "saldo": 1}
+          ]
+        },
+        {
+          "div": "H53",
+          "label": "Correios e Entrega",
+          "admissoes": 27,
+          "desligamentos": 28,
+          "saldo": -1
+        }
+      ]
     },
     {
       "secao": "F",
-      "label": "Construção Civil",
+      "label": "Construcao Civil",
       "admissoes": 198,
       "desligamentos": 187,
       "saldo": 11,
@@ -122,11 +279,13 @@
       "pct_superior": 4,
       "details": {
         "por_instrucao": [
-          {"label": "Fundamental incompleto", "pct": 18},
-          {"label": "Fundamental completo",   "pct": 28},
-          {"label": "Médio completo",          "pct": 45},
-          {"label": "Superior incompleto",     "pct": 5},
-          {"label": "Superior completo",       "pct": 4}
+          {"label": "Analfabeto",          "pct": 4},
+          {"label": "Fund. Incompleto",    "pct": 14},
+          {"label": "Fund. Completo",      "pct": 28},
+          {"label": "Medio Incompleto",    "pct": 12},
+          {"label": "Medio Completo",      "pct": 45},
+          {"label": "Sup. Incompleto",     "pct": 5},
+          {"label": "Sup. Completo",       "pct": 4}
         ],
         "por_genero": {"M": 92, "F": 8},
         "faixa_etaria": [
@@ -137,11 +296,50 @@
           {"label": "55+",   "n": 5}
         ]
       },
-      "divisions": []
+      "divisions": [
+        {
+          "div": "F43",
+          "label": "Servicos Especializados de Construcao",
+          "admissoes": 112,
+          "desligamentos": 104,
+          "saldo": 8,
+          "subclasses": [
+            {"sub": "4321500", "label": "Instalacoes Eletricas",                   "admissoes": 34, "desligamentos": 31, "saldo": 3},
+            {"sub": "4322301", "label": "Instalacoes Hidraulicas e Sanitarias",    "admissoes": 28, "desligamentos": 26, "saldo": 2},
+            {"sub": "4313400", "label": "Terraplenagem",                           "admissoes": 18, "desligamentos": 17, "saldo": 1},
+            {"sub": "4391600", "label": "Obras de Fundacoes",                      "admissoes": 14, "desligamentos": 13, "saldo": 1},
+            {"sub": "4330401", "label": "Impermeabilizacao e Revestimento",        "admissoes": 11, "desligamentos": 11, "saldo": 0},
+            {"sub": "4329101", "label": "Outras Instalacoes",                      "admissoes": 7,  "desligamentos": 6,  "saldo": 1}
+          ]
+        },
+        {
+          "div": "F41",
+          "label": "Edificacoes Residenciais e Comerciais",
+          "admissoes": 63,
+          "desligamentos": 60,
+          "saldo": 3,
+          "subclasses": [
+            {"sub": "4120400", "label": "Construcao de Edificios",                "admissoes": 48, "desligamentos": 45, "saldo": 3},
+            {"sub": "4110700", "label": "Incorporacao de Empreendimentos",        "admissoes": 15, "desligamentos": 15, "saldo": 0}
+          ]
+        },
+        {
+          "div": "F42",
+          "label": "Obras de Infraestrutura",
+          "admissoes": 23,
+          "desligamentos": 23,
+          "saldo": 0,
+          "subclasses": [
+            {"sub": "4222701", "label": "Redes de Abastecimento de Agua",         "admissoes": 10, "desligamentos": 10, "saldo": 0},
+            {"sub": "4211101", "label": "Rodovias e Ferrovias",                   "admissoes": 8,  "desligamentos": 8,  "saldo": 0},
+            {"sub": "4229099", "label": "Outras Obras de Infraestrutura",         "admissoes": 5,  "desligamentos": 5,  "saldo": 0}
+          ]
+        }
+      ]
     },
     {
       "secao": "N",
-      "label": "Serviços Administrativos",
+      "label": "Servicos Administrativos",
       "admissoes": 143,
       "desligamentos": 121,
       "saldo": 22,
@@ -149,11 +347,13 @@
       "pct_superior": 14,
       "details": {
         "por_instrucao": [
-          {"label": "Fundamental incompleto", "pct": 4},
-          {"label": "Fundamental completo",   "pct": 9},
-          {"label": "Médio completo",          "pct": 58},
-          {"label": "Superior incompleto",     "pct": 15},
-          {"label": "Superior completo",       "pct": 14}
+          {"label": "Analfabeto",          "pct": 1},
+          {"label": "Fund. Incompleto",    "pct": 3},
+          {"label": "Fund. Completo",      "pct": 9},
+          {"label": "Medio Incompleto",    "pct": 14},
+          {"label": "Medio Completo",      "pct": 58},
+          {"label": "Sup. Incompleto",     "pct": 15},
+          {"label": "Sup. Completo",       "pct": 14}
         ],
         "por_genero": {"M": 48, "F": 52},
         "faixa_etaria": [
@@ -164,11 +364,48 @@
           {"label": "55+",   "n": 3}
         ]
       },
-      "divisions": []
+      "divisions": [
+        {
+          "div": "N78",
+          "label": "Selecao, Agenciamento e Locacao de Mao de Obra",
+          "admissoes": 67,
+          "desligamentos": 54,
+          "saldo": 13,
+          "subclasses": [
+            {"sub": "7820500", "label": "Locacao de Mao de Obra (Terceirizacao)", "admissoes": 38, "desligamentos": 30, "saldo": 8},
+            {"sub": "7810800", "label": "Selecao e Agenciamento de MO",           "admissoes": 21, "desligamentos": 17, "saldo": 4},
+            {"sub": "7830200", "label": "Fornecimento e Gestao de RH",            "admissoes": 8,  "desligamentos": 7,  "saldo": 1}
+          ]
+        },
+        {
+          "div": "N81",
+          "label": "Servicos para Predios e Paisagismo",
+          "admissoes": 42,
+          "desligamentos": 36,
+          "saldo": 6,
+          "subclasses": [
+            {"sub": "8121400", "label": "Limpeza em Predios e Domicilios",         "admissoes": 22, "desligamentos": 18, "saldo": 4},
+            {"sub": "8111700", "label": "Servicos Combinados para Edificios",      "admissoes": 12, "desligamentos": 11, "saldo": 1},
+            {"sub": "8129000", "label": "Atividades de Limpeza Diversas",          "admissoes": 5,  "desligamentos": 5,  "saldo": 0},
+            {"sub": "8130300", "label": "Atividades Paisagisticas",                "admissoes": 3,  "desligamentos": 2,  "saldo": 1}
+          ]
+        },
+        {
+          "div": "N80",
+          "label": "Seguranca e Vigilancia",
+          "admissoes": 34,
+          "desligamentos": 31,
+          "saldo": 3,
+          "subclasses": [
+            {"sub": "8011101", "label": "Vigilancia e Seguranca Privada",          "admissoes": 24, "desligamentos": 22, "saldo": 2},
+            {"sub": "8020000", "label": "Monitoramento de Sistemas de Seguranca",  "admissoes": 10, "desligamentos": 9,  "saldo": 1}
+          ]
+        }
+      ]
     },
     {
       "secao": "Q",
-      "label": "Saúde e Serviços Sociais",
+      "label": "Saude e Servicos Sociais",
       "admissoes": 68,
       "desligamentos": 53,
       "saldo": 15,
@@ -176,11 +413,13 @@
       "pct_superior": 48,
       "details": {
         "por_instrucao": [
-          {"label": "Fundamental incompleto", "pct": 1},
-          {"label": "Fundamental completo",   "pct": 4},
-          {"label": "Médio completo",          "pct": 34},
-          {"label": "Superior incompleto",     "pct": 13},
-          {"label": "Superior completo",       "pct": 48}
+          {"label": "Analfabeto",          "pct": 0},
+          {"label": "Fund. Incompleto",    "pct": 1},
+          {"label": "Fund. Completo",      "pct": 4},
+          {"label": "Medio Incompleto",    "pct": 6},
+          {"label": "Medio Completo",      "pct": 34},
+          {"label": "Sup. Incompleto",     "pct": 13},
+          {"label": "Sup. Completo",       "pct": 48}
         ],
         "por_genero": {"M": 29, "F": 71},
         "faixa_etaria": [
@@ -191,7 +430,34 @@
           {"label": "55+",   "n": 3}
         ]
       },
-      "divisions": []
+      "divisions": [
+        {
+          "div": "Q86",
+          "label": "Atividades de Saude",
+          "admissoes": 52,
+          "desligamentos": 39,
+          "saldo": 13,
+          "subclasses": [
+            {"sub": "8630501", "label": "Atividade Medica Ambulatorial",            "admissoes": 16, "desligamentos": 11, "saldo": 5},
+            {"sub": "8610101", "label": "Atendimento Hospitalar (excl. UTI)",       "admissoes": 12, "desligamentos": 9,  "saldo": 3},
+            {"sub": "8650001", "label": "Atividades de Enfermagem",                 "admissoes": 10, "desligamentos": 8,  "saldo": 2},
+            {"sub": "8630502", "label": "Laboratorio de Analises Clinicas",         "admissoes": 7,  "desligamentos": 5,  "saldo": 2},
+            {"sub": "8650004", "label": "Fisioterapia",                             "admissoes": 5,  "desligamentos": 4,  "saldo": 1},
+            {"sub": "8630503", "label": "Radiologia e Diagnostico por Imagem",      "admissoes": 2,  "desligamentos": 2,  "saldo": 0}
+          ]
+        },
+        {
+          "div": "Q88",
+          "label": "Servicos Sociais sem Internacao",
+          "admissoes": 16,
+          "desligamentos": 14,
+          "saldo": 2,
+          "subclasses": [
+            {"sub": "8800600", "label": "Assistencia Social sem Alojamento",        "admissoes": 10, "desligamentos": 9,  "saldo": 1},
+            {"sub": "8720499", "label": "Centros de Assistencia Psicossocial",      "admissoes": 6,  "desligamentos": 5,  "saldo": 1}
+          ]
+        }
+      ]
     }
   ]
 }
