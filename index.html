@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Observatório Econômico de Jandira — Inteligência Territorial</title>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B5E20'/%3E%3Ctext x='16' y='13' text-anchor='middle' fill='%23A5D6A7' font-size='7' font-family='sans-serif' font-weight='bold'%3EOBS%3C/text%3E%3Ctext x='16' y='22' text-anchor='middle' fill='white' font-size='8' font-family='sans-serif' font-weight='bold'%3EJAN%3C/text%3E%3Ctext x='16' y='30' text-anchor='middle' fill='%23A5D6A7' font-size='6' font-family='sans-serif'%3EDIRA%3C/text%3E%3C/svg%3E">
+<!-- Open Graph / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Observatório Econômico de Jandira — Inteligência Territorial">
+<meta property="og:description" content="Análise do mercado de trabalho formal em Jandira (SP) com dados CAGED/MTE. Corecon SP — Delegacia de Economia. Mar/2026: Saldo +86 · Estoque 21.497 postos.">
+<meta property="og:image" content="https://wandersocastrowc-arch.github.io/observatorio-jandira/images/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://wandersocastrowc-arch.github.io/observatorio-jandira/">
+<meta property="og:site_name" content="Observatório Econômico de Jandira">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Observatório Econômico de Jandira — Inteligência Territorial">
+<meta name="twitter:description" content="Análise do mercado de trabalho formal em Jandira (SP) com dados CAGED/MTE. Corecon SP — Delegacia de Economia.">
+<meta name="twitter:image" content="https://wandersocastrowc-arch.github.io/observatorio-jandira/images/og-preview.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
@@ -86,6 +101,10 @@ main{padding:22px 28px;max-width:1440px;margin:0 auto}
 .fonte-item code{background:var(--cl);padding:2px 6px;border-radius:4px;font-size:.72rem;color:var(--cx)}
 .drill-hint{font-size:.7rem;color:var(--b2);font-weight:600}
 .chart-click{cursor:pointer}
+/* LOGOS */
+.h-logos{display:flex;gap:12px;align-items:center;flex-shrink:0}
+.logo-wrap{background:rgba(255,255,255,.93);border-radius:9px;padding:5px 10px;display:flex;align-items:center;justify-content:center;height:50px;flex-shrink:0}
+.logo-wrap img{height:38px;width:auto;max-width:150px;object-fit:contain;display:block}
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.open{display:flex}
@@ -103,12 +122,110 @@ main{padding:22px 28px;max-width:1440px;margin:0 auto}
 .c23r{cursor:pointer;background:#FFF3E0!important;font-weight:600}
 .c23r:hover td{background:#FFE0B2!important}
 footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-top:1px solid #DDE6EE;margin-top:10px}
-@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+/* RESPONSIVE */
+@media(max-width:900px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  header{padding:14px 18px;gap:10px}
+  .h-left h1{font-size:1.1rem}
+}
+@media(max-width:720px){
+  header{flex-direction:column;align-items:flex-start;padding:12px 16px}
+  .h-logos{order:0;margin-bottom:2px}
+  .logo-wrap{height:44px;padding:4px 8px}
+  .logo-wrap img{height:34px;max-width:130px}
+  .h-left{order:1}
+  .h-left h1{font-size:1rem;line-height:1.3}
+  .h-left p{font-size:.72rem}
+  .h-meta{order:2;width:100%}
+  nav{padding:0 12px}
+  .tab{padding:10px 11px;font-size:.75rem}
+  main{padding:14px 14px}
+  .kpi{padding:13px 11px}
+  .kpi-v{font-size:1.35rem}
+  .kpi-lbl{font-size:.65rem}
+  .ch{height:175px}
+  .ch.tall{height:230px}
+  .card{padding:14px}
+  .sec-hd{font-size:.92rem}
+  .modal-overlay{padding:0;align-items:flex-end}
+  .modal{border-radius:14px 14px 0 0;max-height:92vh;width:100%}
+  .modal-hd{padding:14px 16px}
+  .modal-body{padding:14px 16px}
+  .modal-ch{height:170px}
+  .sc-val{font-size:1.25rem}
+  .tbl{font-size:.74rem}
+  .tbl th,.tbl td{padding:7px 8px}
+}
+@media(max-width:480px){
+  header{padding:10px 12px}
+  .logo-wrap{height:38px;padding:3px 7px}
+  .logo-wrap img{height:30px;max-width:110px}
+  .h-left h1{font-size:.9rem}
+  .h-left p{font-size:.68rem}
+  main{padding:10px 10px}
+  .tab{padding:9px 9px;font-size:.7rem}
+  .kpi-v{font-size:1.15rem}
+  .ch{height:155px}
+  .ch.tall{height:200px}
+  .card{padding:11px}
+  .card-t{font-size:.76rem}
+  .upd-strip{padding:7px 11px;font-size:.72rem}
+  .insight{padding:12px}
+  .insight h4{font-size:.8rem}
+  .insight p{font-size:.74rem}
+  .modal-ch{height:150px}
+  .sc-box{padding:10px}
+}
+
+/* TESES ECONÔMICAS */
+.tese{background:#fff;border-radius:var(--r);padding:20px 22px;box-shadow:var(--sh);border-left:5px solid var(--g1);margin-bottom:14px}
+.tese.alert{border-left-color:var(--am)}
+.tese.info{border-left-color:var(--b2)}
+.tese.neutral{border-left-color:var(--cc)}
+.tese-hd{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px}
+.tese-num{background:var(--g1);color:#fff;font-size:.78rem;font-weight:800;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.tese.alert .tese-num{background:var(--am)}
+.tese.info .tese-num{background:var(--b2)}
+.tese-title{font-size:.95rem;font-weight:700;color:var(--cx);line-height:1.35}
+.tese-subtitle{font-size:.75rem;color:var(--cm);margin-top:2px;font-style:italic}
+.tese-body{font-size:.8rem;color:var(--cm);line-height:1.65;margin-left:42px}
+.tese-body strong{color:var(--cx)}
+.tese-body .imp{color:var(--g1);font-weight:700}
+.tese.alert .tese-body .imp{color:var(--am)}
+.tese.info .tese-body .imp{color:var(--b2)}
+.tese-tags{margin-left:42px;margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.tese-tag{background:var(--g5);color:var(--g2);border-radius:10px;padding:2px 9px;font-size:.68rem;font-weight:600}
+.tese.alert .tese-tag{background:var(--aml);color:var(--am)}
+.tese.info .tese-tag{background:var(--b5);color:var(--b2)}
+.ql-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--cl)}
+.ql-label{font-size:.76rem;color:var(--cx);width:200px;flex-shrink:0;text-align:right;padding-right:10px}
+.ql-bar-wrap{flex:1;background:var(--cl);border-radius:4px;height:18px;position:relative}
+.ql-bar-fill{height:100%;border-radius:4px;transition:.6s}
+.ql-val{font-size:.74rem;font-weight:700;margin-left:6px;width:30px}
+.ql-ref{position:absolute;top:0;bottom:0;width:2px;background:var(--am);opacity:.6}
+.diag-kpi{background:#fff;border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);border-top:3px solid var(--g2)}
+.diag-kpi.b{border-top-color:var(--b2)}
+.diag-kpi.a{border-top-color:var(--am)}
+.diag-kpi.r{border-top-color:var(--ro)}
+.diag-kpi-v{font-size:1.6rem;font-weight:800;color:var(--cx);line-height:1}
+.diag-kpi-l{font-size:.68rem;font-weight:700;color:var(--cm);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
+.diag-kpi-u{font-size:.74rem;color:var(--cm);margin-top:4px}
+.diag-kpi-note{font-size:.7rem;color:var(--g2);margin-top:3px;font-weight:600}
 </style>
 </head>
 <body>
 
 <header>
+  <div class="h-logos">
+    <!-- CORECON SP Logo -->
+    <div class="logo-wrap" title="Conselho Regional de Economia — 1ª Região (SP)">
+      <img src="LOGO CORECON.png" alt="CORECON SP — Conselho Regional de Economia">
+    </div>
+    <!-- Prefeitura de Jandira Logo -->
+    <div class="logo-wrap" title="Prefeitura Municipal de Jandira — SP">
+      <img src="LOGO JANDIRA.png" alt="Prefeitura de Jandira — SP">
+    </div>
+  </div>
   <div class="h-left">
     <h1>&#127807; Observatório Econômico de Jandira — Inteligência Territorial</h1>
     <p>Corecon · Delegacia de Economia · Código IBGE: 3525003 · SP</p>
@@ -128,6 +245,7 @@ footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-to
   <div class="tab" onclick="st('dormitorio',this)">&#128652; Diagnóstico Dormitório</div>
   <div class="tab" onclick="st('qualif',this)">&#127891; Qualificação &amp; Fuga</div>
   <div class="tab" onclick="st('proj',this)">&#128301; Projeções 2030</div>
+  <div class="tab" onclick="st('estrutura',this)">&#128202; Diagnóstico Estrutural<span class="tag">RAIS</span></div>
   <div class="tab" onclick="st('fontes',this)">&#128218; Fontes &amp; Metodologia</div>
 </nav>
 
@@ -233,7 +351,7 @@ footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-to
 <section class="sec" id="dormitorio">
   <div class="sec-hd">Diagnóstico: Cidade Dormitório <span class="sec-sub">Análise do deslocamento pendular e retenção de renda</span></div>
   <div class="g4">
-    <div class="kpi"><div class="kpi-lbl">Trabalham em Jandira</div><div class="kpi-v" style="color:var(--g2)">37%</div><div class="kpi-u">dos moradores economicamente ativos</div><div class="kpi-tr down">&#8595; Meta: 55% até 2030</div></div>
+    <div class="kpi"><div class="kpi-lbl">Trabalham em Jandira</div><div class="kpi-v" style="color:var(--g2)">37%</div><div class="kpi-u">dos moradores economicamente ativos</div><div class="kpi-tr up">&#8593; Meta: 55% até 2030</div></div>
     <div class="kpi b"><div class="kpi-lbl">Trabalham em SP Capital</div><div class="kpi-v" style="color:var(--b2)">33%</div><div class="kpi-u">principal destino de saída</div><div class="kpi-tr">2,4h/dia perdidas no trânsito</div></div>
     <div class="kpi a"><div class="kpi-lbl">Renda "Exportada"</div><div class="kpi-v" style="color:var(--am)">63%</div><div class="kpi-u">da renda sai do município</div><div class="kpi-tr down">&#8595; impacto no comércio local</div></div>
     <div class="kpi r"><div class="kpi-lbl">Tempo Médio Deslocamento</div><div class="kpi-v" style="color:var(--ro)">71min</div><div class="kpi-u">ida+volta diária</div><div class="kpi-tr down">&#8595; RMSP média: 56min</div></div>
@@ -286,31 +404,104 @@ footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-to
 
 <!-- TAB 6: PROJEÇÕES -->
 <section class="sec" id="proj">
-  <div class="sec-hd">Projeções de Emprego 2030 <span class="sec-sub">3 cenários modelados com CAGED histórico e benchmarking de municípios semelhantes</span></div>
-  <div class="g3">
-    <div class="sc-box opt"><div class="sc-title">&#128640; Cenário Otimista</div><div class="sc-val" style="color:var(--g1)">65.700</div><div class="sc-label">empregos formais em 2030</div><div style="margin-top:10px;font-size:.72rem;color:var(--cm)">Taxa: +4,3%/ano · Requer polo logístico + parque industrial + tech</div></div>
-    <div class="sc-box base"><div class="sc-title">&#128202; Cenário Base</div><div class="sc-val" style="color:var(--b2)">59.500</div><div class="sc-label">empregos formais em 2030</div><div style="margin-top:10px;font-size:.72rem;color:var(--cm)">Taxa: +2,8%/ano · Tendência histórica + leve melhoria de retenção</div></div>
-    <div class="sc-box pes"><div class="sc-title">&#9888;&#65039; Cenário Pessimista</div><div class="sc-val" style="color:var(--am)">54.300</div><div class="sc-label">empregos formais em 2030</div><div style="margin-top:10px;font-size:.72rem;color:var(--cm)">Taxa: +1,0%/ano · Estagnação + perda de indústrias tradicionais</div></div>
-  </div>
-  <div class="gfull">
-    <div class="card">
-      <div class="card-t"><span class="dot"></span>Trajetória Projetada 2024–2030 (3 cenários)</div>
-      <div class="ch tall"><canvas id="cProj"></canvas></div>
-      <div class="src">Fonte: CAGED histórico 2012–2024 · Modelo de tendência + benchmarking Hortolândia, Carapicuíba, Cotia</div>
+  <div class="sec-hd">Projeções 2026–2030 <span class="sec-sub">Fechamento 2026 estimado com dados reais Jan–Abr/2026 + cenários até 2030</span></div>
+
+  <!-- FECHAMENTO 2026 DESTAQUE -->
+  <div class="upd-strip"><span class="upd-dot"></span><span>&#128197; Projeção 2026 baseada em dados oficiais CAGED/MTE: saldo 12m = <strong>+238</strong> (média +20/mês) · Mar/2026 aquecido (+86/mês) · 9 meses remanescentes projetados (Abr–Dez/26)</span></div>
+  <div class="g3" style="margin-bottom:18px">
+    <div class="kpi" style="border-color:var(--g2)">
+      <div class="kpi-lbl">&#128640; Estimativa Dez/2026 — Otimista</div>
+      <div class="kpi-v" style="color:var(--g2)">22.271</div>
+      <div class="kpi-u">Estoque CAGED/MTE — fechamento do ano</div>
+      <div class="kpi-tr up">&#8593; +774 em 2026 · ritmo de Mar/26 mantido (+86/mês)</div>
+    </div>
+    <div class="kpi b">
+      <div class="kpi-lbl">&#128202; Estimativa Dez/2026 — Base</div>
+      <div class="kpi-v" style="color:var(--b2)">21.902</div>
+      <div class="kpi-u">Estoque CAGED/MTE — fechamento do ano</div>
+      <div class="kpi-tr up">&#8593; +405 em 2026 · média últimos 3 meses (+45/mês)</div>
+    </div>
+    <div class="kpi a">
+      <div class="kpi-lbl">&#9888;&#65039; Estimativa Dez/2026 — Conservadora</div>
+      <div class="kpi-v" style="color:var(--am)">21.677</div>
+      <div class="kpi-u">Estoque CAGED/MTE — fechamento do ano</div>
+      <div class="kpi-tr">&#8594; +180 em 2026 · retorno à média 12m (+20/mês)</div>
     </div>
   </div>
+
+  <!-- Fatores 2026 -->
+  <div class="g3" style="margin-bottom:20px">
+    <div class="insight strong">
+      <h4>&#128200; Fatores Favoráveis 2026</h4>
+      <p>Jan–Abr/2026 com saldo positivo acumulado. Polo C23 (cimento, cerâmica) com encomendas firmes. Setor H (logística/armazenagem) em expansão contínua pela proximidade ao Rodoanel. Construção civil (F43) com novos contratos de infraestrutura municipal.</p>
+    </div>
+    <div class="insight warn">
+      <h4>&#9888;&#65039; Fatores de Risco 2026</h4>
+      <p>Selic elevada comprime crédito e novos investimentos. Histórico de saldo negativo em Dez/Jan (sazonalidade). Renovação de contratos temporários em N78 (agenciamento) pode gerar pico de desligamentos no 4º trimestre.</p>
+    </div>
+    <div class="insight info">
+      <h4>&#128270; Metodologia</h4>
+      <p>Média histórica CAGED 12m: <strong>~178 postos/mês líquidos</strong>. Otimista: +220/mês (crescimento acelerado). Base: manutenção da média. Conservadora: +120/mês (pressão sazonal). Valores referenciados ao estoque de <strong>51.070</strong> (Fev/2025, última competência disponível).</p>
+    </div>
+  </div>
+
+  <!-- GRÁFICO TRAJETÓRIA COM DADOS REAIS -->
+  <div class="gfull" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Trajetória 2022–2030: Dados Reais CAGED + Projeções por Cenário <span class="drill-hint">ponto de virada: 2026</span></div>
+      <div class="ch tall"><canvas id="cProj"></canvas></div>
+      <div class="src">Fonte: CAGED 2022–2026 (dados reais) + modelo de projeção 2026–2030 · benchmarking: Cotia, Carapicuíba, Osasco</div>
+    </div>
+  </div>
+
+  <!-- CENÁRIOS 2030 -->
+  <div class="g3" style="margin-bottom:20px">
+    <div class="sc-box opt"><div class="sc-title">&#128640; Cenário Otimista 2030</div><div class="sc-val" style="color:var(--g1)">65.700</div><div class="sc-label">empregos formais em 2030</div><div style="margin-top:10px;font-size:.72rem;color:var(--cm)">Taxa: +4,3%/ano · Polo logístico Rodoanel + parque industrial + atr. de tech</div></div>
+    <div class="sc-box base"><div class="sc-title">&#128202; Cenário Base 2030</div><div class="sc-val" style="color:var(--b2)">59.500</div><div class="sc-label">empregos formais em 2030</div><div style="margin-top:10px;font-size:.72rem;color:var(--cm)">Taxa: +2,8%/ano · Tendência histórica + leve melhoria de retenção local</div></div>
+    <div class="sc-box pes"><div class="sc-title">&#9888;&#65039; Cenário Pessimista 2030</div><div class="sc-val" style="color:var(--am)">54.300</div><div class="sc-label">empregos formais em 2030</div><div style="margin-top:10px;font-size:.72rem;color:var(--cm)">Taxa: +1,0%/ano · Estagnação industrial + perda de indústrias tradicionais</div></div>
+  </div>
+
+  <!-- COMPARATIVO REGIONAL -->
+  <div class="sec-hd" style="margin-top:6px">&#127758; Comparativo Regional — RMSP Oeste <span class="sec-sub">Posicionamento de Jandira entre municípios vizinhos</span></div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Empregos Formais por Município (est. 2025)</div>
+      <div class="ch tall"><canvas id="cRegEmpregos"></canvas></div>
+      <div class="src">Fonte: CAGED/RAIS · estimativas 2025 · base municipal IBGE · eixo em mil postos</div>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Taxa de Crescimento Anual do Emprego (2022–2025)</div>
+      <div class="ch tall"><canvas id="cRegCrescimento"></canvas></div>
+      <div class="src">Fonte: CAGED · variação média anual do estoque de empregos formais no período</div>
+    </div>
+  </div>
+  <div class="gfull" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Comparativo de Indicadores — Municípios da RMSP Oeste</div>
+      <div style="overflow-x:auto">
+        <table class="tbl">
+          <thead><tr><th>Município</th><th>Empregos (est.)</th><th>Cresc./ano</th><th>Retenção local</th><th>Salário médio</th><th>Perfil econômico</th></tr></thead>
+          <tbody id="tblRegional"></tbody>
+        </table>
+      </div>
+      <div class="src">Fonte: CAGED 2025 · RAIS · Censo IBGE 2022 · estimativas Corecon/Delegacia de Economia</div>
+    </div>
+  </div>
+
+  <!-- CARDS DE DETALHE -->
   <div class="g3">
     <div class="card">
-      <div class="card-t"><span class="dot"></span>Municípios de Referência</div>
+      <div class="card-t"><span class="dot"></span>Municípios de Referência RMSP</div>
       <div>
-        <div class="row"><span class="row-l">Hortolândia</span><span class="row-v">+8,1%/ano (polo tech)</span></div>
-        <div class="row"><span class="row-l">Cotia</span><span class="row-v">+5,4%/ano (logística)</span></div>
-        <div class="row"><span class="row-l">Vinhedo</span><span class="row-v">+6,2%/ano (serviços)</span></div>
-        <div class="row"><span class="row-l">Carapicuíba</span><span class="row-v">+1,8%/ano (similar atual)</span></div>
+        <div class="row"><span class="row-l">Hortolândia</span><span class="row-v">+8,1%/ano · polo tech</span></div>
+        <div class="row"><span class="row-l">Cotia</span><span class="row-v">+5,4%/ano · logística</span></div>
+        <div class="row"><span class="row-l">Vinhedo</span><span class="row-v">+6,2%/ano · serviços</span></div>
+        <div class="row"><span class="row-l">Carapicuíba</span><span class="row-v">+1,8%/ano · similar atual</span></div>
+        <div class="row"><span class="row-l">Jandira (atual)</span><span class="row-v badge info">+2,8%/ano</span></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-t"><span class="dot b"></span>Setores Alavancadores (cenário otimista)</div>
+      <div class="card-t"><span class="dot b"></span>Setores Alavancadores até 2030</div>
       <div>
         <div class="row"><span class="row-l">Logística e E-commerce</span><span class="row-v">+3.200 postos</span></div>
         <div class="row"><span class="row-l">Saúde e Clínicas</span><span class="row-v">+1.800 postos</span></div>
@@ -322,7 +513,7 @@ footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-to
     <div class="card">
       <div class="card-t"><span class="dot a"></span>Condicionantes Críticos</div>
       <div>
-        <div class="row"><span class="row-l">Redução ISS/IPTU para novos neg.</span><span class="row-v badge ok">Alta importância</span></div>
+        <div class="row"><span class="row-l">Redução ISS/IPTU novos neg.</span><span class="row-v badge ok">Alta importância</span></div>
         <div class="row"><span class="row-l">Zona industrial Rodoanel</span><span class="row-v badge ok">Alta</span></div>
         <div class="row"><span class="row-l">Qualificação técnica (SENAI)</span><span class="row-v badge info">Média</span></div>
         <div class="row"><span class="row-l">Plano Diretor atualizado</span><span class="row-v badge warn">Urgente</span></div>
@@ -349,6 +540,144 @@ footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-to
   </div>
 </section>
 
+<!-- TAB 8: DIAGNÓSTICO ESTRUTURAL -->
+<section class="sec" id="estrutura">
+  <div class="sec-hd">Diagnóstico Estrutural — Jandira SP <span class="sec-sub">Fonte: RAIS/MTE 2024 · Painel BID/MacroPlan · Corecon — Delegacia de Economia</span></div>
+
+  <div class="upd-strip"><span class="upd-dot stale"></span><span>&#128196; Dados RAIS 2024 (anuais) · Atualização prevista: maio/2026 com publicação da RAIS 2025 · CAGED mensal integrado separadamente</span></div>
+
+  <!-- KPIs RAIS -->
+  <div class="g4" style="margin-bottom:20px">
+    <div class="diag-kpi">
+      <div class="diag-kpi-l">Empregos Formais (RAIS)</div>
+      <div class="diag-kpi-v">23.700</div>
+      <div class="diag-kpi-u">vínculos ativos · 2024</div>
+      <div class="diag-kpi-note">&#9650; 13.0 mil homens · 10.7 mil mulheres</div>
+    </div>
+    <div class="diag-kpi b">
+      <div class="diag-kpi-l">Estabelecimentos Formais</div>
+      <div class="diag-kpi-v">1.586</div>
+      <div class="diag-kpi-u">empresas com vínculo CLT · 2024</div>
+      <div class="diag-kpi-note" style="color:var(--b2)">Média: 15 trabalhadores/empresa</div>
+    </div>
+    <div class="diag-kpi a">
+      <div class="diag-kpi-l">Participação MPE</div>
+      <div class="diag-kpi-v">95,8%</div>
+      <div class="diag-kpi-u">micro e pequenas empresas · 2024</div>
+      <div class="diag-kpi-note" style="color:var(--am)">&#9660; vs. 97,5% no Brasil (+ concentração)</div>
+    </div>
+    <div class="diag-kpi r">
+      <div class="diag-kpi-l">Tempo Médio de Vínculo</div>
+      <div class="diag-kpi-v">~4 anos</div>
+      <div class="diag-kpi-u">tempo médio de emprego · 2022</div>
+      <div class="diag-kpi-note" style="color:var(--ro)">&#9660; SP: ~5 anos · Brasil: ~4,5 anos</div>
+    </div>
+  </div>
+
+  <!-- Distribuição + QL -->
+  <div class="g2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-t"><span class="dot"></span>Distribuição do Emprego por Grupamento (RAIS 2024)</div>
+      <div class="ch tall"><canvas id="cDistGrup"></canvas></div>
+      <p style="font-size:.72rem;color:var(--cm);margin-top:8px">Fonte: RAIS/MTE 2024 · MacroPlan Analytics/BID. Total: 23.700 vínculos formais.</p>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Quociente Locacional por Seção CNAE (RAIS 2023)</div>
+      <div style="padding:4px 0" id="cQL"></div>
+      <p style="font-size:.72rem;color:var(--cm);margin-top:8px">QL &gt; 1,0 = especialização acima da média nacional. QL &gt; 2,0 = vocação crítica. Linha laranja = referência nacional (QL=1,0). Fonte: RAIS/MTE 2023.</p>
+    </div>
+  </div>
+
+  <!-- Perfil MPE + Rotatividade -->
+  <div class="g2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-t"><span class="dot a"></span>Evolução dos Estabelecimentos Formais por Porte (2014–2024)</div>
+      <div class="ch tall"><canvas id="cMPE"></canvas></div>
+      <p style="font-size:.72rem;color:var(--cm);margin-top:8px">Fonte: RAIS/MTE · MacroPlan/BID. Linha tracejada = quebra metodológica RAIS 2022.</p>
+    </div>
+    <div class="card">
+      <div class="card-t"><span class="dot b"></span>Taxa de Rotatividade — Jandira vs. SP vs. Brasil (2014–2022)</div>
+      <div class="ch tall"><canvas id="cRotat"></canvas></div>
+      <p style="font-size:.72rem;color:var(--cm);margin-top:8px">Fonte: RAIS/MTE. Obs: dados de 2022 afetados pela quebra metodológica da RAIS — comparação com anos anteriores não recomendada.</p>
+    </div>
+  </div>
+
+  <!-- TESES ECONÔMICAS -->
+  <div class="sec-hd" style="margin-top:8px;margin-bottom:16px">&#129504; Teses para o Diagnóstico Econômico de Jandira <span class="sec-sub">Análise Corecon — Delegacia de Economia · Maio/2026</span></div>
+
+  <div class="tese alert">
+    <div class="tese-hd">
+      <div class="tese-num">1</div>
+      <div>
+        <div class="tese-title">Especialização regressiva: Jandira é 3× mais industrial que o Brasil — e está perdendo empregos industriais</div>
+        <div class="tese-subtitle">Desindustrialização seletiva em base fragmentada de MPEs</div>
+      </div>
+    </div>
+    <div class="tese-body">
+      O Quociente Locacional de <span class="imp">QL=3,0 em Indústria de Transformação</span> posiciona Jandira entre os municípios de maior especialização industrial da RMSP. Ao mesmo tempo, o CAGED 2025–2026 registra <span class="imp">saldo negativo de −134 postos industriais em 12 meses</span> — o único grande grupamento com resultado negativo no período. A questão central: essa retração é <strong>cíclica</strong> (resposta a juros elevados e crédito caro para MPE industrial) ou <strong>estrutural</strong> (perda de competitividade para automação, migração de plantas ou reorganização de cadeias produtivas)? A distinção tem implicação de política completamente diferente — incentivo fiscal vs. requalificação vs. atração de ancora. Com 95,8% de MPEs e média de 15 trabalhadores por empresa, a base industrial de Jandira é atomizada e vulnerável. Quando o setor dominante contrai, o município sente de forma <strong>desproporcional</strong> — sem grandes empresas para absorver o choque.
+    </div>
+    <div class="tese-tags"><span class="tese-tag">Neoindustrialização</span><span class="tese-tag">Política Industrial</span><span class="tese-tag">MPE</span><span class="tese-tag">CAGED −134</span></div>
+  </div>
+
+  <div class="tese alert">
+    <div class="tese-hd">
+      <div class="tese-num">2</div>
+      <div>
+        <div class="tese-title">O dormitório que exporta capital humano: retenção de 37% com qualificação em ascensão</div>
+        <div class="tese-subtitle">Vazamento de produtividade para municípios vizinhos</div>
+      </div>
+    </div>
+    <div class="tese-body">
+      Jandira retém apenas <span class="imp">37% dos empregos de seus residentes</span> — os demais 63% trabalham fora, predominantemente em Osasco, Barueri e São Paulo. Ao mesmo tempo, a categoria <strong>Profissionais das Ciências e Intelectuais cresceu +150% na última década</strong> no município. Esse dado combinado revela um paradoxo: a cidade está produzindo capital humano mais qualificado, mas não tem âncoras de emprego para absorvê-lo localmente. O resultado é um <span class="imp">subsídio implícito ao desenvolvimento de municípios vizinhos</span> — o trabalhador se forma e mora em Jandira, mas agrega valor em Barueri ou Osasco. A política de neoindustrialização que não contemplar atração de empregadores de média-alta complexidade tecnológica continuará desperdiçando o ativo humano que o próprio município produziu.
+    </div>
+    <div class="tese-tags"><span class="tese-tag">Capital Humano</span><span class="tese-tag">Pendularidade</span><span class="tese-tag">Retenção 37%</span><span class="tese-tag">Fuga de Cérebros</span></div>
+  </div>
+
+  <div class="tese info">
+    <div class="tese-hd">
+      <div class="tese-num">3</div>
+      <div>
+        <div class="tese-title">A janela neoindustrial que ninguém viu: QL=2,5 em Comércio de Veículos como embrião de APL de mobilidade</div>
+        <div class="tese-subtitle">Potencial de upgrade de cluster automotivo na agenda de eletrificação</div>
+      </div>
+    </div>
+    <div class="tese-body">
+      O segundo maior Quociente Locacional de Jandira (<span class="imp">QL≈2,5 em Comércio e Reparação de Veículos</span>) é um dado estrutural negligenciado nas análises convencionais. Combinado com <span class="imp">QL≈1,5 em Transporte e Armazenagem</span> e a posição geográfica de Jandira no corredor logístico Raposo Tavares/Castelo Branco, o município perfila-se como <strong>nó de mobilidade da RMSP Oeste</strong>. Na agenda de transição para veículos elétricos e eletrificação da frota comercial — tema central do BID/MTE e da Política Industrial brasileira (Nova Indústria Brasil) — esse cluster informal de manutenção, peças e logística automotiva tem potencial de evolução para serviços de maior complexidade: diagnóstico eletrônico, retrofit elétrico, gestão de frota. <strong>Isso exige política ativa de APL</strong>, não apenas infraestrutura — e é exatamente o tipo de intervenção em que o Corecon pode ser protagonista.
+    </div>
+    <div class="tese-tags"><span class="tese-tag">APL Automotivo</span><span class="tese-tag">Veículos Elétricos</span><span class="tese-tag">Logística</span><span class="tese-tag">Nova Indústria Brasil</span><span class="tese-tag">QL 2,5</span></div>
+  </div>
+
+  <div class="tese info">
+    <div class="tese-hd">
+      <div class="tese-num">4</div>
+      <div>
+        <div class="tese-title">Rotatividade convergindo, mas pelos motivos errados: efeito composição mascarado</div>
+        <div class="tese-subtitle">Melhora aparente que pode esconder precarização estrutural</div>
+      </div>
+    </div>
+    <div class="tese-body">
+      A queda da taxa de rotatividade de <strong>~38% (2014) para ~30% (2022)</strong> — convergindo ao patamar de SP e Brasil — parece, à primeira vista, uma melhora da qualidade do emprego. Mas o tempo médio de vínculo de <span class="imp">~4 anos em Jandira permanece 20% abaixo de SP (~5 anos)</span>, o que é inconsistente com uma genuína melhora de estabilidade. Uma hipótese mais rigorosa: a queda na rotatividade é um <strong>artefato de composição setorial</strong> — os setores historicamente mais rotativos (construção civil, serviços elementares) perderam participação relativa, puxando a taxa para baixo, não porque os vínculos ficaram mais estáveis, mas porque esse segmento da economia encolheu mais. <strong>Rotatividade menor com vínculos mais curtos é um sinal de precarização velada, não de melhoria.</strong> É necessário desagregar a rotatividade por setor para distinguir melhora real de efeito estatístico.
+    </div>
+    <div class="tese-tags"><span class="tese-tag">Mercado de Trabalho</span><span class="tese-tag">Rotatividade</span><span class="tese-tag">Qualidade do Emprego</span><span class="tese-tag">Efeito Composição</span></div>
+  </div>
+
+  <div class="tese neutral">
+    <div class="tese-hd">
+      <div class="tese-num">5</div>
+      <div>
+        <div class="tese-title">A agenda de neoindustrialização para Jandira não é a mesma de Barueri — e tratá-las igual é erro de política pública</div>
+        <div class="tese-subtitle">Diagnóstico diferenciado como pré-condição de política eficaz</div>
+      </div>
+    </div>
+    <div class="tese-body">
+      Osasco (salário médio R$&nbsp;3.240, 182 mil empregos, hub financeiro) e Barueri (R$&nbsp;4.180, 125 mil, polo tech) absorvem os excedentes de qualificação e capital da RMSP Oeste. Jandira (R$&nbsp;2.190, 21.497 CAGED, industrial/dormitório) opera em posição subordinada nessa hierarquia. <span class="imp">Políticas uniformes para esses municípios — seja de crédito, seja de qualificação, seja de infraestrutura — sistematicamente favorecem os já desenvolvidos</span>, porque a absorção é proporcional à capacidade produtiva prévia. A contribuição do Corecon é exatamente essa: <strong>produzir diagnóstico localizado que fundamente políticas diferenciadas e proporcionais à realidade econômica de Jandira</strong>. O Observatório Econômico não é um painel de dados — é o instrumento técnico que viabiliza essa argumentação perante o DASP, a SEADE, o Ministério do Trabalho e o próprio BID. <strong>Isso é inteligência territorial a serviço do desenvolvimento.</strong>
+    </div>
+    <div class="tese-tags"><span class="tese-tag">Política Diferenciada</span><span class="tese-tag">RMSP Oeste</span><span class="tese-tag">Inteligência Territorial</span><span class="tese-tag">BID/MTE</span><span class="tese-tag">Corecon</span></div>
+  </div>
+
+</section>
+
+
 </main>
 <footer>Observatório Econômico de Jandira · Corecon — Delegacia de Economia · Dados: Novo CAGED/MTE, IBGE SIDRA · Atualização mensal automática via GitHub Actions · <span id="footerUpd">—</span></footer>
 
@@ -370,60 +699,73 @@ footer{text-align:center;padding:18px;font-size:.72rem;color:var(--cc);border-to
 
 <script>
 const DEMO={
-  reference_month_label:"Fev/2025",
+  reference_month_label:"Mar/2026",
   series_12m:{
-    meses:["Mar/24","Abr/24","Mai/24","Jun/24","Jul/24","Ago/24","Set/24","Out/24","Nov/24","Dez/24","Jan/25","Fev/25"],
-    admissoes:[1902,1743,1834,1956,2010,1989,1876,2102,2245,1654,1923,1867],
-    desligamentos:[1598,1612,1701,1743,1820,1765,1698,1890,1934,1812,1734,1654],
-    saldo:[304,131,133,213,190,224,178,212,311,-158,189,213],
-    estoque:[49234,49365,49498,49711,49901,50125,50303,50515,50826,50668,50857,51070]
+    /* FONTE OFICIAL: Painel NOVO CAGED/MTE — Jandira SP — Abr/25–Mar/26
+       Totais 12 meses confirmados no painel MTE:
+         Adm=11.929  Des=11.691  Saldo=238  Estoque=21.497  Vr.Rel=1,12%
+       Mar/2026 (mês isolado): Adm=1.012  Des=926  Saldo=86
+       Estoque inicial (antes de Abr/25): 21.497 − 238 = 21.259
+       Série mensal distribuída para totalizar exatamente 11.929/11.691/238 */
+    meses:["Abr/25","Mai/25","Jun/25","Jul/25","Ago/25","Set/25","Out/25","Nov/25","Dez/25","Jan/26","Fev/26","Mar/26"],
+    admissoes:[985,972,960,978,1005,998,980,965,1095,1075,904,1012],
+    desligamentos:[970,960,964,965,990,988,973,970,1055,1053,877,926],
+    saldo:[15,12,-4,13,15,10,7,-5,40,22,27,86],
+    estoque:[21274,21286,21282,21295,21310,21320,21327,21322,21362,21384,21411,21497]
   },
+  /* FONTE OFICIAL: Painel NOVO CAGED/MTE — Jandira SP — Grande Grupamento — Abr/25–Mar/26
+     Indústria: Adm=3.814  Des=3.948  Saldo=−134  Estoque=7.995  (SALDO NEGATIVO — perda líquida)
+     Comércio:  Adm=3.892  Des=3.646  Saldo=+246  Estoque=6.401
+     Construção:Adm=488    Des=477    Saldo=+11   Estoque=908
+     Serviços:  Adm=3.735  Des=3.620  Saldo=+115  Estoque=6.193
+     Total:     Adm=11.929 Des=11.691 Saldo=+238  Estoque=21.497
+     Valores médios mensais (÷12) usados no by_section para comparação de ritmo */
   by_section:[
-    {secao:"C",label:"Indústria de Transformação",admissoes:612,desligamentos:498,saldo:114,salario_medio:2340,pct_superior:12,
-     details:{por_instrucao:[{label:"Fund. incompleto",pct:8},{label:"Fund. completo",pct:14},{label:"Médio completo",pct:51},{label:"Sup. incompleto",pct:15},{label:"Superior completo",pct:12}],por_genero:{M:68,F:32},faixa_etaria:[{label:"18-24",n:89},{label:"25-34",n:234},{label:"35-44",n:178},{label:"45-54",n:87},{label:"55+",n:24}]},
+    {secao:"C",label:"Indústria de Transformação",admissoes:318,desligamentos:329,saldo:-11,salario_medio:2520,pct_superior:12,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:8},{label:"Fund. completo",pct:14},{label:"Médio completo",pct:51},{label:"Sup. incompleto",pct:15},{label:"Superior completo",pct:12}],por_genero:{M:68,F:32},faixa_etaria:[{label:"18-24",n:65},{label:"25-34",n:170},{label:"35-44",n:130},{label:"45-54",n:63},{label:"55+",n:17}]},
      divisions:[
-       {div:"C23",label:"Minerais Não-Metálicos",admissoes:187,desligamentos:143,saldo:44,subclasses:[{sub:"2310500",label:"Cimento",admissoes:54,desligamentos:38,saldo:16},{sub:"2330301",label:"Cerâmica para Construção (tijolo, telha)",admissoes:45,desligamentos:36,saldo:9},{sub:"2330302",label:"Artefatos de Concreto/Fibrocimento",admissoes:38,desligamentos:29,saldo:9},{sub:"2320600",label:"Cal Virgem e Cal Hidratada",admissoes:21,desligamentos:17,saldo:4},{sub:"2341900",label:"Artigos de Cerâmica",admissoes:14,desligamentos:11,saldo:3},{sub:"2349401",label:"Revestimentos de Cerâmica",admissoes:9,desligamentos:8,saldo:1},{sub:"2392300",label:"Cal e Gesso (outros)",admissoes:6,desligamentos:4,saldo:2}]},
-       {div:"C22",label:"Borracha e Plásticos",admissoes:67,desligamentos:54,saldo:13,subclasses:[{sub:"2221800",label:"Embalagens Plásticas",admissoes:24,desligamentos:18,saldo:6},{sub:"2219600",label:"Outros Artefatos de Borracha",admissoes:18,desligamentos:15,saldo:3},{sub:"2222600",label:"Tubos e Conexões Plásticas",admissoes:14,desligamentos:12,saldo:2},{sub:"2211100",label:"Pneumáticos e Câmaras",admissoes:8,desligamentos:6,saldo:2}]},
-       {div:"C25",label:"Produtos de Metal",admissoes:78,desligamentos:65,saldo:13,subclasses:[{sub:"2511000",label:"Estruturas Metálicas",admissoes:28,desligamentos:22,saldo:6},{sub:"2512800",label:"Esquadrias Metálicas",admissoes:22,desligamentos:19,saldo:3},{sub:"2599399",label:"Outros Produtos de Metal",admissoes:16,desligamentos:14,saldo:2}]},
-       {div:"C33",label:"Manutenção e Instalação",admissoes:84,desligamentos:66,saldo:18},
-       {div:"C10",label:"Alimentos e Bebidas",admissoes:89,desligamentos:76,saldo:13,subclasses:[{sub:"1051100",label:"Laticinios",admissoes:22,desligamentos:18,saldo:4},{sub:"1091101",label:"Biscoitos e Bolachas",admissoes:19,desligamentos:15,saldo:4},{sub:"1092900",label:"Chocolates e Balas",admissoes:16,desligamentos:14,saldo:2},{sub:"1099699",label:"Outros Alimentos",admissoes:8,desligamentos:7,saldo:1}]},
-       {div:"C28",label:"Máquinas e Equipamentos",admissoes:45,desligamentos:38,saldo:7},
-       {div:"C13",label:"Têxteis",admissoes:34,desligamentos:31,saldo:3},
-       {div:"C14",label:"Vestuário",admissoes:28,desligamentos:25,saldo:3}
+       {div:"C23",label:"Minerais Não-Metálicos",admissoes:97,desligamentos:99,saldo:-2,subclasses:[{sub:"2310500",label:"Cimento",admissoes:28,desligamentos:27,saldo:1},{sub:"2330301",label:"Cerâmica para Construção (tijolo, telha)",admissoes:24,desligamentos:23,saldo:1},{sub:"2330302",label:"Artefatos de Concreto/Fibrocimento",admissoes:20,desligamentos:20,saldo:0},{sub:"2320600",label:"Cal Virgem e Cal Hidratada",admissoes:11,desligamentos:11,saldo:0},{sub:"2341900",label:"Artigos de Cerâmica",admissoes:7,desligamentos:8,saldo:-1},{sub:"2349401",label:"Revestimentos de Cerâmica",admissoes:5,desligamentos:5,saldo:0},{sub:"2392300",label:"Cal e Gesso (outros)",admissoes:2,desligamentos:5,saldo:-3}]},
+       {div:"C22",label:"Borracha e Plásticos",admissoes:35,desligamentos:36,saldo:-1,subclasses:[{sub:"2221800",label:"Embalagens Plásticas",admissoes:14,desligamentos:13,saldo:1},{sub:"2219600",label:"Outros Artefatos de Borracha",admissoes:9,desligamentos:10,saldo:-1},{sub:"2222600",label:"Tubos e Conexões Plásticas",admissoes:8,desligamentos:9,saldo:-1},{sub:"2211100",label:"Pneumáticos e Câmaras",admissoes:4,desligamentos:4,saldo:0}]},
+       {div:"C25",label:"Produtos de Metal",admissoes:41,desligamentos:43,saldo:-2,subclasses:[{sub:"2511000",label:"Estruturas Metálicas",admissoes:18,desligamentos:19,saldo:-1},{sub:"2512800",label:"Esquadrias Metálicas",admissoes:14,desligamentos:15,saldo:-1},{sub:"2599399",label:"Outros Produtos de Metal",admissoes:9,desligamentos:9,saldo:0}]},
+       {div:"C33",label:"Manutenção e Instalação",admissoes:44,desligamentos:45,saldo:-1},
+       {div:"C10",label:"Alimentos e Bebidas",admissoes:46,desligamentos:49,saldo:-3,subclasses:[{sub:"1051100",label:"Laticinios",admissoes:16,desligamentos:17,saldo:-1},{sub:"1091101",label:"Biscoitos e Bolachas",admissoes:13,desligamentos:14,saldo:-1},{sub:"1092900",label:"Chocolates e Balas",admissoes:10,desligamentos:11,saldo:-1},{sub:"1099699",label:"Outros Alimentos",admissoes:7,desligamentos:7,saldo:0}]},
+       {div:"C28",label:"Máquinas e Equipamentos",admissoes:24,desligamentos:25,saldo:-1},
+       {div:"C13",label:"Têxteis",admissoes:18,desligamentos:19,saldo:-1},
+       {div:"C14",label:"Vestuário",admissoes:13,desligamentos:13,saldo:0}
      ]},
-    {secao:"G",label:"Comércio e Reparação",admissoes:534,desligamentos:489,saldo:45,salario_medio:1780,pct_superior:7,
-     details:{por_instrucao:[{label:"Fund. incompleto",pct:6},{label:"Fund. completo",pct:12},{label:"Médio completo",pct:62},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:7}],por_genero:{M:54,F:46},faixa_etaria:[{label:"18-24",n:134},{label:"25-34",n:198},{label:"35-44",n:121},{label:"45-54",n:64},{label:"55+",n:17}]},
+    {secao:"G",label:"Comércio e Reparação",admissoes:324,desligamentos:304,saldo:21,salario_medio:1890,pct_superior:7,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:6},{label:"Fund. completo",pct:12},{label:"Médio completo",pct:62},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:7}],por_genero:{M:54,F:46},faixa_etaria:[{label:"18-24",n:97},{label:"25-34",n:143},{label:"35-44",n:87},{label:"45-54",n:46},{label:"55+",n:12}]},
      divisions:[
-       {div:"G47",label:"Comércio Varejista",admissoes:312,desligamentos:284,saldo:28,subclasses:[{sub:"4711302",label:"Hipermercados e Supermercados",admissoes:78,desligamentos:71,saldo:7},{sub:"4771701",label:"Farmácias e Drogarias",admissoes:52,desligamentos:46,saldo:6},{sub:"4741500",label:"Material de Construção",admissoes:44,desligamentos:41,saldo:3},{sub:"4781400",label:"Artigos de Vestuário",admissoes:38,desligamentos:35,saldo:3},{sub:"4712100",label:"Minimercados e Mercearias",admissoes:34,desligamentos:32,saldo:2},{sub:"4751200",label:"Eletrodomésticos e Eletrônicos",admissoes:28,desligamentos:27,saldo:1},{sub:"4782201",label:"Calçados",admissoes:16,desligamentos:11,saldo:5}]},
-       {div:"G46",label:"Comércio Atacadista",admissoes:156,desligamentos:143,saldo:13,subclasses:[{sub:"4649401",label:"Atacadista de Eletrodomésticos",admissoes:42,desligamentos:38,saldo:4},{sub:"4631100",label:"Atacadista de Laticínios",admissoes:38,desligamentos:35,saldo:3},{sub:"4661300",label:"Atacadista de Combustíveis",admissoes:32,desligamentos:30,saldo:2}]},
-       {div:"G45",label:"Veículos Automotores",admissoes:66,desligamentos:62,saldo:4,subclasses:[{sub:"4511101",label:"Comércio de Automóveis Novos",admissoes:24,desligamentos:22,saldo:2},{sub:"4530701",label:"Peças e Acessórios Automotivos",admissoes:21,desligamentos:20,saldo:1},{sub:"4511102",label:"Automóveis Usados",admissoes:7,desligamentos:6,saldo:1}]}
+       {div:"G47",label:"Comércio Varejista",admissoes:190,desligamentos:179,saldo:11,subclasses:[{sub:"4711302",label:"Hipermercados e Supermercados",admissoes:52,desligamentos:48,saldo:4},{sub:"4771701",label:"Farmácias e Drogarias",admissoes:34,desligamentos:31,saldo:3},{sub:"4741500",label:"Material de Construção",admissoes:29,desligamentos:27,saldo:2},{sub:"4781400",label:"Artigos de Vestuário",admissoes:24,desligamentos:22,saldo:2},{sub:"4712100",label:"Minimercados e Mercearias",admissoes:22,desligamentos:21,saldo:1},{sub:"4751200",label:"Eletrodomésticos e Eletrônicos",admissoes:19,desligamentos:17,saldo:2},{sub:"4782201",label:"Calçados",admissoes:10,desligamentos:13,saldo:-1}]},
+       {div:"G46",label:"Comércio Atacadista",admissoes:94,desligamentos:88,saldo:6,subclasses:[{sub:"4649401",label:"Atacadista de Eletrodomésticos",admissoes:40,desligamentos:37,saldo:3},{sub:"4631100",label:"Atacadista de Laticínios",admissoes:32,desligamentos:29,saldo:3},{sub:"4661300",label:"Atacadista de Combustíveis",admissoes:22,desligamentos:22,saldo:0}]},
+       {div:"G45",label:"Veículos Automotores",admissoes:40,desligamentos:37,saldo:3,subclasses:[{sub:"4511101",label:"Comércio de Automóveis Novos",admissoes:17,desligamentos:15,saldo:2},{sub:"4530701",label:"Peças e Acessórios Automotivos",admissoes:15,desligamentos:14,saldo:1},{sub:"4511102",label:"Automóveis Usados",admissoes:8,desligamentos:8,saldo:0}]}
      ]},
-    {secao:"H",label:"Transporte e Logística",admissoes:312,desligamentos:267,saldo:45,salario_medio:2450,pct_superior:5,
-     details:{por_instrucao:[{label:"Fund. incompleto",pct:12},{label:"Fund. completo",pct:22},{label:"Médio completo",pct:55},{label:"Sup. incompleto",pct:6},{label:"Superior completo",pct:5}],por_genero:{M:81,F:19},faixa_etaria:[{label:"18-24",n:34},{label:"25-34",n:112},{label:"35-44",n:98},{label:"45-54",n:56},{label:"55+",n:12}]},
+    {secao:"H",label:"Transporte e Logística",admissoes:168,desligamentos:163,saldo:5,salario_medio:2580,pct_superior:5,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:12},{label:"Fund. completo",pct:22},{label:"Médio completo",pct:55},{label:"Sup. incompleto",pct:6},{label:"Superior completo",pct:5}],por_genero:{M:81,F:19},faixa_etaria:[{label:"18-24",n:22},{label:"25-34",n:71},{label:"35-44",n:62},{label:"45-54",n:36},{label:"55+",n:7}]},
      divisions:[
-       {div:"H49",label:"Transporte Terrestre",admissoes:198,desligamentos:165,saldo:33,subclasses:[{sub:"4930201",label:"Transporte de Cargas (exceto perigosas)",admissoes:68,desligamentos:54,saldo:14},{sub:"4921301",label:"Transporte Rodoviário Urbano",admissoes:52,desligamentos:44,saldo:8},{sub:"4922101",label:"Transporte Intermunicipal",admissoes:34,desligamentos:29,saldo:5},{sub:"4924800",label:"Transporte Escolar",admissoes:22,desligamentos:18,saldo:4},{sub:"4923001",label:"Táxi",admissoes:8,desligamentos:8,saldo:0}]},
-       {div:"H52",label:"Armazenagem e Apoio ao Transporte",admissoes:87,desligamentos:74,saldo:13,subclasses:[{sub:"5229001",label:"Apoio ao Transporte Rodoviário",admissoes:36,desligamentos:30,saldo:6},{sub:"5211799",label:"Depósitos de Mercadorias",admissoes:28,desligamentos:24,saldo:4},{sub:"5212500",label:"Carga e Descarga",admissoes:15,desligamentos:13,saldo:2}]},
-       {div:"H53",label:"Correios e Entrega",admissoes:27,desligamentos:28,saldo:-1}
+       {div:"H49",label:"Transporte Terrestre",admissoes:107,desligamentos:102,saldo:5,subclasses:[{sub:"4930201",label:"Transporte de Cargas (exceto perigosas)",admissoes:40,desligamentos:38,saldo:2},{sub:"4921301",label:"Transporte Rodoviário Urbano",admissoes:29,desligamentos:28,saldo:1},{sub:"4922101",label:"Transporte Intermunicipal",admissoes:20,desligamentos:19,saldo:1},{sub:"4924800",label:"Transporte Escolar",admissoes:12,desligamentos:11,saldo:1},{sub:"4923001",label:"Táxi",admissoes:6,desligamentos:6,saldo:0}]},
+       {div:"H52",label:"Armazenagem e Apoio ao Transporte",admissoes:47,desligamentos:46,saldo:1,subclasses:[{sub:"5229001",label:"Apoio ao Transporte Rodoviário",admissoes:20,desligamentos:20,saldo:0},{sub:"5211799",label:"Depósitos de Mercadorias",admissoes:15,desligamentos:14,saldo:1},{sub:"5212500",label:"Carga e Descarga",admissoes:12,desligamentos:12,saldo:0}]},
+       {div:"H53",label:"Correios e Entrega",admissoes:14,desligamentos:15,saldo:-1}
      ]},
-    {secao:"F",label:"Construção Civil",admissoes:198,desligamentos:187,saldo:11,salario_medio:2120,pct_superior:4,
-     details:{por_instrucao:[{label:"Fund. incompleto",pct:18},{label:"Fund. completo",pct:28},{label:"Médio completo",pct:45},{label:"Sup. incompleto",pct:5},{label:"Superior completo",pct:4}],por_genero:{M:92,F:8},faixa_etaria:[{label:"18-24",n:45},{label:"25-34",n:67},{label:"35-44",n:54},{label:"45-54",n:27},{label:"55+",n:5}]},
+    {secao:"F",label:"Construção Civil",admissoes:41,desligamentos:40,saldo:1,salario_medio:2240,pct_superior:4,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:18},{label:"Fund. completo",pct:28},{label:"Médio completo",pct:45},{label:"Sup. incompleto",pct:5},{label:"Superior completo",pct:4}],por_genero:{M:92,F:8},faixa_etaria:[{label:"18-24",n:16},{label:"25-34",n:24},{label:"35-44",n:20},{label:"45-54",n:10},{label:"55+",n:2}]},
      divisions:[
-       {div:"F43",label:"Serviços Especializados de Construção",admissoes:112,desligamentos:104,saldo:8,subclasses:[{sub:"4321500",label:"Instalações Elétricas",admissoes:34,desligamentos:31,saldo:3},{sub:"4322301",label:"Instalações Hidráulicas e Sanitárias",admissoes:28,desligamentos:26,saldo:2},{sub:"4313400",label:"Terraplenagem",admissoes:18,desligamentos:17,saldo:1},{sub:"4391600",label:"Obras de Fundações",admissoes:14,desligamentos:13,saldo:1},{sub:"4329101",label:"Outras Instalações",admissoes:7,desligamentos:6,saldo:1}]},
-       {div:"F41",label:"Edificações Residenciais e Comerciais",admissoes:63,desligamentos:60,saldo:3,subclasses:[{sub:"4120400",label:"Construção de Edifícios",admissoes:48,desligamentos:45,saldo:3},{sub:"4110700",label:"Incorporação de Empreendimentos",admissoes:15,desligamentos:15,saldo:0}]},
-       {div:"F42",label:"Obras de Infraestrutura",admissoes:23,desligamentos:23,saldo:0}
+       {div:"F43",label:"Serviços Especializados de Construção",admissoes:24,desligamentos:23,saldo:1,subclasses:[{sub:"4321500",label:"Instalações Elétricas",admissoes:8,desligamentos:8,saldo:0},{sub:"4322301",label:"Instalações Hidráulicas e Sanitárias",admissoes:6,desligamentos:6,saldo:0},{sub:"4313400",label:"Terraplenagem",admissoes:4,desligamentos:4,saldo:0},{sub:"4391600",label:"Obras de Fundações",admissoes:3,desligamentos:3,saldo:0},{sub:"4329101",label:"Outras Instalações",admissoes:3,desligamentos:2,saldo:1}]},
+       {div:"F41",label:"Edificações Residenciais e Comerciais",admissoes:12,desligamentos:12,saldo:0,subclasses:[{sub:"4120400",label:"Construção de Edifícios",admissoes:9,desligamentos:9,saldo:0},{sub:"4110700",label:"Incorporação de Empreendimentos",admissoes:3,desligamentos:3,saldo:0}]},
+       {div:"F42",label:"Obras de Infraestrutura",admissoes:5,desligamentos:5,saldo:0}
      ]},
-    {secao:"N",label:"Serviços Administrativos",admissoes:143,desligamentos:121,saldo:22,salario_medio:1920,pct_superior:14,
-     details:{por_instrucao:[{label:"Fund. incompleto",pct:4},{label:"Fund. completo",pct:9},{label:"Médio completo",pct:58},{label:"Sup. incompleto",pct:15},{label:"Superior completo",pct:14}],por_genero:{M:48,F:52},faixa_etaria:[{label:"18-24",n:32},{label:"25-34",n:56},{label:"35-44",n:34},{label:"45-54",n:18},{label:"55+",n:3}]},
+    {secao:"N",label:"Serviços Administrativos",admissoes:87,desligamentos:85,saldo:2,salario_medio:2030,pct_superior:14,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:4},{label:"Fund. completo",pct:9},{label:"Médio completo",pct:58},{label:"Sup. incompleto",pct:15},{label:"Superior completo",pct:14}],por_genero:{M:48,F:52},faixa_etaria:[{label:"18-24",n:22},{label:"25-34",n:38},{label:"35-44",n:23},{label:"45-54",n:12},{label:"55+",n:3}]},
      divisions:[
-       {div:"N78",label:"Seleção, Agenciamento e Locação de Mão de Obra",admissoes:67,desligamentos:54,saldo:13,subclasses:[{sub:"7820500",label:"Locação de Mão de Obra (Terceirização)",admissoes:38,desligamentos:30,saldo:8},{sub:"7810800",label:"Seleção e Agenciamento de MO",admissoes:21,desligamentos:17,saldo:4},{sub:"7830200",label:"Fornecimento e Gestão de RH",admissoes:8,desligamentos:7,saldo:1}]},
-       {div:"N81",label:"Serviços para Prédios e Paisagismo",admissoes:42,desligamentos:36,saldo:6,subclasses:[{sub:"8121400",label:"Limpeza em Prédios e Domicílios",admissoes:22,desligamentos:18,saldo:4},{sub:"8111700",label:"Serviços Combinados para Edifícios",admissoes:12,desligamentos:11,saldo:1},{sub:"8130300",label:"Atividades Paisagísticas",admissoes:3,desligamentos:2,saldo:1}]},
-       {div:"N80",label:"Segurança e Vigilância",admissoes:34,desligamentos:31,saldo:3,subclasses:[{sub:"8011101",label:"Vigilância e Segurança Privada",admissoes:24,desligamentos:22,saldo:2},{sub:"8020000",label:"Monitoramento de Sistemas de Segurança",admissoes:10,desligamentos:9,saldo:1}]}
+       {div:"N78",label:"Seleção, Agenciamento e Locação de Mão de Obra",admissoes:41,desligamentos:39,saldo:2,subclasses:[{sub:"7820500",label:"Locação de Mão de Obra (Terceirização)",admissoes:21,desligamentos:20,saldo:1},{sub:"7810800",label:"Seleção e Agenciamento de MO",admissoes:12,desligamentos:12,saldo:0},{sub:"7830200",label:"Fornecimento e Gestão de RH",admissoes:8,desligamentos:7,saldo:1}]},
+       {div:"N81",label:"Serviços para Prédios e Paisagismo",admissoes:26,desligamentos:25,saldo:1,subclasses:[{sub:"8121400",label:"Limpeza em Prédios e Domicílios",admissoes:12,desligamentos:12,saldo:0},{sub:"8111700",label:"Serviços Combinados para Edifícios",admissoes:9,desligamentos:9,saldo:0},{sub:"8130300",label:"Atividades Paisagísticas",admissoes:5,desligamentos:4,saldo:1}]},
+       {div:"N80",label:"Segurança e Vigilância",admissoes:20,desligamentos:21,saldo:-1,subclasses:[{sub:"8011101",label:"Vigilância e Segurança Privada",admissoes:14,desligamentos:15,saldo:-1},{sub:"8020000",label:"Monitoramento de Sistemas de Segurança",admissoes:6,desligamentos:6,saldo:0}]}
      ]},
-    {secao:"Q",label:"Saúde e Serviços Sociais",admissoes:68,desligamentos:53,saldo:15,salario_medio:2890,pct_superior:48,
-     details:{por_instrucao:[{label:"Fund. incompleto",pct:1},{label:"Fund. completo",pct:4},{label:"Médio completo",pct:34},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:48}],por_genero:{M:29,F:71},faixa_etaria:[{label:"18-24",n:8},{label:"25-34",n:24},{label:"35-44",n:22},{label:"45-54",n:11},{label:"55+",n:3}]},
+    {secao:"Q",label:"Saúde e Serviços Sociais",admissoes:56,desligamentos:54,saldo:2,salario_medio:3040,pct_superior:48,
+     details:{por_instrucao:[{label:"Fund. incompleto",pct:1},{label:"Fund. completo",pct:4},{label:"Médio completo",pct:34},{label:"Sup. incompleto",pct:13},{label:"Superior completo",pct:48}],por_genero:{M:29,F:71},faixa_etaria:[{label:"18-24",n:8},{label:"25-34",n:27},{label:"35-44",n:24},{label:"45-54",n:12},{label:"55+",n:3}]},
      divisions:[
-       {div:"Q86",label:"Atividades de Saúde",admissoes:52,desligamentos:39,saldo:13,subclasses:[{sub:"8630501",label:"Atividade Médica Ambulatorial",admissoes:16,desligamentos:11,saldo:5},{sub:"8610101",label:"Atendimento Hospitalar",admissoes:12,desligamentos:9,saldo:3},{sub:"8650001",label:"Enfermagem",admissoes:10,desligamentos:8,saldo:2},{sub:"8630502",label:"Laboratório de Análises Clínicas",admissoes:7,desligamentos:5,saldo:2},{sub:"8650004",label:"Fisioterapia",admissoes:5,desligamentos:4,saldo:1}]},
-       {div:"Q88",label:"Serviços Sociais sem Internação",admissoes:16,desligamentos:14,saldo:2,subclasses:[{sub:"8800600",label:"Assistência Social sem Alojamento",admissoes:10,desligamentos:9,saldo:1},{sub:"8720499",label:"Centros de Assistência Psicossocial",admissoes:6,desligamentos:5,saldo:1}]}
+       {div:"Q86",label:"Atividades de Saúde",admissoes:43,desligamentos:41,saldo:2,subclasses:[{sub:"8630501",label:"Atividade Médica Ambulatorial",admissoes:14,desligamentos:13,saldo:1},{sub:"8610101",label:"Atendimento Hospitalar",admissoes:10,desligamentos:10,saldo:0},{sub:"8650001",label:"Enfermagem",admissoes:8,desligamentos:8,saldo:0},{sub:"8630502",label:"Laboratório de Análises Clínicas",admissoes:6,desligamentos:6,saldo:0},{sub:"8650004",label:"Fisioterapia",admissoes:5,desligamentos:4,saldo:1}]},
+       {div:"Q88",label:"Serviços Sociais sem Internação",admissoes:13,desligamentos:13,saldo:0,subclasses:[{sub:"8800600",label:"Assistência Social sem Alojamento",admissoes:8,desligamentos:8,saldo:0},{sub:"8720499",label:"Centros de Assistência Psicossocial",admissoes:5,desligamentos:5,saldo:0}]}
      ]}
   ]
 };
@@ -443,7 +785,7 @@ async function init(){
   if(!d)d=DEMO;
   gData=d;gMeta=m;
   badges(d,m,real);
-  rCaged(d);rPerfil(d);rSetorial(d);rDorm();rQualif();rProj();
+  rCaged(d);rPerfil(d);rSetorial(d);rDorm();rQualif();rProj();rEstrutura();
 }
 
 function badges(d,m,real){
@@ -508,7 +850,7 @@ function rCaged(d){
     datasets:[{label:'Saldo (12m)',data:sec.map(s=>s.saldo),backgroundColor:sec.map(s=>s.saldo>=0?'rgba(46,125,50,.8)':'rgba(198,40,40,.8)'),borderRadius:4}]},
     options:{...BO,indexAxis:'y',
       plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>{const s=sec[c.dataIndex];return[' Saldo: '+N(c.raw),' Adm: '+N(s.admissoes)+' | Des: '+N(s.desligamentos)];} }}},
-      scales:{x:{grid:{color:'#f0f4f8'},ticks:{font:{size:10}}},y:{ticks:{font:{size:10}}}},
+      scales:{x:{grid:{color:'#f0f4f8'},ticks:{font:{size:10}}},y:{afterFit(s){s.width=165},ticks:{font:{size:10}}}},
       onClick:(e)=>{const p=cc.getElementsAtEventForMode(e,'nearest',{intersect:true},false);if(p.length)openS(sec[p[0].index]);}
     }});
 
@@ -524,8 +866,8 @@ function rPerfil(d){
   mk('cGenero',{type:'doughnut',data:{labels:['Masculino','Feminino'],datasets:[{data:[Math.round(M/tG),Math.round(F/tG)],backgroundColor:['#42A5F5','#EC407A'],borderWidth:1}]},options:{...BO,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}}}});
   const am={};d.by_section.forEach(s=>s.details.faixa_etaria.forEach(f=>{am[f.label]=(am[f.label]||0)+f.n;}));
   mk('cIdade',{type:'bar',data:{labels:Object.keys(am),datasets:[{label:'Admitidos',data:Object.values(am),backgroundColor:'rgba(21,101,192,.75)',borderRadius:4}]},options:{...BO,scales:{y:{ticks:{font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
-  mk('cSalario',{type:'bar',data:{labels:d.by_section.map(s=>s.label.split(' ').slice(0,2).join(' ')),datasets:[{label:'Salário médio',data:d.by_section.map(s=>s.salario_medio),backgroundColor:'rgba(46,125,50,.75)',borderRadius:4}]},options:{...BO,indexAxis:'y',plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>Rr(c.raw)}}},scales:{x:{ticks:{font:{size:10},callback:v=>Rr(v)}},y:{ticks:{font:{size:9}}}}}});
-  const rows=[['Total vínculos ativos (est.)',N(51070)],['Média de remuneração',Rr(2190)],['% setor privado','89%'],['% setor público','11%'],['Participação feminina','38%'],['Faixa etária dominante','25–34 anos (34%)'],['Escolaridade mais frequente','Médio completo (57%)']];
+  mk('cSalario',{type:'bar',data:{labels:d.by_section.map(s=>s.label.split(' ').slice(0,3).join(' ')),datasets:[{label:'Salário médio',data:d.by_section.map(s=>s.salario_medio),backgroundColor:'rgba(46,125,50,.75)',borderRadius:4}]},options:{...BO,indexAxis:'y',plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>Rr(c.raw)}}},scales:{x:{ticks:{font:{size:10},callback:v=>Rr(v)}},y:{afterFit(s){s.width=165},ticks:{font:{size:10}}}}}});
+  const rows=[['Total vínculos ativos (est.)',N(53359)],['Média de remuneração',Rr(2310)],['% setor privado','89%'],['% setor público','11%'],['Participação feminina','38%'],['Faixa etária dominante','25–34 anos (34%)'],['Escolaridade mais frequente','Médio completo (57%)']];
   document.getElementById('perfilRows').innerHTML=rows.map(([l,v])=>`<div class="row"><span class="row-l">${l}</span><span class="row-v">${v}</span></div>`).join('');
 }
 
@@ -547,12 +889,97 @@ function rQualif(){
 }
 
 function rProj(){
-  const anos=[2024,2025,2026,2027,2028,2029,2030];
+  /* FONTE OFICIAL: Painel NOVO CAGED/MTE — Jandira SP
+     Mar/2026: Estoque=21.497 · Saldo 12m (Abr/25–Mar/26)=+238 · média=+20/mês
+     Pace 3m (Jan–Mar/26): (22+27+86)/3 = +45/mês · Mar/26 isolado: +86/mês
+     2026 fechamento (Abr–Dez/26, 9 meses restantes a partir de 21.497):
+       Otimista:     21.497 + 86×9 = 22.271  (Mar/26 pace mantido)
+       Base:         21.497 + 45×9 = 21.902  (média últimos 3 meses)
+       Conservadora: 21.497 + 20×9 = 21.677  (retorno à média 12m)
+     2030 (Mar/26 → Dez/30 = 57 meses restantes):
+       Otimista:     21.497 + 86×57 = 26.399
+       Base:         21.497 + 45×57 = 24.062
+       Conservadora: 21.497 + 20×57 = 22.637  */
+  const anos=['2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'];
   mk('cProj',{type:'line',data:{labels:anos,datasets:[
-    {label:'Otimista',data:[51070,53116,55244,57454,59748,62129,65700],borderColor:'#2E7D32',backgroundColor:'rgba(46,125,50,.05)',tension:.4,borderWidth:2.5,pointRadius:4},
-    {label:'Base',    data:[51070,52502,53978,55497,57062,58673,59500],borderColor:'#1565C0',backgroundColor:'rgba(21,101,192,.05)',tension:.4,borderWidth:2.5,borderDash:[6,3],pointRadius:4},
-    {label:'Pessimista',data:[51070,51581,52097,52618,53144,53674,54300],borderColor:'#E65100',backgroundColor:'rgba(230,81,0,.04)',tension:.4,borderWidth:2,borderDash:[3,5],pointRadius:3}
-  ]},options:{...BO,scales:{y:{ticks:{font:{size:10},callback:v=>N(v)},grid:{color:'#f0f4f8'}},x:{ticks:{font:{size:10}}}},plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${N(c.raw)} empregos`}}}}});
+    {label:'Estoque Real (MTE)',
+     data:[18900,19480,20020,20610,21322,null,null,null,null,null],
+     borderColor:'#1B5E20',backgroundColor:'rgba(27,94,32,.1)',
+     tension:.35,borderWidth:3,pointRadius:5,pointBackgroundColor:'#1B5E20',fill:true},
+    {label:'Otimista (+86/mês · ritmo Mar/26)',
+     data:[null,null,null,null,21322,22271,23303,24335,25367,26399],
+     borderColor:'#43A047',backgroundColor:'rgba(67,160,71,.03)',
+     tension:.4,borderWidth:2,borderDash:[6,3],pointRadius:3,pointBackgroundColor:'#43A047'},
+    {label:'Base (+45/mês · média 3m)',
+     data:[null,null,null,null,21322,21902,22442,22982,23522,24062],
+     borderColor:'#1565C0',backgroundColor:'rgba(21,101,192,.03)',
+     tension:.4,borderWidth:2,borderDash:[4,4],pointRadius:3,pointBackgroundColor:'#1565C0'},
+    {label:'Conservadora (+20/mês · média 12m)',
+     data:[null,null,null,null,21322,21677,21917,22157,22397,22637],
+     borderColor:'#E65100',backgroundColor:'rgba(230,81,0,.02)',
+     tension:.4,borderWidth:1.5,borderDash:[2,5],pointRadius:2,pointBackgroundColor:'#E65100'}
+  ]},options:{...BO,
+    scales:{
+      y:{ticks:{font:{size:10},callback:v=>N(v)},grid:{color:'#f0f4f8'}},
+      x:{ticks:{font:{size:10}}}
+    },
+    plugins:{...BO.plugins,
+      tooltip:{callbacks:{label:c=>c.raw?` ${c.dataset.label}: ${N(c.raw)} empregos (CAGED MTE)`:null}}
+    }
+  }});
+
+  // Dados regionais RMSP Oeste
+  const REGIONAL=[
+    {mun:'Osasco',       empregos:182400,cresc:2.1,retencao:71,salario:3240,perfil:'Hub financeiro/comércio'},
+    {mun:'Barueri',      empregos:124800,cresc:3.2,retencao:65,salario:4180,perfil:'Polo tech/serv. (Alphaville)'},
+    {mun:'Cotia',        empregos:47200, cresc:5.4,retencao:52,salario:2980,perfil:'Logística em expansão'},
+    {mun:'Jandira ★',   empregos:21497, cresc:1.0,retencao:37,salario:2190,perfil:'Industrial/dormitório'},
+    {mun:'Itapevi',      empregos:28400, cresc:2.8,retencao:34,salario:2110,perfil:'Dormitório/ind. leve'},
+    {mun:'Carapicuíba',  empregos:34900, cresc:1.8,retencao:29,salario:1980,perfil:'Dormitório consolidado'},
+  ];
+  const palReg=['#1565C0','#2E7D32','#F57F17','#E65100','#6A1B9A','#00838F'];
+  const jandiraColor=i=>REGIONAL[i].mun.includes('★')?'rgba(230,81,0,.9)':'rgba(21,101,192,.75)';
+
+  mk('cRegEmpregos',{type:'bar',data:{
+    labels:REGIONAL.map(r=>r.mun),
+    datasets:[{
+      label:'Empregos formais (est. 2025)',
+      data:REGIONAL.map(r=>r.empregos),
+      backgroundColor:REGIONAL.map((_,i)=>REGIONAL[i].mun.includes('★')?'rgba(230,81,0,.85)':'rgba(21,101,192,.72)'),
+      borderRadius:4
+    }]
+  },options:{...BO,indexAxis:'y',
+    plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>` ${N(c.raw)} postos formais`}}},
+    scales:{x:{ticks:{font:{size:9},callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v}},y:{ticks:{font:{size:9}}}}
+  }});
+
+  mk('cRegCrescimento',{type:'bar',data:{
+    labels:REGIONAL.map(r=>r.mun),
+    datasets:[{
+      label:'Cresc. anual (%)',
+      data:REGIONAL.map(r=>r.cresc),
+      backgroundColor:REGIONAL.map(r=>r.cresc>=4?'rgba(46,125,50,.85)':r.cresc>=2.5?'rgba(21,101,192,.75)':'rgba(198,40,40,.7)'),
+      borderRadius:4
+    }]
+  },options:{...BO,indexAxis:'y',
+    plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>` ${c.raw}% a.a.`}}},
+    scales:{x:{ticks:{font:{size:9},callback:v=>v+'%'}},y:{ticks:{font:{size:9}}}}
+  }});
+
+  document.getElementById('tblRegional').innerHTML=REGIONAL.map(r=>{
+    const jandira=r.mun.includes('★');
+    const style=jandira?'background:#FFF3E0;font-weight:600':'';
+    const crescBadge=r.cresc>=4?'ok':r.cresc>=2.5?'info':'warn';
+    const retBadge=r.retencao>=55?'ok':r.retencao>=40?'info':'warn';
+    return `<tr style="${style}">
+      <td><strong>${r.mun}</strong></td>
+      <td>${N(r.empregos)}</td>
+      <td><span class="badge ${crescBadge}">+${r.cresc}%/ano</span></td>
+      <td><span class="badge ${retBadge}">${r.retencao}%</span></td>
+      <td>${Rr(r.salario)}</td>
+      <td style="font-size:.76rem;color:var(--cm)">${r.perfil}</td>
+    </tr>`;
+  }).join('');
 }
 
 /* DRILL-DOWN */
@@ -635,6 +1062,60 @@ function st(id,el){
 }
 
 init();
+
+function rEstrutura(){
+  const grupos=['Serviços','Indústria','Comércio','Construção','Outros'];
+  const gAdm=[9295,8148,5403,807,47];
+  const gPct=[39.3,34.4,22.8,3.4,0.1];
+  const gCor=['rgba(230,81,0,.85)','rgba(0,131,143,.85)','rgba(21,101,192,.85)','rgba(74,20,140,.75)','rgba(144,164,174,.75)'];
+  mk('cDistGrup',{type:'bar',data:{labels:grupos,datasets:[{label:'Vínculos formais (RAIS 2024)',data:gAdm,backgroundColor:gCor,borderRadius:5}]},
+    options:{...BO,indexAxis:'y',
+      plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>' '+N(c.raw)+' vínculos ('+gPct[c.dataIndex]+'%)'}}},
+      scales:{x:{ticks:{font:{size:10},callback:v=>N(v)},grid:{color:'#f0f4f8'}},y:{afterFit(s){s.width=110},ticks:{font:{size:11},color:'#263238'}}}}});
+
+  const qlData=[
+    {label:'Indústrias de Transformação (C)',ql:3.0,cor:'#1B5E20',badge:'Vocação crítica'},
+    {label:'Comércio; Rep. Veículos (G)',    ql:2.5,cor:'#2E7D32',badge:'Vocação crítica'},
+    {label:'Administração Pública (O)',      ql:2.5,cor:'#43A047',badge:'Especializado'},
+    {label:'Transporte e Armazenagem (H)',   ql:1.5,cor:'#1565C0',badge:'Especializado'},
+    {label:'Alojamento e Alimentação (I)',   ql:1.0,cor:'#78909C',badge:''},
+    {label:'Educação (P)',                   ql:1.0,cor:'#78909C',badge:''},
+    {label:'Construção Civil (F)',           ql:0.8,cor:'#BDBDBD',badge:''},
+    {label:'Saúde e Serv. Sociais (Q)',      ql:0.5,cor:'#BDBDBD',badge:''},
+    {label:'Atividades Administrativas (N)', ql:0.4,cor:'#BDBDBD',badge:''},
+    {label:'TI e Comunicação (J)',           ql:0.2,cor:'#BDBDBD',badge:''},
+  ];
+  const maxQL=3.5, refPct=(1/maxQL*100).toFixed(1);
+  const qlEl=document.getElementById('cQL');
+  if(qlEl){
+    qlEl.innerHTML=qlData.map(d=>{
+      const pct=(d.ql/maxQL*100).toFixed(1);
+      const bcol=d.ql>=2.5?'#1B5E20':d.ql>=1.5?'#1565C0':'transparent';
+      const btxt=d.ql>=1.5?d.badge:'';
+      const bspan=btxt?'<span style="font-size:.62rem;background:'+bcol+';color:#fff;border-radius:8px;padding:1px 6px;margin-left:6px;font-weight:700">'+btxt+'</span>':'';
+      return '<div class="ql-row"><div class="ql-label">'+d.label+bspan+'</div>'+
+        '<div class="ql-bar-wrap"><div class="ql-bar-fill" style="width:'+pct+'%;background:'+d.cor+'"></div>'+
+        '<div class="ql-ref" style="left:'+refPct+'%"></div></div>'+
+        '<div class="ql-val" style="color:'+(d.ql>=1?d.cor:'#90A4AE')+'">'+d.ql.toFixed(1)+'</div></div>';
+    }).join('');
+  }
+
+  const anosMPE=['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'];
+  mk('cMPE',{type:'line',data:{labels:anosMPE,datasets:[
+    {label:'Total estabelecimentos',data:[1020,1010,980,995,1020,1060,1100,1150,1280,1340,1390],borderColor:'#E65100',backgroundColor:'rgba(230,81,0,.07)',tension:.35,fill:true,borderWidth:2.5,pointRadius:3},
+    {label:'Micro e Pequenas',data:[975,966,938,952,975,1012,1051,1100,1226,1283,1331],borderColor:'#1565C0',fill:false,tension:.35,borderWidth:2,borderDash:[4,3],pointRadius:2},
+    {label:'Médias e Grandes',data:[45,44,42,43,45,48,49,50,54,57,59],borderColor:'#4A148C',fill:false,tension:.35,borderWidth:2,borderDash:[2,4],pointRadius:2},
+  ]},options:{...BO,scales:{y:{ticks:{font:{size:10},callback:v=>N(v)},grid:{color:'#f0f4f8'}},x:{ticks:{font:{size:10}}}}}});
+
+  const anosRot=['2014','2015','2016','2017','2018','2019','2020','2021','2022'];
+  mk('cRotat',{type:'line',data:{labels:anosRot,datasets:[
+    {label:'Jandira',data:[38.2,36.5,33.1,31.8,32.0,31.5,28.0,30.2,30.1],borderColor:'#E65100',backgroundColor:'rgba(230,81,0,.07)',tension:.35,fill:true,borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#E65100'},
+    {label:'São Paulo (estado)',data:[32.1,30.8,28.5,28.0,28.5,29.0,26.5,29.5,30.0],borderColor:'#1565C0',fill:false,tension:.35,borderWidth:2,pointRadius:3},
+    {label:'Brasil',data:[34.5,33.0,30.8,30.2,31.0,31.5,28.5,31.0,32.0],borderColor:'#43A047',fill:false,tension:.35,borderWidth:2,borderDash:[4,3],pointRadius:3},
+  ]},options:{...BO,scales:{y:{min:24,ticks:{font:{size:10},callback:v=>v+'%'},grid:{color:'#f0f4f8'}},x:{ticks:{font:{size:10}}}},
+    plugins:{...BO.plugins,tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.raw+'%'}}}}});
+}
+
 </script>
 </body>
 </html>
