@@ -30,6 +30,22 @@ DATA_DIR.mkdir(exist_ok=True)
 MESES_PT = ["Jan","Fev","Mar","Abr","Mai","Jun",
             "Jul","Ago","Set","Out","Nov","Dez"]
 
+# Nomes completos em minusculas para construir URL das Tabelas Abertas PDET
+MESES_PT_FULL = [
+    "janeiro","fevereiro","março","abril","maio","junho",
+    "julho","agosto","setembro","outubro","novembro","dezembro"
+]
+
+# Estoque validado de referencia (Mar/2026 — fonte: tabelas abertas MTE/PDET)
+# Utilizado como baseline inicial caso nao haja serie previa em caged_latest.json
+ESTOQUE_BASELINE = 21497
+ESTOQUE_BASELINE_MES = "Mar/2026"
+
+# Google Drive — pasta das Tabelas Abertas CAGED (MTE/PDET oficial)
+# Folder: https://drive.google.com/drive/folders/1F89h6odTPGIGMb9eDiJKCute9W89QmqN
+# Estrutura: /2026/202603/3-tabelas_Março de 2026.xlsx
+DRIVE_FOLDER_ID = "1F89h6odTPGIGMb9eDiJKCute9W89QmqN"
+
 # ─── Secoes CNAE ──────────────────────────────────────────────────────────────
 SECAO_LABEL = {
     "A": "Agropecuaria", "B": "Mineracao",
@@ -314,7 +330,7 @@ def update_series(existing_json, year, month, adm, des, saldo, estoque):
         s["desligamentos"].append(des)
         s["saldo"].append(saldo)
         # Estoque: ultimo valor + saldo, ou saldo se nao houver anterior
-        prev_est = s["estoque"][-1] if s["estoque"] else 50000
+        prev_est = s["estoque"][-1] if s["estoque"] else ESTOQUE_BASELINE
         s["estoque"].append(prev_est + saldo)
 
     # Mantém janela de 12 meses
@@ -423,6 +439,115 @@ def try_http(url, timeout=60):
     return None
 
 
+def try_tabelas_abertas(year, month):
+    """
+    Tenta baixar as Tabelas Abertas CAGED do portal PDET/MTE.
+    Esses arquivos sao pre-agregados (nao microdata) — muito menores e mais rapidos.
+    Retorna dict com adm/des/saldo/estoque para Jandira ou None.
+
+    URL padrao: http://pdet.mte.gov.br/assets/novo-caged/{year}-{mm}/3-tabelas_{mes} de {year}.xlsx
+    Fallback:   mesma estrutura no BI MTE.
+
+    Fonte validada: tabelas_abertas confirmam painel MTE BI exatamente.
+    Jandira IBGE: 352500 (sem digito verificador, formato da Tabela 3).
+    """
+    try:
+        import openpyxl
+    except ImportError:
+        log.warning("openpyxl nao instalado — pulando tabelas abertas.")
+        return None
+
+    mes_lower = MESES_PT_FULL[month - 1]
+    mes_cap   = mes_lower.capitalize()
+    ym        = f"{year}-{month:02d}"
+    filename  = f"3-tabelas_{mes_cap} de {year}.xlsx"
+
+    urls = [
+        f"http://pdet.mte.gov.br/assets/novo-caged/{ym}/{filename}",
+        f"https://bi.mte.gov.br/bgcaged/caged_ftp/public/{ym}/{filename}",
+    ]
+
+    raw = None
+    for url in urls:
+        raw = try_http(url, timeout=60)
+        if raw:
+            break
+
+    if not raw:
+        log.warning("Tabelas abertas: nenhuma URL respondeu.")
+        return None
+
+    try:
+        wb = openpyxl.load_workbook(io.BytesIO(raw), read_only=True, data_only=True)
+
+        # Identifica aba da Tabela 3 (municipios)
+        sheet = None
+        for name in wb.sheetnames:
+            if "3" in name or "munic" in name.lower():
+                sheet = wb[name]
+                break
+        if sheet is None and wb.sheetnames:
+            sheet = wb[wb.sheetnames[2]]  # 3a aba por convencao
+
+        if sheet is None:
+            log.warning("Tabelas abertas: aba Tabela 3 nao encontrada.")
+            return None
+
+        # Jandira aparece como "352500" nas tabelas (sem digito verificador)
+        JANDIRA_CODES = {"352500", "3525003", "sp-jandira", "jandira"}
+
+        for row in sheet.iter_rows(values_only=True):
+            # Verifica se alguma celula identifica Jandira
+            row_str = [str(c).strip().lower() if c is not None else "" for c in row]
+            if not any(code in row_str for code in JANDIRA_CODES):
+                # Tenta verificacao parcial
+                if not any("jandira" in cell for cell in row_str):
+                    continue
+
+            # Linha encontrada — extrai valores numericos
+            nums = []
+            for cell in row:
+                try:
+                    v = float(str(cell).replace(",", ".").replace(" ", ""))
+                    nums.append(int(v))
+                except Exception:
+                    nums.append(None)
+
+            # Tabela 3 formato: UF | Cod | Nome | Adm_mes | Des_mes | Saldo_mes | VarRel_mes |
+            #                   Adm_ano | Des_ano | Saldo_ano | VarRel_ano |
+            #                   Adm_12m | Des_12m | Saldo_12m | VarRel_12m
+            clean_nums = [n for n in nums if n is not None]
+            if len(clean_nums) >= 6:
+                # Posicoes 0..3: descritores (UF, cod, nome) — pula
+                # Primeiro grupo de 4 numeros: mes de referencia
+                adm_mes  = clean_nums[0]
+                des_mes  = clean_nums[1]
+                saldo_mes = clean_nums[2]
+                # Ultimo grupo de 3 (12m)
+                if len(clean_nums) >= 12:
+                    adm_12m  = clean_nums[-4]
+                    des_12m  = clean_nums[-3]
+                    saldo_12m = clean_nums[-2]
+                else:
+                    adm_12m = des_12m = saldo_12m = None
+
+                log.info(
+                    f"Tabelas abertas OK — Jandira {ym}: "
+                    f"Adm={adm_mes} Des={des_mes} Saldo={saldo_mes} | "
+                    f"12m Adm={adm_12m} Des={des_12m} Saldo={saldo_12m}"
+                )
+                return {
+                    "adm_mes": adm_mes, "des_mes": des_mes, "saldo_mes": saldo_mes,
+                    "adm_12m": adm_12m, "des_12m": des_12m, "saldo_12m": saldo_12m,
+                }
+
+        log.warning("Tabelas abertas: linha de Jandira nao encontrada na Tabela 3.")
+    except Exception as exc:
+        log.warning(f"Erro ao processar tabelas abertas: {exc}")
+
+    return None
+
+
 def download_caged(year, month):
     """
     Tenta baixar o arquivo CAGED para o mes indicado.
@@ -450,31 +575,50 @@ def download_caged(year, month):
 
 def extract_csv(data, year, month):
     """Extrai o primeiro CSV/TXT de um arquivo .7z ou .zip."""
+    import tempfile, os as _os
+
     def _is_text(name):
         n = name.lower()
         return n.endswith(".csv") or n.endswith(".txt")
 
-    # Tenta .7z
+    # ── .7z ──────────────────────────────────────────────────────────────────
     if data[:6] == b"7z\xbc\xaf'\x1c":
         try:
             import py7zr
+
+            # 1a passagem: so lista os nomes
             with py7zr.SevenZipFile(io.BytesIO(data)) as zf:
-                names = [n for n in zf.getnames() if _is_text(n)]
-                log.info(f"Arquivos no .7z: {zf.getnames()}")
-                if names:
-                    extracted = zf.read(names[:1])
-                    return list(extracted.values())[0].read().decode("latin-1")
+                all_names = zf.getnames()
+            log.info(f"Arquivos no .7z: {all_names}")
+            txt_names = [n for n in all_names if _is_text(n)]
+            if not txt_names:
+                log.warning(".7z sem CSV/TXT reconhecivel.")
+                return None
+
+            # 2a passagem: extrai para disco (compativel com todas as versoes py7zr)
+            with tempfile.TemporaryDirectory() as tmpdir:
+                with py7zr.SevenZipFile(io.BytesIO(data)) as zf:
+                    zf.extractall(path=tmpdir)
+                for root, dirs, files in _os.walk(tmpdir):
+                    for f in sorted(files):
+                        if _is_text(f):
+                            fpath = _os.path.join(root, f)
+                            size_mb = _os.path.getsize(fpath) / 1e6
+                            log.info(f"Lendo arquivo extraido: {f} ({size_mb:.0f} MB)")
+                            with open(fpath, "rb") as fh:
+                                return fh.read().decode("latin-1")
         except Exception as exc:
             log.warning(f"Erro ao ler .7z: {exc}")
 
-    # Tenta .zip
+    # ── .zip ─────────────────────────────────────────────────────────────────
     if data[:2] == b"PK":
         try:
             with zipfile.ZipFile(io.BytesIO(data)) as zf:
-                names = [n for n in zf.namelist() if _is_text(n)]
-                log.info(f"Arquivos no .zip: {zf.namelist()}")
-                if names:
-                    return zf.read(names[0]).decode("latin-1")
+                names = zf.namelist()
+                log.info(f"Arquivos no .zip: {names}")
+                for name in names:
+                    if _is_text(name):
+                        return zf.read(name).decode("latin-1")
         except Exception as exc:
             log.warning(f"Erro ao ler .zip: {exc}")
 
@@ -739,7 +883,8 @@ def main():
 
     # ── CAGED ─────────────────────────────────────────────────────────────────
     log.info("Buscando Novo CAGED (MTE)...")
-    caged_result = None
+    caged_result    = None
+    tabelas_result  = None    # resultado das tabelas abertas (totais validados)
     caged_year = caged_month = None
 
     force_month = os.environ.get("FORCE_MONTH", "").strip()
@@ -754,23 +899,61 @@ def main():
         candidates = list(latest_candidates())
 
     for year, month in candidates:
+        # ── 1a tentativa: Tabelas Abertas PDET (arquivo pequeno, pre-agregado)
+        # Fornece os totais oficiais exatos (mesma fonte do painel MTE BI).
+        tabelas_result = try_tabelas_abertas(year, month)
+
+        # ── 2a tentativa: microdata FTP (necessario para drill-down por setor)
         raw = download_caged(year, month)
         if not raw:
-            log.warning(f"Todos os metodos falharam para {year}-{month:02d}. Tentando mes anterior...")
+            log.warning(f"Microdata indisponivel para {year}-{month:02d}.")
+            if tabelas_result:
+                # Tabelas abertas OK mas sem microdata — atualiza totais sem drill-down
+                log.info("Usando totais das tabelas abertas sem breakdown setorial.")
+                caged_result = {
+                    "admissoes": tabelas_result["adm_mes"],
+                    "desligamentos": tabelas_result["des_mes"],
+                    "saldo": tabelas_result["saldo_mes"],
+                    "total_records": 0,
+                    # Preserva breakdown setorial do mes anterior
+                    "by_section": existing.get("by_section", []),
+                }
+                caged_year, caged_month = year, month
+                break
+            log.warning("Tentando mes anterior...")
             continue
+
         csv_text = extract_csv(raw, year, month)
         if not csv_text:
             log.warning("Arquivo baixado mas nao foi possivel extrair CSV.")
+            if tabelas_result:
+                caged_result = {
+                    "admissoes": tabelas_result["adm_mes"],
+                    "desligamentos": tabelas_result["des_mes"],
+                    "saldo": tabelas_result["saldo_mes"],
+                    "total_records": 0,
+                    "by_section": existing.get("by_section", []),
+                }
+                caged_year, caged_month = year, month
+                break
             continue
+
         result = parse_caged_csv(csv_text)
         if result:
+            # Se tabelas abertas respondeu, usa os totais oficiais dela
+            # (microdata pode divergir levemente por competencia x admissao)
+            if tabelas_result:
+                result["admissoes"]    = tabelas_result["adm_mes"]
+                result["desligamentos"] = tabelas_result["des_mes"]
+                result["saldo"]        = tabelas_result["saldo_mes"]
+                log.info("Totais corrigidos pelas tabelas abertas (fonte primaria).")
             caged_result = result
             caged_year = year
             caged_month = month
             break
 
     if caged_result:
-        label = mes_label(caged_year, caged_month)
+        label     = mes_label(caged_year, caged_month)
         ref_month = f"{caged_year}-{caged_month:02d}"
 
         series = update_series(
@@ -778,7 +961,7 @@ def main():
             caged_result["admissoes"],
             caged_result["desligamentos"],
             caged_result["saldo"],
-            estoque=None
+            estoque=None,  # calculado internamente (prev + saldo)
         )
 
         caged_out = {
@@ -790,16 +973,21 @@ def main():
             "by_section": caged_result["by_section"],
         }
         save_json("caged_latest", caged_out)
-        log.info(f"CAGED {ref_month}: Adm={caged_result['admissoes']} "
-                 f"Des={caged_result['desligamentos']} Saldo={caged_result['saldo']}")
+
+        adm_ok = caged_result["admissoes"]
+        des_ok = caged_result["desligamentos"]
+        sal_ok = caged_result["saldo"]
+        est_ok = series["estoque"][-1]
+        log.info(f"CAGED {ref_month}: Adm={adm_ok} Des={des_ok} Saldo={sal_ok} Estoque={est_ok}")
 
         meta["sources"]["caged"] = {
-            "label": "Novo CAGED / MTE",
+            "label": "Novo CAGED / MTE — Tabelas Abertas PDET + Microdata FTP",
             "reference_month": ref_month,
             "reference_month_label": label,
             "downloaded_at": now,
-            "records_jandira": caged_result["total_records"],
-            "status": "ok"
+            "records_jandira": caged_result.get("total_records", 0),
+            "status": "ok",
+            "fonte_totais": "tabelas_abertas" if tabelas_result else "microdata_ftp",
         }
     else:
         log.warning("Nao foi possivel baixar CAGED. Mantendo dados anteriores.")
