@@ -31,13 +31,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('scripts/requirements.txt') }}
+          key: ${{ runner.os }}-pip-pandas-requests-py7zr-openpyxl
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Instalar dependências
         run: |
-          pip install pandas requests py7zr
+          pip install pandas requests py7zr openpyxl
 
       - name: Criar pasta data/ se não existir
         run: mkdir -p data
