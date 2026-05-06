@@ -1,89 +1,89 @@
 {
-  "reference_month": "2025-02",
-  "reference_month_label": "Fev/2025",
+  "reference_month": "2026-03",
+  "reference_month_label": "Mar/2026",
   "municipio": "3525003",
   "municipio_nome": "Jandira",
   "series_12m": {
     "meses": [
-      "Mar/24",
-      "Abr/24",
-      "Mai/24",
-      "Jun/24",
-      "Jul/24",
-      "Ago/24",
-      "Set/24",
-      "Out/24",
-      "Nov/24",
-      "Dez/24",
-      "Jan/25",
-      "Fev/25"
+      "Abr/25",
+      "Mai/25",
+      "Jun/25",
+      "Jul/25",
+      "Ago/25",
+      "Set/25",
+      "Out/25",
+      "Nov/25",
+      "Dez/25",
+      "Jan/26",
+      "Fev/26",
+      "Mar/26"
     ],
     "admissoes": [
-      1902,
-      1743,
-      1834,
-      1956,
-      2010,
-      1989,
-      1876,
-      2102,
-      2245,
-      1654,
-      1923,
-      1867
+      985,
+      972,
+      960,
+      978,
+      1005,
+      998,
+      980,
+      965,
+      1095,
+      1075,
+      904,
+      1012
     ],
     "desligamentos": [
-      1598,
-      1612,
-      1701,
-      1743,
-      1820,
-      1765,
-      1698,
-      1890,
-      1934,
-      1812,
-      1734,
-      1654
+      970,
+      960,
+      964,
+      965,
+      990,
+      988,
+      973,
+      970,
+      1055,
+      1053,
+      877,
+      926
     ],
     "saldo": [
-      304,
-      131,
-      133,
-      213,
-      190,
-      224,
-      178,
-      212,
-      311,
-      -158,
-      189,
-      213
+      15,
+      12,
+      -4,
+      13,
+      15,
+      10,
+      7,
+      -5,
+      40,
+      22,
+      27,
+      86
     ],
     "estoque": [
-      49234,
-      49365,
-      49498,
-      49711,
-      49901,
-      50125,
-      50303,
-      50515,
-      50826,
-      50668,
-      50857,
-      51070
+      21274,
+      21286,
+      21282,
+      21295,
+      21310,
+      21320,
+      21327,
+      21322,
+      21362,
+      21384,
+      21411,
+      21497
     ]
   },
   "by_section": [
     {
       "secao": "C",
       "label": "Industria de Transformacao",
-      "admissoes": 612,
-      "desligamentos": 498,
-      "saldo": 114,
-      "salario_medio": 2340,
-      "pct_superior": 12,
+      "admissoes": 318,
+      "desligamentos": 329,
+      "saldo": -11,
+      "salario_medio": 2890,
+      "pct_superior": 13,
       "details": {
         "por_instrucao": [
           {
@@ -373,11 +373,11 @@
     {
       "secao": "G",
       "label": "Comercio e Reparacao",
-      "admissoes": 534,
-      "desligamentos": 489,
-      "saldo": 45,
-      "salario_medio": 1780,
-      "pct_superior": 7,
+      "admissoes": 324,
+      "desligamentos": 304,
+      "saldo": 21,
+      "salario_medio": 1980,
+      "pct_superior": 8,
       "details": {
         "por_instrucao": [
           {
@@ -588,10 +588,10 @@
     {
       "secao": "H",
       "label": "Transporte e Logistica",
-      "admissoes": 312,
-      "desligamentos": 267,
-      "saldo": 45,
-      "salario_medio": 2450,
+      "admissoes": 168,
+      "desligamentos": 163,
+      "saldo": 5,
+      "salario_medio": 2540,
       "pct_superior": 5,
       "details": {
         "por_instrucao": [
@@ -752,10 +752,10 @@
     {
       "secao": "F",
       "label": "Construcao Civil",
-      "admissoes": 198,
-      "desligamentos": 187,
-      "saldo": 11,
-      "salario_medio": 2120,
+      "admissoes": 41,
+      "desligamentos": 40,
+      "saldo": 1,
+      "salario_medio": 2210,
       "pct_superior": 4,
       "details": {
         "por_instrucao": [
@@ -925,11 +925,11 @@
     {
       "secao": "N",
       "label": "Servicos Administrativos",
-      "admissoes": 143,
-      "desligamentos": 121,
-      "saldo": 22,
-      "salario_medio": 1920,
-      "pct_superior": 14,
+      "admissoes": 87,
+      "desligamentos": 85,
+      "saldo": 2,
+      "salario_medio": 2020,
+      "pct_superior": 15,
       "details": {
         "por_instrucao": [
           {
@@ -1084,11 +1084,11 @@
     {
       "secao": "Q",
       "label": "Saude e Servicos Sociais",
-      "admissoes": 68,
-      "desligamentos": 53,
-      "saldo": 15,
-      "salario_medio": 2890,
-      "pct_superior": 48,
+      "admissoes": 56,
+      "desligamentos": 54,
+      "saldo": 2,
+      "salario_medio": 3010,
+      "pct_superior": 49,
       "details": {
         "por_instrucao": [
           {
