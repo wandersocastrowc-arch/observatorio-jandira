@@ -1,23 +1,18 @@
 {
-  "last_updated": "2026-04-29",
+  "last_updated": "2026-05-25",
   "sources": {
     "caged": {
-      "label": "Novo CAGED / MTE — Tabelas Abertas PDET",
-      "reference_month": "2026-03",
-      "reference_month_label": "Mar/2026",
-      "downloaded_at": "2026-04-29T17:49:00Z",
-      "records_jandira": 1938,
-      "status": "ok",
-      "fonte": "drive.google.com/drive/folders/1F89h6odTPGIGMb9eDiJKCute9W89QmqN",
-      "validacao": "Adm=11.929 Des=11.691 Saldo=238 Estoque=21.497 — conferido contra painel MTE BI e tabelas abertas PDET (estatisticasdotrabalho@gmail.com)"
+      "label": "Novo CAGED / MTE",
+      "downloaded_at": "2026-05-25T12:29:06.980534Z",
+      "status": "falha - mantendo dados anteriores"
     },
     "sidra_pop": {
-      "label": "IBGE SIDRA — Projeção Populacional",
-      "reference_year": 2025,
-      "downloaded_at": "2026-04-29T17:49:00Z",
+      "label": "IBGE SIDRA - Projecao Populacional",
+      "reference_year": 2024,
+      "downloaded_at": "2026-05-25T12:29:06.980534Z",
       "status": "ok"
     }
   },
-  "pipeline_version": "1.1",
-  "notes": "Série 12m validada contra tabelas abertas MTE/PDET (3-tabelas_Março de 2026.xlsx). Atualização automática via GitHub Actions dia 25."
+  "pipeline_version": "2.0",
+  "notes": "Dados atualizados automaticamente via GitHub Actions todo dia 25."
 }
