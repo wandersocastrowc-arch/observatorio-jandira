@@ -1,15 +1,15 @@
 {
-  "last_updated": "2026-08-25",
+  "last_updated": "2026-09-25",
   "sources": {
     "caged": {
       "label": "Novo CAGED / MTE",
-      "downloaded_at": "2026-08-25T09:32:13.812473Z",
+      "downloaded_at": "2026-09-25T14:24:50.069138Z",
       "status": "falha - mantendo dados anteriores"
     },
     "sidra_pop": {
       "label": "IBGE SIDRA - Projecao Populacional",
       "reference_year": 2024,
-      "downloaded_at": "2026-08-25T09:32:13.812473Z",
+      "downloaded_at": "2026-09-25T14:24:50.069138Z",
       "status": "ok"
     }
   },
